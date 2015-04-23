@@ -217,8 +217,9 @@ class MpcController(object):
         return self.__format_results(result_string)
 
     def __search_of_type(self, type_result, type_filter, name_filter):
+        command = "mpc list " + type_result + " " + type_filter + " \"" + name_filter + "\""
         try:
-            result_string = subprocess.check_output("mpc list " + type_result + " " + type_filter + " \"" + name_filter + "\"", shell=True, stderr=subprocess.STDOUT)
+            result_string = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError, e:
             return []
         return self.__format_results(result_string)
@@ -254,10 +255,10 @@ class MpcController(object):
             self.list_query_results = self.__search_first_letter("title", part)
         else:
             self.list_query_results = self.__search_partial("title", part)
-        self.list_query_results
+        return self.list_query_results
 
     def get_artist_albums(self, artist_name):
-        return self.__search_of_type("artist", "album", artist_name)
+        return self.__search_of_type("album", "artist", artist_name)
 
     def get_artist_songs(self, artist_name):
         return self.__search_of_type("title", "artist", artist_name)

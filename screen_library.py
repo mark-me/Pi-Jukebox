@@ -10,6 +10,7 @@ from interface_widgets import *
 from mpc_control import *
 from settings import *
 from screen_keyboard import *
+from screen_settings import *
 
 """ The graphical control for browsing the MPD library """
 class LibraryBrowser(ItemList):
@@ -62,8 +63,7 @@ class ScreenLibrary(Screen):
         Screen.__init__(self, screen_rect)
         self.add_component(ButtonIcon("btn_home", self.screen, ICO_PLAYER, 3, 5))
         self.add_component(ButtonIcon("btn_library", self.screen, ICO_LIBRARY_ACTIVE, 3, 45))
-        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, screen_height - 77))
-        self.add_component(ButtonIcon("btn_exit", self.screen, ICO_EXIT, 3, screen_height - 37))
+        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, screen_height - 37))
 
         self.add_component(ButtonIcon("btn_artists", self.screen, ICO_SEARCH_ARTIST, 55, 5))
         self.add_component(ButtonIcon("btn_albums", self.screen, ICO_SEARCH_ALBUM, 107, 5))
@@ -101,7 +101,7 @@ class ScreenLibrary(Screen):
             self.components["btn_search"].set_image_file(ICO_SEARCH_ACTIVE)
 
     def find_first_letter(self):
-        letter = self.components[tag_name].get_item_selected()
+        letter = self.components["list_letters"].get_item_selected()
         if self.currently_showing == "artists":
             self.components["list_library"].show_artists(letter)
         elif self.currently_showing == "albums":
@@ -128,11 +128,12 @@ class ScreenLibrary(Screen):
 
     def playlist_action(self):
         selected = self.components["list_library"].get_item_selected()
-        select_screen = ScreenSelectedPlay(screen, self.currently_showing, selected)
+        select_screen = ScreenSelected(screen, self.currently_showing, selected)
         select_screen.show()
         if isinstance(select_screen.return_object, list):
             self.components["list_library"].list = select_screen.return_object
             self.components["list_library"].draw()
+            self.set_currently_showing(select_screen.return_type)
         self.show()
 
     def on_click(self, x, y):
@@ -142,9 +143,9 @@ class ScreenLibrary(Screen):
         elif tag_name == "btn_library":
             return 1
         elif tag_name == "btn_settings":
-            return 2
-        elif tag_name == "btn_exit":
-            sys.exit()
+            setting_screen = ScreenSettings(self.screen)
+            setting_screen.show()
+            self.show()
         elif tag_name == "btn_artists":
             self.set_currently_showing("artists")
             self.components["list_library"].show_artists()
@@ -206,26 +207,39 @@ class ScreenSearch(ScreenModal):
 
 
 """ Modal screen used for selecting playback actions with an item selected from the library """
-class ScreenSelectedPlay(ScreenModal):
+class ScreenSelected(ScreenModal):
     def __init__(self, screen_rect, selected_type, selected_title):
         ScreenModal.__init__(self, screen_rect, selected_title)
         self.type = selected_type
         self.selected = selected_title
         self.window_color = FIFTIES_TEAL
         self.initialize()
+        self.return_type = ""
 
     def initialize(self):
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
 
         label = "Add to playlist"
-        self.add_component(ButtonText("btn_add", self.screen, button_left, 50, button_width, label))
+        self.add_component(ButtonText("btn_add", self.screen, button_left, 30, button_width, label))
         label = "Add to playlist and play"
-        self.add_component(ButtonText("btn_add_play", self.screen, button_left, 92, button_width, label))
+        self.add_component(ButtonText("btn_add_play", self.screen, button_left, 72, button_width, label))
         label = "Replace playlist and play"
-        self.add_component(ButtonText("btn_replace", self.screen, button_left, 134, button_width, label))
-        label = "Search more of " + self.selected
-        self.add_component(ButtonText("btn_search", self.screen, button_left, 176, button_width, label))
+        self.add_component(ButtonText("btn_replace", self.screen, button_left, 114, button_width, label))
+        if self.type == "artists":
+            label = "Albums of " + self.title
+            self.add_component(ButtonText("btn_artist_get_albums", self.screen, button_left, 156, button_width, label))
+            label = "Songs of " + self.title
+            self.add_component(ButtonText("btn_artist_get_songs", self.screen, button_left, 198, button_width, label))
+        elif self.type == "albums":
+            label = "Songs of " + self.title
+            self.add_component(ButtonText("btn_album_get_songs", self.screen, button_left, 156, button_width, label))
+        #label = "Cancel"
+        #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 134, button_width, label))
+
+
+        #label = "Search more of " + self.selected
+        #self.add_component(ButtonText("btn_search", self.screen, button_left, 156, button_width, label))
         #label = "Cancel"
         #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 188, button_width, label))
 
@@ -246,46 +260,20 @@ class ScreenSelectedPlay(ScreenModal):
             elif self.type == "songs":
                 mpc_controller.add_song(self.selected, play, clear_playlist)
             self.return_object = None
-
-        elif tag_name == "btn_search":
-            select_screen = ScreenSelectedSearch(screen, self.type, self.selected)
-            select_screen.show()
-            self.return_object = select_screen.return_object
-
-        self.close()
-
-
-""" Modal screen used for selecting search actions with an item selected from the library """
-class ScreenSelectedSearch(ScreenModal):
-    def __init__(self, screen_rect, selected_type, selected_title):
-        ScreenModal.__init__(self, screen_rect, selected_title)
-        self.type = selected_type
-        self.selected = selected_title
-        self.initialize()
-
-    def initialize(self):
-        button_left = self.window_x + 10
-        button_width = self.window_width - 2 * self.window_x
-        if self.type == "artists":
-            label = "Get albums of " + self.title
-            self.add_component(ButtonText("btn_artist_get_albums", self.screen, button_left, 50, button_width, label))
-            label = "Get songs of " + self.title
-            self.add_component(ButtonText("btn_artist_get_songs", self.screen, button_left, 92, button_width, label))
-        elif self.type == "albums":
-            label = "Get songs of " + self.title
-            self.add_component(ButtonText("btn_album_get_songs", self.screen, button_left, 50, button_width, label))
-        label = "Cancel"
-        self.add_component(ButtonText("btn_cancel", self.screen, button_left, 134, button_width, label))
-
-    def action(self, tag_name):
-        if tag_name == "btn_cancel":
-            self.close()
         elif tag_name == "btn_artist_get_albums":
             self.return_object = mpc_controller.get_artist_albums(self.selected)
+            self.return_type = "albums"
             self.close()
         elif tag_name == "btn_artist_get_songs":
             self.return_object = mpc_controller.get_artist_songs(self.selected)
+            self.return_type = "songs"
             self.close()
         elif tag_name == "btn_album_get_songs":
             self.return_object = mpc_controller.get_album_songs(self.selected)
+            self.return_type = "songs"
             self.close()
+        self.close()
+
+
+
+

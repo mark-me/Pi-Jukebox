@@ -7,6 +7,7 @@ import glob
 from interface_widgets import *
 from mpc_control import *
 from settings import *
+from screen_settings import *
 
 
 class Playlist(ItemList):
@@ -36,8 +37,7 @@ class ScreenPlayer(Screen):
         # Screen navigation buttons
         self.add_component(ButtonIcon("btn_home", self.screen, ICO_PLAYER_ACTIVE, 3, 5))
         self.add_component(ButtonIcon("btn_library", self.screen, ICO_LIBRARY, 3, 45))
-        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, screen_height - 77))
-        self.add_component(ButtonIcon("btn_exit", self.screen, ICO_EXIT, 3, screen_height - 37))
+        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, screen_height - 37))
 
         # Player specific buttons
         self.add_component(ButtonIcon("btn_play", self.screen, ICO_PLAY, screen_width - 52, 42))
@@ -83,16 +83,14 @@ class ScreenPlayer(Screen):
         elif tag_name == "btn_library":
             return 1
         elif tag_name == "btn_settings":
-            return 2
-        elif tag_name == "btn_exit":
-            sys.exit()
-
+            setting_screen = ScreenSettings(self.screen)
+            setting_screen.show()
+            self.show()
         elif tag_name == "btn_play":
             if mpc_controller.get_player_control() == "playing":
                 mpc_controller.set_player_control("pause")
             else:
                 mpc_controller.set_player_control("play")
-
         elif tag_name == "btn_prev":
             mpc_controller.set_player_control("previous")
         elif tag_name == "btn_next":

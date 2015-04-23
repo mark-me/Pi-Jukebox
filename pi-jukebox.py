@@ -68,7 +68,6 @@ def main():
         exit()
     screen_list.append(ScreenPlayer(screen))    # Create player (home) screen
     screen_list.append(ScreenLibrary(screen))   # Create library browsing screen
-    screen_list.append(ScreenSettings(screen))  # Create setting screen
 
     mpc_controller.get_status()
 
@@ -95,7 +94,7 @@ def main():
                 # Start mouse related event functions
                 if swipe_type == SWIPE_CLICK:      # Fire click function
                     ret_value = screen_list[screen_list_current].on_click(mouse_down_pos[0], mouse_down_pos[1])    # Relays tap/click to active screen
-                    if ret_value >= 0 and ret_value <= 2:
+                    if ret_value >= 0 and ret_value < len(screen_list):
                         screen_list_current = ret_value
                         screen_show()
                 # Switch screens with horizontal swiping
