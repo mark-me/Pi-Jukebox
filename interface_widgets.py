@@ -174,7 +174,8 @@ class ButtonText(LabelText):
 
 
 class ItemList(Widget):
-    """ List of text items that can be clicked """
+    """ List of text items that can be clicked
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.item_height = 25

@@ -26,8 +26,9 @@ from screen_settings import *
 screen_list = []            # List containing all screen objects (home-screen, library-browser etc.)
 screen_list_current = -1    # Points to current screen in screen_list
 
-# Determines the kind of gesture
+
 def get_swipe_type():
+    """ Determines the kind of gesture """
     x, y = pygame.mouse.get_rel()  # Register mouse movement since last call
 
     if abs(x) <= MIN_SWIPE:
@@ -49,18 +50,19 @@ def get_swipe_type():
     return SWIPE_CLICK  	    # Tap
 
 
-# Exit the application
 def exit():
+    """ Exit the application  """
     sys.exit()
 
-# Show the current screen
+
 def screen_show():
+    """ Show the current screen """
     global screen_list, screen_list_current
     screen_list[screen_list_current].show()
 
 
-# The function where it all starts....
 def main():
+    """ The function where it all starts...."""
     global screen_list, screen_list_current
     # Check whether mpd is running and get it's status
     if not mpd_controller.is_mpd_running():

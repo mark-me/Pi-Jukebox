@@ -12,12 +12,14 @@ from screen_settings import *
 screen_player.py: contains everything for the playback screen.
 
 Classes:
-* Playlist      - Displays playlist information, an extended version of the ItemList
-                    widget defined in interface_widgets.py
+* Playlist      - Displays playlist information
 * ScreenPlayer  - The screen containing everything to control playback
 """
 
+
 class Playlist(ItemList):
+    """ Displays playlist information
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         ItemList.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.item_active_color = FIFTIES_ORANGE
@@ -39,6 +41,8 @@ class Playlist(ItemList):
 
 
 class ScreenPlayer(Screen):
+    """ The screen containing everything to control playback
+    """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         # Screen navigation buttons

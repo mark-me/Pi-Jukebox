@@ -20,7 +20,8 @@ Class:
 """
 
 class ScreenSettings(ScreenModal):
-    """ Screen for settings or quitting/shutting down """
+    """ Screen for settings or quitting/shutting down
+    """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Settings")
 

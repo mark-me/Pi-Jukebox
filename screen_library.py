@@ -25,7 +25,8 @@ Classes:
 
 
 class LibraryBrowser(ItemList):
-    """ The component that displays mpd library entries. """
+    """ The component that displays mpd library entries.
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         ItemList.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.outline_visible = False
@@ -70,7 +71,8 @@ class LetterBrowser(ItemList):
 
 
 class ScreenLibrary(Screen):
-    """ The screen where the user can browse in the MPD database and playlist_add items to playlists """
+    """ The screen where the user can browse in the MPD database and playlist_add items to playlists
+    """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         self.add_component(ButtonIcon("btn_home", self.screen, ICO_PLAYER, 3, 5))
@@ -176,7 +178,8 @@ class ScreenLibrary(Screen):
 
 
 class ScreenSearch(ScreenModal):
-    """ Screen used further searching based on an item selected from the library """
+    """ Screen used further searching based on an item selected from the library
+    """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Search library for...")
         self.window_color = FIFTIES_TEAL
@@ -220,7 +223,8 @@ class ScreenSearch(ScreenModal):
 
 
 class ScreenSelected(ScreenModal):
-    """ Screen for selecting playback actions with an item selected from the library """
+    """ Screen for selecting playback actions with an item selected from the library
+    """
     def __init__(self, screen_rect, selected_type, selected_title):
         ScreenModal.__init__(self, screen_rect, selected_title)
         self.type = selected_type
