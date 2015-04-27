@@ -22,6 +22,8 @@ Classes
 
 
 class MPDController(object):
+    """ Controls playback and volume
+    """
     def __init__(self):
         self.update_interval = 1000 # Interval between mpc status update calls (milliseconds)
         self.player_control = ""    # Indicates whether mpd is playing, pausing or has stopped playing music
@@ -187,7 +189,8 @@ class MPDController(object):
 
 
 class MPDLibrary(object):
-    """ MPD Library information """
+    """ Browsing mpd library and adding to playlist
+    """
     def __init__(self):
         self.list_albums = []
         self.list_artists = []

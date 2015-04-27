@@ -5,14 +5,6 @@ from pygame.locals import *
 import time
 from settings import *
 
-# Alignment variables
-HOR_LEFT = 0
-HOR_MID = 1
-HOR_RIGHT = 2
-VERT_TOP = 0
-VERT_MID = 1
-VERT_BOTTOM = 2
-
 """
 interface_widgets.py: graphical widgets for the GUI
 
@@ -26,9 +18,18 @@ Classes:
 * ScreenModal   - Screen with its own event capture loop
 """
 
+# Alignment variables
+HOR_LEFT = 0
+HOR_MID = 1
+HOR_RIGHT = 2
+VERT_TOP = 0
+VERT_MID = 1
+VERT_BOTTOM = 2
+
 
 class Widget(object):
-    """ Widget is the base class of screen widgets and should not be instantiated by itself """
+    """ Widget is the base class of screen widgets and should not be instantiated by itself
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         self.tag_name = tag_name
         self.screen = screen_rect
@@ -53,7 +54,8 @@ class Widget(object):
 
 
 class LabelText(Widget):
-    """ LabelText is used to write text that needs to fit in a pre-defined rectangle """
+    """ LabelText is used to write text that needs to fit in a pre-defined rectangle
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.caption = text
@@ -110,7 +112,8 @@ class LabelText(Widget):
 
 
 class ButtonIcon(Widget):
-    """ ButtonIcon class is a button that only displays an icon """
+    """ ButtonIcon class is a button that only displays an icon
+    """
     def __init__(self, tag_name, screen_rect, image, x, y):
         self.image_file = image
         self.icon = pygame.image.load(self.image_file)
@@ -130,7 +133,8 @@ class ButtonIcon(Widget):
 
 
 class ButtonText(LabelText):
-    """ ButtonText class is a button with text that uses two images for button rendering """
+    """ ButtonText class is a button with text that uses two images for button rendering
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, text=""):
         LabelText.__init__(self, tag_name, screen_rect, x, y, width, 32, text)
         self.background_left = None
@@ -252,7 +256,8 @@ class ItemList(Widget):
 
 
 class Screen(object):
-    """ Basic screen used for displaying widgets """
+    """ Basic screen used for displaying widgets
+    """
     def __init__(self, screen_rect):
         self.screen = screen_rect
         self.components = {} # Interface dictionary
@@ -289,7 +294,8 @@ class Screen(object):
 
 
 class ScreenModal(Screen):
-    """ Screen with its own event capture loop """
+    """ Screen with its own event capture loop
+    """
     def __init__(self, screen_rect, title):
         Screen.__init__(self, screen_rect)
         self.title = title
