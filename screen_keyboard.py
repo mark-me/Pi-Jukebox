@@ -2,6 +2,16 @@ from settings import *
 from interface_widgets import *
 __author__ = 'mark'
 
+"""
+screen_keyboard.py: On screen keyboard
+
+Class:
+* KeyboardBase    - Called keyboard class that displays letter or symbol keyboard.
+* KeyboardLetters - Displays keyboard for letters
+* KeyboardSymbols - Displays keyboard for numbers and symbols
+
+"""
+
 # Special button icons
 ICO_SHIFT = RESOURCES + "shift_48x32.png"
 ICO_BACKSPACE = RESOURCES + "backspace_48x32.png"
@@ -10,6 +20,8 @@ ICO_LETTERS = RESOURCES + "letters_48x32.png"
 ICO_SYMBOLS = RESOURCES + "symbols_48x32.png"
 
 class KeyboardBase(ScreenModal):
+    """ Called keyboard class that displays letter or symbol keyboard
+    """
     def __init__(self, screen_rect, caption, text=""):
         ScreenModal.__init__(self, screen_rect, caption)
         self.text = text
@@ -35,6 +47,8 @@ class KeyboardBase(ScreenModal):
 
 
 class KeyboardLetters(KeyboardBase):
+    """ Displays keyboard for letters
+    """
     def __init__(self, screen_rect, caption, text=""):
         KeyboardBase.__init__(self, screen_rect, caption, text)
 
@@ -102,6 +116,8 @@ class KeyboardLetters(KeyboardBase):
 
 
 class KeyboardSymbols(KeyboardBase):
+    """ Displays keyboard for numbers and symbols
+    """
     def __init__(self, screen_rect, caption, text=""):
         KeyboardBase.__init__(self, screen_rect, caption, text)
 
