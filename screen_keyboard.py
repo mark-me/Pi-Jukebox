@@ -3,11 +3,11 @@ from interface_widgets import *
 __author__ = 'mark'
 
 # Special button icons
-ICO_SHIFT = "shift_48x32.png"
-ICO_BACKSPACE = "backspace_48x32.png"
-ICO_ENTER = "enter_48x32.png"
-ICO_LETTERS = "letters_48x32.png"
-ICO_SYMBOLS = "symbols_48x32.png"
+ICO_SHIFT = RESOURCES + "shift_48x32.png"
+ICO_BACKSPACE = RESOURCES + "backspace_48x32.png"
+ICO_ENTER = RESOURCES + "enter_48x32.png"
+ICO_LETTERS = RESOURCES + "letters_48x32.png"
+ICO_SYMBOLS = RESOURCES + "symbols_48x32.png"
 
 class KeyboardBase(ScreenModal):
     def __init__(self, screen_rect, caption, text=""):

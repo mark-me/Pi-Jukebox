@@ -13,9 +13,22 @@ VERT_TOP = 0
 VERT_MID = 1
 VERT_BOTTOM = 2
 
+"""
+interface_widgets.py: graphical widgets for the GUI
 
-""" Widget is the base class of screen widgets and should not be instantiated by itself """
+Classes:
+* Widget        - Widget is the base class of screen widgets and should not be instantiated by itself.
+* LabelText     - Write text that needs to fit in a pre-defined rectangle.
+* ButtonIcon    - Button that only displays an icon.
+* ButtonText    - Button with text that uses two images for button rendering.
+* ItemList      - List of text items that can be clicked.
+* Screen        - Basic screen used for displaying widgets.
+* ScreenModal   - Screen with its own event capture loop
+"""
+
+
 class Widget(object):
+    """ Widget is the base class of screen widgets and should not be instantiated by itself """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         self.tag_name = tag_name
         self.screen = screen_rect
@@ -39,8 +52,8 @@ class Widget(object):
         self.font_color = font_color
 
 
-""" LabelText is used to write text that needs to fit in a pre-defined rectangle """
 class LabelText(Widget):
+    """ LabelText is used to write text that needs to fit in a pre-defined rectangle """
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.caption = text
@@ -95,8 +108,9 @@ class LabelText(Widget):
 
         return self.caption[i:]
 
-""" ButtonIcon class is a button that only displays an icon """
+
 class ButtonIcon(Widget):
+    """ ButtonIcon class is a button that only displays an icon """
     def __init__(self, tag_name, screen_rect, image, x, y):
         self.image_file = image
         self.icon = pygame.image.load(self.image_file)
@@ -115,8 +129,8 @@ class ButtonIcon(Widget):
         self.draw()
 
 
-""" ButtonText class is a button with text that uses two images for button rendering """
 class ButtonText(LabelText):
+    """ ButtonText class is a button with text that uses two images for button rendering """
     def __init__(self, tag_name, screen_rect, x, y, width, text=""):
         LabelText.__init__(self, tag_name, screen_rect, x, y, width, 32, text)
         self.background_left = None
@@ -144,10 +158,10 @@ class ButtonText(LabelText):
 
     def initialize_background(self):
         # Left side
-        background_left_file = resources + "button_bg_left_32.png"
+        background_left_file = RESOURCES + "button_bg_left_32.png"
         self.background_left = pygame.image.load(background_left_file).convert()
         # Middle
-        background_middle_file = resources + "button_bg_middle_32.png"
+        background_middle_file = RESOURCES + "button_bg_middle_32.png"
         self.background_middle = pygame.image.load(background_middle_file).convert()
         width = self.width - (2 * self.background_left.get_width())
         self.background_middle = pygame.transform.scale(self.background_middle, (width, self.height))
@@ -155,8 +169,8 @@ class ButtonText(LabelText):
         self.background_right = pygame.transform.flip(self.background_left, True, False)
 
 
-""" ItemList is a list of texts """
 class ItemList(Widget):
+    """ List of text items that can be clicked """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.item_height = 25
@@ -237,8 +251,8 @@ class ItemList(Widget):
             self.draw()
 
 
-""" Basic screen class """
 class Screen(object):
+    """ Basic screen used for displaying widgets """
     def __init__(self, screen_rect):
         self.screen = screen_rect
         self.components = {} # Interface dictionary
@@ -274,8 +288,8 @@ class Screen(object):
                         value.show_prev_items()
 
 
-""" Modal screen class """
 class ScreenModal(Screen):
+    """ Screen with its own event capture loop """
     def __init__(self, screen_rect, title):
         Screen.__init__(self, screen_rect)
         self.title = title
@@ -293,7 +307,7 @@ class ScreenModal(Screen):
         for key, value in self.components.items():
             value.draw()
         pygame.display.flip()
-        self.event_loop()
+        self.event_loop() # Start the loop capturing user input
         return self.return_object
 
     def close(self):
@@ -312,8 +326,8 @@ class ScreenModal(Screen):
         image = FONT.render(self.title, True, BLACK)
         self.screen.blit(image, (title_rect.centerx-font_width /2, title_rect.centery-font_height/2))
 
-    # Determines the kind of gesture
     def __get_swipe_type(self):
+        """ Determines the kind of gesture. """
         x, y = pygame.mouse.get_rel()  # Register mouse movement since last call
 
         if abs(x) <= MIN_SWIPE:

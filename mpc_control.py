@@ -1,16 +1,5 @@
 #!/usr/bin/env python
 
-"""
-mpc_control.py: Class used for controlling and monitoring mpc.
-
-Features:
-    - Regular playback controlling: play, pause, stop next and previous
-    - Getting information on currently playing track
-        - Title
-        - Artist
-        - Total track time
-        - Current track time
-"""
 __author__ = 'Mark Zwart'
 
 import sys, pygame
@@ -23,28 +12,37 @@ MPC_TYPE_ARTIST = "artist"
 MPC_TYPE_ALBUM = "album"
 MPC_TYPE_SONGS = "title"
 
-class MpcController(object):
+"""
+mpc_control.py: controlling and monitoring mpd via mpc.
+
+Classes
+* MPDController - Controls playback and volume
+* MPDLibrary    - Browsing mpd library and adding to playlist
+"""
+
+
+class MPDController(object):
     def __init__(self):
         self.update_interval = 1000 # Interval between mpc status update calls (milliseconds)
         self.player_control = ""    # Indicates whether mpd is playing, pausing or has stopped playing music
-        self.track_name = ""
-        self.track_artist = ""
-        self.volume = 0
-        self.time_current = ""
-        self.time_total = ""
-        self.time_percentage = 0
-        self.playlist_current = []
-        self.repeat = False
+        self.track_name = ""        # Currently playing song name
+        self.track_artist = ""      # Currently playing artist
+        self.volume = 0             # Playback volume
+        self.time_current = ""      # Currently playing song time
+        self.time_total = ""        # Currently playing song duration
+        self.time_percentage = 0    # Currently playing song time as a percentage of the song duration
+        self.playlist_current = []  # Current playlist song title
+        self.repeat = False         #
         self.random = False
         self.single = False
         self.consume = False
         self.updating_library = False
 
         self.__playlist_current_playing_index = 0
-        self.list_albums = []
-        self.list_artists = []
-        self.list_songs = []
-        self.list_query_results = []
+#        self.list_albums = []
+#        self.list_artists = []
+#        self.list_songs = []
+#        self.list_query_results = []
         self.__last_update_time = 0   # For checking last update time (milliseconds)
         self.__status = []            # mpc's current status output
         self.__status_previous = []   # mpc's previous status output
@@ -53,12 +51,6 @@ class MpcController(object):
         line_count = 0
         for status_line in self.__status:
 
-            # If updating is finished reload artist, album and song lists
-            if self.updating_library and status_line[:14] != "Updating DB (#":
-                self.list_artists = self.get_artists()
-                self.list_albums = self.get_albums()
-                self.list_songs = self.get_songs()
-                pass
             self.updating_library = status_line[:14] == "Updating DB (#"
 
             if not self.updating_library and line_count == 0 and status_line[:7] != "volume:":
@@ -94,7 +86,7 @@ class MpcController(object):
             self.time_percentage = 0
 
     # Updates mpc data, returns True when status data is updated
-    def get_status(self):
+    def status_get(self):
         # Wait at least 'update_interval' milliseconds before updating mpc status data
         if pygame.time.get_ticks() > self.update_interval and pygame.time.get_ticks() - self.__last_update_time < self.update_interval:
             return False
@@ -115,8 +107,11 @@ class MpcController(object):
         return True
 
     # Control playback
-    def set_player_control(self, play_status):
-        if play_status == "play":
+    def player_control_set(self, play_status=None):
+        if play_status is None:
+            self.status_get()
+            return self.player_control
+        elif play_status == "play":
             subprocess.call("mpc play", shell=True)
         elif play_status == "pause":
             subprocess.call("mpc pause", shell=True)
@@ -127,53 +122,54 @@ class MpcController(object):
         elif play_status == "previous":
             subprocess.call("mpc prev", shell=True)
 
+    def player_control_get(self):
+        self.status_get()
+        return self.player_control
+
     def play_playlist_item(self, number):
         subprocess.call("mpc play " + str(number), shell=True)
 
-    def set_volume(self, percentage):
+    def volume_set(self, percentage):
         if percentage < 0 or percentage > 100: return
         print ("mpc volume " + str(percentage))
         subprocess.call("mpc volume " + str(percentage), shell=True)
         self.volume = percentage
 
-    def set_volume_relative(self, percentage):
+    def volume_set_relative(self, percentage):
         if self.volume + percentage < 0:
-            self.set_volume(0)
+            self.volume_set(0)
         elif self.volume + percentage > 100:
-            self.set_volume(100)
+            self.volume_set(100)
         else:
-            self.set_volume(self.volume+percentage)
+            self.volume_set(self.volume+percentage)
 
-    def set_random(self):
+    def random_set(self):
         subprocess.call("mpc random", shell=True)
 
-    def set_repeat_on(self):
+    def repeat_on_set(self):
         subprocess.call("mpc repeat", shell=True)
 
-    def set_single_on(self):
+    def single_on_set(self):
         subprocess.call("mpc single on", shell=True)
 
-    def set_consume_on(self):
+    def consume_on_set(self):
         subprocess.call("mpc consume on", shell=True)
-
-    def get_player_control(self):
-        self.get_status()
-        return self.player_control
 
     def get_playlist_current(self):
         self.playlist_current = subprocess.check_output("mpc playlist -f \"[%position%. %title%]\"", shell=True, stderr=subprocess.STDOUT).split("\n")
         return self.playlist_current
 
     def get_playlist_current_playing_index(self):
-        self.get_status()
+        self.status_get()
         return self.__playlist_current_playing_index
 
     def set_playlist_current_playing_index(self, index):
-        if index > 0 and index <= self.get_playlist_current_count():
+        if index > 0 and index <= self.playlist_current_count():
             subprocess.call("mpc play " + str(index + 1), shell=True)
             self.__playlist_current_playing_index = index
+        return self.__playlist_current_playing_index
 
-    def get_playlist_current_count(self):
+    def playlist_current_count(self):
         return len(self.playlist_current)
 
     def playlist_current_clear(self):
@@ -182,7 +178,22 @@ class MpcController(object):
     def playlist_current_crop(self):
         subprocess.call("mpc crop", shell=True)
 
-    """ Library information """
+    def is_int(self, s):
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
+
+
+class MPDLibrary(object):
+    """ MPD Library information """
+    def __init__(self):
+        self.list_albums = []
+        self.list_artists = []
+        self.list_songs = []
+        self.list_query_results = []
+
     def update_library(self):
         subprocess.call("mpc update")
 
@@ -224,7 +235,7 @@ class MpcController(object):
             return []
         return self.__format_results(result_string)
 
-    def get_artists(self, part=None, only_start=True):
+    def artists_get(self, part=None, only_start=True):
         if part is None:
             if len(self.list_artists) == 0:
                 self.list_artists = self.__search("artist")
@@ -235,7 +246,7 @@ class MpcController(object):
             self.list_query_results = self.__search_partial("artist", part)
         return self.list_query_results
 
-    def get_albums(self, part=None, only_start=True):
+    def albums_get(self, part=None, only_start=True):
         if part is None:
             if len(self.list_albums) == 0:
                 self.list_albums = self.__search("album")
@@ -246,7 +257,7 @@ class MpcController(object):
             self.list_query_results = self.__search_partial("album", part)
         return self.list_query_results
 
-    def get_songs(self, part=None, only_start=True):
+    def songs_get(self, part=None, only_start=True):
         if part is None:
             if len(self.list_songs) == 0:
                 self.list_songs = self.__search("title")
@@ -257,38 +268,38 @@ class MpcController(object):
             self.list_query_results = self.__search_partial("title", part)
         return self.list_query_results
 
-    def get_artist_albums(self, artist_name):
+    def artist_albums_get(self, artist_name):
         return self.__search_of_type("album", "artist", artist_name)
 
-    def get_artist_songs(self, artist_name):
+    def artist_songs_get(self, artist_name):
         return self.__search_of_type("title", "artist", artist_name)
 
-    def get_album_songs(self, album_name):
+    def album_songs_get(self, album_name):
         return self.__search_of_type("title", "album", album_name)
 
-    def add(self, tag_type, tag_name, play=False, clear_playlist=False):
+    def playlist_add(self, tag_type, tag_name, play=False, clear_playlist=False):
         if clear_playlist:
             self.playlist_current_clear()
-        i = self.get_playlist_current_count()
+        i = self.playlist_current_count()
         subprocess.call("mpc findadd " + tag_type + " \"" + tag_name + "\"", shell=True)
         if play:
             self.play_playlist_item(i)
 
-    def add_artist(self, artist_name, play=False, clear_playlist=False):
-        self.add("artist", artist_name, play, clear_playlist)
+    def playlist_add_artist(self, artist_name, play=False, clear_playlist=False):
+        self.playlist_add("artist", artist_name, play, clear_playlist)
 
-    def add_album(self, album_name, play=False, clear_playlist=False):
-        self.add("album", album_name, play, clear_playlist)
+    def playlist_add_album(self, album_name, play=False, clear_playlist=False):
+        self.playlist_add("album", album_name, play, clear_playlist)
 
-    def add_song(self, song_name, play=False, clear_playlist=False):
-        self.add("title", song_name, play, clear_playlist)
+    def playlist_add_song(self, song_name, play=False, clear_playlist=False):
+        self.playlist_add("title", song_name, play, clear_playlist)
 
-    def is_int(self, s):
-        try:
-            int(s)
-            return True
-        except ValueError:
-            return False
+"""            # If updating is finished reload artist, album and song lists
+            if self.updating_library and status_line[:14] != "Updating DB (#":
+                self.list_artists = self.get_artists()
+                self.list_albums = self.get_albums()
+                self.list_songs = self.songs_get()
+"""
 
-
-mpc_controller = MpcController()  # Setting up mpc status monitoring
+mpd_controller = MPDController()  # Setting up mpc status monitoring
+mpd_library = MPDLibrary()

@@ -25,11 +25,11 @@ else:
     screen = pygame.display.set_mode(display_size)
 
 
-resources = "resources/"
+RESOURCES = "resources/"
 
 
 # Standard font type
-FONT = pygame.font.Font(resources + "UbuntuMono-B.ttf", 14)
+FONT = pygame.font.Font(RESOURCES + "UbuntuMono-B.ttf", 14)
 
 # Define colours
 BLUE = 0, 148, 255
@@ -65,29 +65,29 @@ SWIPE_LONG_PRESS = 5
 
 """ Used icons """
 # General
-ICO_PLAYER = resources + "home_48x32.png"
-ICO_PLAYER_ACTIVE = resources + "home_active_48x32.png"
-ICO_LIBRARY = resources + "library_48x32.png"
-ICO_LIBRARY_ACTIVE = resources + "library_active_48x32.png"
-ICO_SETTINGS = resources + "settings_48x32.png"
-ICO_SETTINGS_ACTIVE = resources + "settings_active_48x32.png"
-ICO_EXIT = resources + "exit_48x32.png"
+ICO_PLAYER = RESOURCES + "home_48x32.png"
+ICO_PLAYER_ACTIVE = RESOURCES + "home_active_48x32.png"
+ICO_LIBRARY = RESOURCES + "library_48x32.png"
+ICO_LIBRARY_ACTIVE = RESOURCES + "library_active_48x32.png"
+ICO_SETTINGS = RESOURCES + "settings_48x32.png"
+ICO_SETTINGS_ACTIVE = RESOURCES + "settings_active_48x32.png"
+ICO_EXIT = RESOURCES + "exit_48x32.png"
 
 # Player
-ICO_PLAY = resources + "play_48x32.png"
-ICO_PAUSE = resources + "pause_48x32.png"
-ICO_NEXT = resources + "next_48x32.png"
-ICO_PREVIOUS = resources + "prev_48x32.png"
-ICO_VOLUME_UP = resources + "vol_up_48x32.png"
-ICO_VOLUME_DOWN = resources + "vol_down_48x32.png"
+ICO_PLAY = RESOURCES + "play_48x32.png"
+ICO_PAUSE = RESOURCES + "pause_48x32.png"
+ICO_NEXT = RESOURCES + "next_48x32.png"
+ICO_PREVIOUS = RESOURCES + "prev_48x32.png"
+ICO_VOLUME_UP = RESOURCES + "vol_up_48x32.png"
+ICO_VOLUME_DOWN = RESOURCES + "vol_down_48x32.png"
 
 # Library
-ICO_SEARCH = resources + "search_48x32.png"
-ICO_SEARCH_ACTIVE = resources + "search_active_48x32.png"
-ICO_SEARCH_ARTIST = resources + "artists_48x32.png"
-ICO_SEARCH_ARTIST_ACTIVE = resources + "artists_active_48x32.png"
-ICO_SEARCH_ALBUM = resources + "albums_48x32.png"
-ICO_SEARCH_ALBUM_ACTIVE = resources + "albums_active_48x32.png"
-ICO_SEARCH_SONG = resources + "songs_48x32.png"
-ICO_SEARCH_SONG_ACTIVE = resources + "songs_active_48x32.png"
+ICO_SEARCH = RESOURCES + "search_48x32.png"
+ICO_SEARCH_ACTIVE = RESOURCES + "search_active_48x32.png"
+ICO_SEARCH_ARTIST = RESOURCES + "artists_48x32.png"
+ICO_SEARCH_ARTIST_ACTIVE = RESOURCES + "artists_active_48x32.png"
+ICO_SEARCH_ALBUM = RESOURCES + "albums_48x32.png"
+ICO_SEARCH_ALBUM_ACTIVE = RESOURCES + "albums_active_48x32.png"
+ICO_SEARCH_SONG = RESOURCES + "songs_48x32.png"
+ICO_SEARCH_SONG_ACTIVE = RESOURCES + "songs_active_48x32.png"
 

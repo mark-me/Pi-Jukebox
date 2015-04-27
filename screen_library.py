@@ -12,8 +12,20 @@ from settings import *
 from screen_keyboard import *
 from screen_settings import *
 
-""" The graphical control for browsing the MPD library """
+"""
+screen_library.py: contains everything for the library browsing screen
+
+Classes:
+* LibraryBrowser    - The component that displays mpd library entries.
+* LetterBrowser     - The graphical control for selecting artists/albums/songs starting with a letter.
+* ScreenLibrary     - The screen where the user can browse in the MPD database and playlist_add items to the playlist
+* ScreenSearch      - Screen for further searching based on an item selected from the library.
+* ScreenSelected    - Screen for selecting playback actions with an item selected from the library.
+"""
+
+
 class LibraryBrowser(ItemList):
+    """ The component that displays mpd library entries. """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         ItemList.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.outline_visible = False
@@ -23,29 +35,29 @@ class LibraryBrowser(ItemList):
 
     def show_artists(self, letter=None, only_start=True):
         updated = False
-        if self.list != mpc_controller.get_artists(letter, only_start):
-            self.list = mpc_controller.get_artists(letter, only_start)
+        if self.list != mpd_library.artists_get(letter, only_start):
+            self.list = mpd_library.artists_get(letter, only_start)
             updated = True
         if updated:
             self.draw()
 
     def show_albums(self, letter=None, only_start=True):
         updated = False
-        if self.list != mpc_controller.get_albums(letter, only_start):
-            self.list = mpc_controller.get_albums(letter, only_start)
+        if self.list != mpd_library.albums_get(letter, only_start):
+            self.list = mpd_library.albums_get(letter, only_start)
             updated = True
         if updated: self.draw()
 
     def show_songs(self, letter=None, only_start=True):
         updated = False
-        if self.list != mpc_controller.get_songs(letter, only_start):
-            self.list = mpc_controller.get_songs(letter, only_start)
+        if self.list != mpd_library.songs_get(letter, only_start):
+            self.list = mpd_library.songs_get(letter, only_start)
             updated = True
         if updated: self.draw()
 
 
-""" The graphical control for selecting artists/albums/songs starting with a letter """
 class LetterBrowser(ItemList):
+    """ The graphical control for selecting artists/albums/songs starting with a letter """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         ItemList.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.item_outline_visible = True
@@ -57,8 +69,8 @@ class LetterBrowser(ItemList):
                         , "0", "1", "2", "3", "4", "5", "7", "8", "9"]
 
 
-""" The screen where the user can browse in the MPD database and add items to playlists """
 class ScreenLibrary(Screen):
+    """ The screen where the user can browse in the MPD database and playlist_add items to playlists """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         self.add_component(ButtonIcon("btn_home", self.screen, ICO_PLAYER, 3, 5))
@@ -163,8 +175,8 @@ class ScreenLibrary(Screen):
             self.playlist_action()
 
 
-""" Modal screen used for selecting playback actions with an item selected from the library """
 class ScreenSearch(ScreenModal):
+    """ Screen used further searching based on an item selected from the library """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Search library for...")
         self.window_color = FIFTIES_TEAL
@@ -187,8 +199,9 @@ class ScreenSearch(ScreenModal):
 
     def action(self, tag_name):
 
+        search_label = tag_name
         if tag_name == "btn_cancel":
-            pass
+            self.close()
 
         if tag_name == "btn_artists":
             self.search_type = "artist"
@@ -206,8 +219,8 @@ class ScreenSearch(ScreenModal):
         self.close()
 
 
-""" Modal screen used for selecting playback actions with an item selected from the library """
 class ScreenSelected(ScreenModal):
+    """ Screen for selecting playback actions with an item selected from the library """
     def __init__(self, screen_rect, selected_type, selected_title):
         ScreenModal.__init__(self, screen_rect, selected_title)
         self.type = selected_type
@@ -237,12 +250,6 @@ class ScreenSelected(ScreenModal):
         #label = "Cancel"
         #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 134, button_width, label))
 
-
-        #label = "Search more of " + self.selected
-        #self.add_component(ButtonText("btn_search", self.screen, button_left, 156, button_width, label))
-        #label = "Cancel"
-        #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 188, button_width, label))
-
     def action(self, tag_name):
         play = False
         clear_playlist = False
@@ -254,22 +261,22 @@ class ScreenSelected(ScreenModal):
             clear_playlist = True
         if tag_name == "btn_add" or tag_name == "btn_add_play" or tag_name == "btn_replace":
             if self.type == "artists":
-                mpc_controller.add_artist(self.selected, play, clear_playlist)
+                mpd_library.playlist_add_artist(self.selected, play, clear_playlist)
             elif self.type == "albums":
-                mpc_controller.add_album(self.selected, play, clear_playlist)
+                mpd_library.playlist_add_album(self.selected, play, clear_playlist)
             elif self.type == "songs":
-                mpc_controller.add_song(self.selected, play, clear_playlist)
+                mpd_library.playlist_add_song(self.selected, play, clear_playlist)
             self.return_object = None
         elif tag_name == "btn_artist_get_albums":
-            self.return_object = mpc_controller.get_artist_albums(self.selected)
+            self.return_object = mpd_library.artist_albums_get(self.selected)
             self.return_type = "albums"
             self.close()
         elif tag_name == "btn_artist_get_songs":
-            self.return_object = mpc_controller.get_artist_songs(self.selected)
+            self.return_object = mpd_library.artist_songs_get(self.selected)
             self.return_type = "songs"
             self.close()
         elif tag_name == "btn_album_get_songs":
-            self.return_object = mpc_controller.get_album_songs(self.selected)
+            self.return_object = mpd_library.album_songs_get(self.selected)
             self.return_type = "songs"
             self.close()
         self.close()

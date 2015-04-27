@@ -11,8 +11,16 @@ from mpc_control import *
 from settings import *
 from screen_wifi import *
 
+"""
+screen_settings.py: screen for some settings
+
+Class:
+* ScreenSettings    - Screen for settings or quitting/shutting down.
+
+"""
 
 class ScreenSettings(ScreenModal):
+    """ Screen for settings or quitting/shutting down """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Settings")
 
@@ -32,7 +40,7 @@ class ScreenSettings(ScreenModal):
     def on_click(self, x, y):
         tag_name = super(ScreenSettings, self).on_click(x, y)
         if tag_name == "btn_update":
-            mpc_controller.update_library()
+            mpd_controller.update_library()
         elif tag_name == "btn_wifi":
             screen_wifi = ScreenWifi()
         elif tag_name == "btn_shutdown":

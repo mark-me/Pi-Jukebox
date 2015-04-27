@@ -63,13 +63,13 @@ def screen_show():
 def main():
     global screen_list, screen_list_current
     # Check whether mpd is running and get it's status
-    if not mpc_controller.is_mpd_running():
+    if not mpd_controller.is_mpd_running():
         print("mpd is not running... Start the mpd daemon service with 'sudo service mpd start'.")
         exit()
     screen_list.append(ScreenPlayer(screen))    # Create player (home) screen
     screen_list.append(ScreenLibrary(screen))   # Create library browsing screen
 
-    mpc_controller.get_status()
+    mpd_controller.status_get()
 
     screen_list_current = 0  # Initially select player/home screen
     screen_show()            # Display the screen
@@ -78,7 +78,7 @@ def main():
 
     while 1:
 
-        if mpc_controller.get_status() and isinstance(screen_list[screen_list_current], ScreenPlayer):
+        if mpd_controller.status_get() and isinstance(screen_list[screen_list_current], ScreenPlayer):
             screen_list[screen_list_current].update()
 
         for event in pygame.event.get():
