@@ -1,4 +1,11 @@
-__author__ = 'mark'
+"""
+screen_settings.py: Settings screen
+
+Class:
+* ScreenSettings    - Screen for settings or quitting/shutting down.
+
+"""
+__author__ = 'Mark Zwart'
 
 import sys, pygame
 from pygame.locals import *
@@ -11,13 +18,6 @@ from mpc_control import *
 from settings import *
 from screen_wifi import *
 
-"""
-screen_settings.py: screen for some settings
-
-Class:
-* ScreenSettings    - Screen for settings or quitting/shutting down.
-
-"""
 
 class ScreenSettings(ScreenModal):
     """ Screen for settings or quitting/shutting down

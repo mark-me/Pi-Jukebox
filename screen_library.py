@@ -1,4 +1,10 @@
-__author__ = 'mark'
+"""
+=======================================================
+**screen_library.py**: MPD Library browsing screen
+=======================================================
+
+"""
+__author__ = 'Mark Zwart'
 
 import sys, pygame
 from pygame.locals import *
@@ -12,18 +18,6 @@ from settings import *
 from screen_keyboard import *
 from screen_settings import *
 
-"""
-screen_library.py: contains everything for the library browsing screen
-
-Classes:
-* LibraryBrowser    - The component that displays mpd library entries.
-* LetterBrowser     - The graphical control for selecting artists/albums/songs starting with a letter.
-* ScreenLibrary     - The screen where the user can browse in the MPD database and playlist_add items to the playlist
-* ScreenSearch      - Screen for further searching based on an item selected from the library.
-* ScreenSelected    - Screen for selecting playback actions with an item selected from the library.
-"""
-
-
 class LibraryBrowser(ItemList):
     """ The component that displays mpd library entries.
     """
@@ -34,25 +28,28 @@ class LibraryBrowser(ItemList):
         self.font_color = FIFTIES_YELLOW
         self.set_item_alignment(HOR_LEFT, VERT_MID)
 
-    def show_artists(self, letter=None, only_start=True):
+    def show_artists(self, search=None, only_start=True):
+        """ Displays all artists or based on the first letter or partial string match """
         updated = False
-        if self.list != mpd_library.artists_get(letter, only_start):
-            self.list = mpd_library.artists_get(letter, only_start)
+        if self.list != mpd_library.artists_get(search, only_start):
+            self.list = mpd_library.artists_get(search, only_start)
             updated = True
         if updated:
             self.draw()
 
-    def show_albums(self, letter=None, only_start=True):
+    def show_albums(self, search=None, only_start=True):
+        """ Displays all albums or based on the first letter or partial string match """
         updated = False
-        if self.list != mpd_library.albums_get(letter, only_start):
-            self.list = mpd_library.albums_get(letter, only_start)
+        if self.list != mpd_library.albums_get(search, only_start):
+            self.list = mpd_library.albums_get(search, only_start)
             updated = True
         if updated: self.draw()
 
-    def show_songs(self, letter=None, only_start=True):
+    def show_songs(self, search=None, only_start=True):
+        """ Displays all songs or based on the first letter or partial string match """
         updated = False
-        if self.list != mpd_library.songs_get(letter, only_start):
-            self.list = mpd_library.songs_get(letter, only_start)
+        if self.list != mpd_library.songs_get(search, only_start):
+            self.list = mpd_library.songs_get(search, only_start)
             updated = True
         if updated: self.draw()
 
@@ -92,6 +89,7 @@ class ScreenLibrary(Screen):
         self.components["list_library"].show_artists()
 
     def set_currently_showing(self, type_showing):
+        """ Switch icons to active dependent on which kind of searching is active """
         self.currently_showing = type_showing
         if type_showing == "artists":
             self.components["btn_artists"].set_image_file(ICO_SEARCH_ARTIST_ACTIVE)
@@ -108,14 +106,10 @@ class ScreenLibrary(Screen):
             self.components["btn_albums"].set_image_file(ICO_SEARCH_ALBUM)
             self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG_ACTIVE)
             self.components["btn_search"].set_image_file(ICO_SEARCH)
-        elif type_showing == "search":
-            self.components["btn_artists"].set_image_file(ICO_SEARCH_ARTIST)
-            self.components["btn_albums"].set_image_file(ICO_SEARCH_ALBUM)
-            self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG)
-            self.components["btn_search"].set_image_file(ICO_SEARCH_ACTIVE)
 
     def find_first_letter(self):
-        letter = self.components["list_letters"].get_item_selected()
+        """ Adjust current search type according to the letter clicked in the letterlist """
+        letter = self.components["list_letters"].item_selected_get()
         if self.currently_showing == "artists":
             self.components["list_library"].show_artists(letter)
         elif self.currently_showing == "albums":
@@ -124,10 +118,11 @@ class ScreenLibrary(Screen):
             self.components["list_library"].show_songs(letter)
 
     def find_text(self):
-        screen_search = ScreenSearch(self.screen)
+        """ Find results according to part of the text """
+        screen_search = ScreenSearch(self.screen)  # The search screen
         screen_search.show()
-        search_text = screen_search.search_text
-        search_type = screen_search.search_type
+        search_text = screen_search.search_text  # The text the user searches for
+        search_type = screen_search.search_type  # The type of tag the user searches for (artist, album, song)
         if search_type == "artist":
             self.components["list_library"].show_artists(search_text, False)
             self.set_currently_showing("artists")
@@ -141,7 +136,8 @@ class ScreenLibrary(Screen):
         self.show()
 
     def playlist_action(self):
-        selected = self.components["list_library"].get_item_selected()
+        """ Displays screen for follow-up actions when an item was selected from the library """
+        selected = self.components["list_library"].item_selected_get()
         select_screen = ScreenSelected(screen, self.currently_showing, selected)
         select_screen.show()
         if isinstance(select_screen.return_object, list):
@@ -151,6 +147,7 @@ class ScreenLibrary(Screen):
         self.show()
 
     def on_click(self, x, y):
+        """ Handles click event by returning the tag_name of the clicked widget """
         tag_name = super(ScreenLibrary, self).on_click(x, y)
         if tag_name == "btn_home":
             return 0
@@ -183,11 +180,12 @@ class ScreenSearch(ScreenModal):
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Search library for...")
         self.window_color = FIFTIES_TEAL
-        self.search_type = ""
-        self.search_text = ""
+        self.search_type = ""  # Searching for... [artist, album, song]
+        self.search_text = ""  # Partial text which should be searched for
         self.initialize()
 
     def initialize(self):
+        """ Set-up screen controls """
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
 
@@ -201,12 +199,11 @@ class ScreenSearch(ScreenModal):
         self.add_component(ButtonText("btn_cancel", self.screen, button_left, 176, button_width, label))
 
     def action(self, tag_name):
-
+        """ Action that should be performed on a click """
         search_label = tag_name
         if tag_name == "btn_cancel":
             self.close()
-
-        if tag_name == "btn_artists":
+        elif tag_name == "btn_artists":
             self.search_type = "artist"
             search_label = "Search artists"
         elif tag_name == "btn_albums":
@@ -215,10 +212,9 @@ class ScreenSearch(ScreenModal):
         elif tag_name == "btn_songs":
             self.search_type = "song"
             search_label = "Search songs"
-
+        # Open on-screen keyboard for entering search string
         keyboard = Keyboard(self.screen, search_label)
-        self.search_text = keyboard.show()
-
+        self.search_text = keyboard.show()  # Get entered search text
         self.close()
 
 
@@ -234,6 +230,7 @@ class ScreenSelected(ScreenModal):
         self.return_type = ""
 
     def initialize(self):
+        """ Set-up screen controls """
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
 
@@ -255,6 +252,7 @@ class ScreenSelected(ScreenModal):
         #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 134, button_width, label))
 
     def action(self, tag_name):
+        """ Action that should be performed on a click """
         play = False
         clear_playlist = False
 

@@ -1,6 +1,10 @@
-#!/usr/bin/env python
-
+"""
+===========================================================
+**mpc_control.py**: controlling and monitoring mpd via mpc.
+===========================================================
+"""
 __author__ = 'Mark Zwart'
+
 
 import sys, pygame
 import time
@@ -11,14 +15,6 @@ import glob
 MPC_TYPE_ARTIST = "artist"
 MPC_TYPE_ALBUM = "album"
 MPC_TYPE_SONGS = "title"
-
-"""
-mpc_control.py: controlling and monitoring mpd via mpc.
-
-Classes
-* MPDController - Controls playback and volume
-* MPDLibrary    - Browsing mpd library and adding to playlist
-"""
 
 
 class MPDController(object):
@@ -49,7 +45,8 @@ class MPDController(object):
         self.__status = []            # mpc's current status output
         self.__status_previous = []   # mpc's previous status output
 
-    def __parse_mpc_status(self): # Parse
+    def __parse_mpc_status(self):
+        """ Parses the mpd status """
         line_count = 0
         for status_line in self.__status:
 

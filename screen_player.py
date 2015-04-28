@@ -1,3 +1,9 @@
+"""
+=======================================================
+**screen_player.py**: Playback screen.
+=======================================================
+"""
+
 import sys, pygame
 from pygame.locals import *
 import time
@@ -8,13 +14,6 @@ from interface_widgets import *
 from mpc_control import *
 from settings import *
 from screen_settings import *
-"""
-screen_player.py: contains everything for the playback screen.
-
-Classes:
-* Playlist      - Displays playlist information
-* ScreenPlayer  - The screen containing everything to control playback
-"""
 
 
 class Playlist(ItemList):
@@ -28,6 +27,7 @@ class Playlist(ItemList):
         self.outline_visible = False
 
     def show_playlist(self):
+        """ Display the playlist """
         updated = False
         playing_nr = mpd_controller.get_playlist_current_playing_index()
         if self.list != mpd_controller.get_playlist_current():
@@ -68,10 +68,12 @@ class ScreenPlayer(Screen):
         self.components["list_playing"].active_item_index = mpd_controller.get_playlist_current_playing_index()
 
     def show(self):
-        super(ScreenPlayer, self).show()
-        self.update()
+        """ Displays the screen """
+        super(ScreenPlayer, self).show()  # Draw screen
+        self.update()  # Update mpd status to components
 
     def update(self):
+        """ Update controls that depend on mpd's status """
         self.components["list_playing"].active_item_index = mpd_controller.get_playlist_current_playing_index()
         self.components["list_playing"].show_playlist()
         if self.components["lbl_track_title"].caption != mpd_controller.track_name:

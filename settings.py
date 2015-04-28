@@ -1,5 +1,7 @@
-__author__ = 'mark'
-""" Storing project wide variables """
+""" Storing project wide variables
+"""
+__author__ = 'Mark Zwart'
+
 import os
 import sys, pygame
 from pygame.locals import *
@@ -24,14 +26,14 @@ if __production: # If started on Raspberry Pi
 else:
     screen = pygame.display.set_mode(display_size)
 
-
-RESOURCES = "resources/"
+# RESOURCES = os.path.abspath("./resources") + "/"
+RESOURCES = os.path.dirname(__file__) + "/resources/"
 
 
 # Standard font type
 FONT = pygame.font.Font(RESOURCES + "UbuntuMono-B.ttf", 14)
 
-# Define colours
+""" Color definitions """
 BLUE = 0, 148, 255
 CREAM = 206, 206, 206
 BLACK = 0, 0, 0
@@ -52,7 +54,7 @@ FIFTIES_GREEN = 211, 227, 151
 FIFTIES_YELLOW = 255, 245, 195
 FIFTIES_ORANGE = 235, 110, 68
 
-# Mouse related variables
+""" Mouse related variables """
 MIN_SWIPE = 50  # Minimum movement in pixels to call it a swipe
 MAX_CLICK = 15  # Maximum movement in pixels to call it a click
 LONG_PRESS_TIME = 500   # Minimum time to call a click a long press

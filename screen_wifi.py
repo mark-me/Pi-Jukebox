@@ -20,6 +20,7 @@ from mpc_control import *
 from settings import *
 from screen_keyboard import *
 
+
 class WifiConnection(object):
     def __init__(self):
         self.connected = False
@@ -51,6 +52,7 @@ class WifiConnection(object):
             return False
         if status_line[:13] == "Connected to":
             return True
+
 
 class ScreenWifi(ScreenModal):
     def __init__(self, screen_rect):
