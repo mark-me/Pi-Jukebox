@@ -1,14 +1,6 @@
-#-------------------------------------------------------------------------------
-# Name:        pi-jukebox
-# Purpose:     Providing a graphical interface from the command line
-#                to manage MPD
-#
-# Author:      Mark Zwart
-#
-# Created:     20-04-2015
-# Copyright:   (c) Mark Zwart 2015
-# Licence:     GNU
-#-------------------------------------------------------------------------------
+"""
+**pi-jukebox.py**: Main file
+"""
 
 import sys, pygame
 from pygame.locals import *
