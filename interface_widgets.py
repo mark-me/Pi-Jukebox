@@ -24,6 +24,15 @@ class Widget(object):
     """ Widget is the base class of screen widgets and should not be instantiated by itself
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
+        """
+        :param tag_name: Text identifying the widget
+        :param screen_rect:
+        :param x:
+        :param y:
+        :param width:
+        :param height:
+        :return:
+        """
         self.tag_name = tag_name
         self.screen = screen_rect
         self.x_pos = x
