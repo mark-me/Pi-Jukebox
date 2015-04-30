@@ -29,6 +29,7 @@ class Screens(object):
         self.screen_list_current = 0  # Points to current screen in screen_list, initially select player/home screen
         self.screen_list.append(ScreenPlayer(screen))  # Create player (home) screen
         self.screen_list.append(ScreenLibrary(screen))  # Create library browsing screen
+        self.mouse_down_pos = pygame.mouse.get_pos()  # Initialize mouse position
 
     def show(self):
         """ Show the current screen """
@@ -68,13 +69,14 @@ class Screens(object):
         """ Processes mouse events. """
         if event_type == pygame.MOUSEBUTTONDOWN:  # Gesture start
             mouse_down_time = pygame.time.get_ticks()  # Start timer to detect long mouse clicks
-            mouse_down_pos = pygame.mouse.get_pos()  # Get click position (= start position for swipe)
+            self.mouse_down_pos = pygame.mouse.get_pos()  # Get click position (= start position for swipe)
             pygame.mouse.get_rel()  # Start tracking mouse movement
         elif event_type == pygame.MOUSEBUTTONUP:  # Gesture end
             swipe_type = self.swipe_type_get()  # Determines the kind of gesture used
             # Start mouse related event functions
             if swipe_type == SWIPE_CLICK:  # Fire click function
-                ret_value = self.screen_list[self.screen_list_current].on_click(mouse_down_pos[0], mouse_down_pos[
+                ret_value = self.screen_list[self.screen_list_current].on_click(self.mouse_down_pos[0],
+                                                                                self.mouse_down_pos[
                     1])  # Relay tap/click to active screen
                 # If the screen requests a screen switch
                 if ret_value >= 0 and ret_value < len(self.screen_list):
@@ -89,7 +91,8 @@ class Screens(object):
                 self.show()
             # Relay vertical swiping to active screen controls
             if swipe_type == SWIPE_UP or swipe_type == SWIPE_DOWN:
-                self.screen_list[self.screen_list_current].on_swipe(mouse_down_pos[0], mouse_down_pos[1], swipe_type)
+                self.screen_list[self.screen_list_current].on_swipe(self.mouse_down_pos[0], self.mouse_down_pos[1],
+                                                                    swipe_type)
 
 
 def main():
@@ -103,7 +106,6 @@ def main():
     screens = Screens()  # Screens
     mpd_controller.status_get()  # Get mpd status
     screens.show()  # Display the screen
-    mouse_down_pos = pygame.mouse.get_pos()  # Initialize mouse position
 
     while 1:
 
