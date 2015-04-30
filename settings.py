@@ -7,10 +7,10 @@ import sys, pygame
 from pygame.locals import *
 import time
 
-__production = False
+__run_on_raspberry_pi = False
 
 # Setting up touch screen, set if statement to true on Raspberry Pi
-if __production:
+if __run_on_raspberry_pi:
     os.environ["SDL_FBDEV"] = "/dev/fb1"
     os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
     os.environ["SDL_MOUSEDRV"] = "TSLIB"
@@ -19,7 +19,7 @@ if __production:
 pygame.init() 	# Pygame initialization
 display_size = screen_width, screen_height = 320, 240
 
-if __production: # If started on Raspberry Pi
+if __run_on_raspberry_pi:  # If started on Raspberry Pi
     display_flags = FULLSCREEN | DOUBLEBUF                          # Turn on video acceleration
     screen = pygame.display.set_mode(display_size, display_flags)
     pygame.mouse.set_visible(False)                                 # Hide mouse cursor

@@ -1,4 +1,5 @@
 # Pi-Jukebox
-A mpd front-end for playing your your Raspberry Pi
+A mpd front-end for playing your Raspberry Pi with touchscreen
 
-Wiki: https://github.com/mark-me/Pi-Jukebox/wiki
+Documentation of code and Raspberry Pi setup: 
+http://mark-me.github.io/Pi-Jukebox/
