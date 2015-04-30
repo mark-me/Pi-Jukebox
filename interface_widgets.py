@@ -236,7 +236,7 @@ class ItemList(Widget):
             list_item.draw()  # Draw item on screen
             item_nr += 1
 
-    def __clicked_item(self, x_pos, y_pos):
+    def clicked_item(self, x_pos, y_pos):
         """ Determines which item, if any, was clicked """
         x_pos = x_pos - self.x_pos
         y_pos = y_pos - self.y_pos

@@ -21,7 +21,7 @@ class Screens(object):
 
             - Player screen
             - Library screen
-        Handles screen switching, clicking and swyping and mpd status updating
+        Handles screen switching, clicking and swiping and mpd status updating
     """
 
     def __init__(self):
