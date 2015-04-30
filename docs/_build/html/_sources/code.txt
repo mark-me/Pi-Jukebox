@@ -1,0 +1,21 @@
+Auto Generated Documentation
+============================
+   
+.. automodule:: screen_player
+   :members: 
+   
+.. automodule:: screen_library
+   :members:   
+
+.. automodule:: screen_settings
+   :members:  
+
+.. automodule:: mpc_control
+   :members:
+
+.. automodule:: interface_widgets
+   :members:
+   
+.. automodule:: screen_keyboard
+   :members:   
+  

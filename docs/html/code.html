@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Auto Generated Documentation &mdash; pi-jukebox 0.1a documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pi-jukebox 0.1a documentation" href="index.html"/>
+        <link rel="next" title="Preparing your Raspberry Pi" href="raspberry_pi.html"/>
+        <link rel="prev" title="Welcome to pi-jukebox’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> pi-jukebox
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Auto Generated Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc"><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="raspberry_pi.html">Preparing your Raspberry Pi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#hardware">Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#installing-the-operating-system">Installing the operating system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#configuring-the-raspberry-pi">Configuring the Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#configuring-the-usb-music-device">Configuring the USB music device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#installing-and-configuring-mpd">Installing and configuring mpd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#setting-up-the-music-library">Setting up the music library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#zeroconf">Zeroconf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#samba-server">Samba server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#wifi">WiFi</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pi-jukebox</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Auto Generated Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/code.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="module-screen_player">
+<span id="auto-generated-documentation"></span><h1>Auto Generated Documentation<a class="headerlink" href="#module-screen_player" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="screen-player-py-playback-screen">
+<h2><strong>screen_player.py</strong>: Playback screen.<a class="headerlink" href="#screen-player-py-playback-screen" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="screen_player.Playlist">
+<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">Playlist</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#screen_player.Playlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays playlist information</p>
+<dl class="method">
+<dt id="screen_player.Playlist.show_playlist">
+<tt class="descname">show_playlist</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.Playlist.show_playlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the playlist</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_player.ScreenPlayer">
+<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenPlayer</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The screen containing everything to control playback</p>
+<dl class="method">
+<dt id="screen_player.ScreenPlayer.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_player.ScreenPlayer.update">
+<tt class="descname">update</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update controls that depend on mpd&#8217;s status</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-screen_library"></span><div class="section" id="screen-library-py-mpd-library-browsing-screen">
+<h2><strong>screen_library.py</strong>: MPD Library browsing screen<a class="headerlink" href="#screen-library-py-mpd-library-browsing-screen" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="screen_library.LetterBrowser">
+<em class="property">class </em><tt class="descclassname">screen_library.</tt><tt class="descname">LetterBrowser</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#screen_library.LetterBrowser" title="Permalink to this definition">¶</a></dt>
+<dd><p>The graphical control for selecting artists/albums/songs starting with a letter</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_library.LibraryBrowser">
+<em class="property">class </em><tt class="descclassname">screen_library.</tt><tt class="descname">LibraryBrowser</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser" title="Permalink to this definition">¶</a></dt>
+<dd><p>The component that displays mpd library entries.</p>
+<dl class="method">
+<dt id="screen_library.LibraryBrowser.show_albums">
+<tt class="descname">show_albums</tt><big>(</big><em>search=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.show_albums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays all albums or based on the first letter or partial string match</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.LibraryBrowser.show_artists">
+<tt class="descname">show_artists</tt><big>(</big><em>search=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.show_artists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays all artists or based on the first letter or partial string match</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.LibraryBrowser.show_songs">
+<tt class="descname">show_songs</tt><big>(</big><em>search=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.show_songs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays all songs or based on the first letter or partial string match</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_library.ScreenLibrary">
+<em class="property">class </em><tt class="descclassname">screen_library.</tt><tt class="descname">ScreenLibrary</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary" title="Permalink to this definition">¶</a></dt>
+<dd><p>The screen where the user can browse in the MPD database and playlist_add items to playlists</p>
+<dl class="method">
+<dt id="screen_library.ScreenLibrary.find_first_letter">
+<tt class="descname">find_first_letter</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary.find_first_letter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust current search type according to the letter clicked in the letterlist</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.ScreenLibrary.find_text">
+<tt class="descname">find_text</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary.find_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find results according to part of the text</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.ScreenLibrary.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary.on_click" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles click event by returning the tag_name of the clicked widget</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.ScreenLibrary.playlist_action">
+<tt class="descname">playlist_action</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary.playlist_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays screen for follow-up actions when an item was selected from the library</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.ScreenLibrary.set_currently_showing">
+<tt class="descname">set_currently_showing</tt><big>(</big><em>type_showing</em><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary.set_currently_showing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch icons to active dependent on which kind of searching is active</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_library.ScreenSearch">
+<em class="property">class </em><tt class="descclassname">screen_library.</tt><tt class="descname">ScreenSearch</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_library.ScreenSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen used further searching based on an item selected from the library</p>
+<dl class="method">
+<dt id="screen_library.ScreenSearch.action">
+<tt class="descname">action</tt><big>(</big><em>tag_name</em><big>)</big><a class="headerlink" href="#screen_library.ScreenSearch.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action that should be performed on a click</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.ScreenSearch.initialize">
+<tt class="descname">initialize</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenSearch.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set-up screen controls</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_library.ScreenSelected">
+<em class="property">class </em><tt class="descclassname">screen_library.</tt><tt class="descname">ScreenSelected</tt><big>(</big><em>screen_rect</em>, <em>selected_type</em>, <em>selected_title</em><big>)</big><a class="headerlink" href="#screen_library.ScreenSelected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen for selecting playback actions with an item selected from the library</p>
+<dl class="method">
+<dt id="screen_library.ScreenSelected.action">
+<tt class="descname">action</tt><big>(</big><em>tag_name</em><big>)</big><a class="headerlink" href="#screen_library.ScreenSelected.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action that should be performed on a click</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="screen_library.ScreenSelected.initialize">
+<tt class="descname">initialize</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenSelected.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set-up screen controls</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-screen_settings"></span><p>screen_settings.py: Settings screen</p>
+<p>Class:
+* ScreenSettings    - Screen for settings or quitting/shutting down.</p>
+<dl class="class">
+<dt id="screen_settings.ScreenSettings">
+<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettings</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen for settings or quitting/shutting down</p>
+</dd></dl>
+
+<span class="target" id="module-mpc_control"></span><div class="section" id="mpc-control-py-controlling-and-monitoring-mpd-via-mpc">
+<h2><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.<a class="headerlink" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mpc_control.MPDController">
+<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPDController</tt><a class="headerlink" href="#mpc_control.MPDController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls playback and volume</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mpc_control.MPDLibrary">
+<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPDLibrary</tt><a class="headerlink" href="#mpc_control.MPDLibrary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Browsing mpd library and adding to playlist</p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-interface_widgets"></span><div class="section" id="interface-widgets-py-graphical-widgets-for-the-gui">
+<h2><strong>interface_widgets.py</strong>: graphical widgets for the GUI<a class="headerlink" href="#interface-widgets-py-graphical-widgets-for-the-gui" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="interface_widgets.ButtonIcon">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ButtonIcon</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>image</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>ButtonIcon class is a button that only displays an icon</p>
+<dl class="method">
+<dt id="interface_widgets.ButtonIcon.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the button</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ButtonIcon.set_image_file">
+<tt class="descname">set_image_file</tt><big>(</big><em>file_name</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon.set_image_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the buttons icon</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.ButtonText">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ButtonText</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonText" title="Permalink to this definition">¶</a></dt>
+<dd><p>ButtonText class is a button with text that uses two images for button rendering</p>
+<dl class="method">
+<dt id="interface_widgets.ButtonText.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ButtonText.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the button on the screen</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.ItemList">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ItemList</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of text items that can be clicked</p>
+<dl class="method">
+<dt id="interface_widgets.ItemList.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the item list on screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.item_active_get">
+<tt class="descname">item_active_get</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.item_active_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns active item</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.item_selected_get">
+<tt class="descname">item_selected_get</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.item_selected_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns selected item</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.set_item_alignment">
+<tt class="descname">set_item_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.set_item_alignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the alignment of the text of an item within the item&#8217;s rectangle</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.show_next_items">
+<tt class="descname">show_next_items</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.show_next_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows next page of items</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.show_prev_items">
+<tt class="descname">show_prev_items</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.show_prev_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows previous page of items</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.LabelText">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">LabelText</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText" title="Permalink to this definition">¶</a></dt>
+<dd><p>LabelText is used to write text that needs to fit in a pre-defined rectangle</p>
+<dl class="method">
+<dt id="interface_widgets.LabelText.draw">
+<tt class="descname">draw</tt><big>(</big><em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the label</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.LabelText.set_alignment">
+<tt class="descname">set_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em>, <em>hor_indent=0</em>, <em>vert_indent=0</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText.set_alignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the label&#8217;s alignment within the defined rectange</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.Screen">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Screen</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic screen used for displaying widgets</p>
+<dl class="method">
+<dt id="interface_widgets.Screen.add_component">
+<tt class="descname">add_component</tt><big>(</big><em>widget</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen.add_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds components to component list, thus ensuring a component is found on a mouse event</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.Screen.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen.on_click" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines which component was clicked and returns its tag_name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.Screen.on_swipe">
+<tt class="descname">on_swipe</tt><big>(</big><em>x</em>, <em>y</em>, <em>swipe_type</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen.on_swipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relais swipe to ItemList components for next(up)/previous(down) swipes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.Screen.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.Screen.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the screen</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.ScreenModal">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ScreenModal</tt><big>(</big><em>screen_rect</em>, <em>title</em><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen with its own event capture loop</p>
+<dl class="method">
+<dt id="interface_widgets.ScreenModal.action">
+<tt class="descname">action</tt><big>(</big><em>tag_name</em><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Virtual function for event-related execution</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ScreenModal.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes event loop and returns the window&#8217;s return object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ScreenModal.event_loop">
+<tt class="descname">event_loop</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.event_loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The window&#8217;s event loop</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ScreenModal.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays screen and starts own event capture loop</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.Widget">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Widget</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#interface_widgets.Widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Widget is the base class of screen widgets and should not be instantiated by itself</p>
+<dl class="method">
+<dt id="interface_widgets.Widget.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#interface_widgets.Widget.on_click" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function called when a widget is clicked</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-screen_keyboard"></span><div class="section" id="screen-keyboard-py-on-screen-keyboard">
+<h2><strong>screen_keyboard.py</strong>: On-screen keyboard<a class="headerlink" href="#screen-keyboard-py-on-screen-keyboard" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="screen_keyboard.Keyboard">
+<em class="property">class </em><tt class="descclassname">screen_keyboard.</tt><tt class="descname">Keyboard</tt><big>(</big><em>screen_rect</em>, <em>caption</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#screen_keyboard.Keyboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called keyboard class that displays a text edit field with a
+letter or symbol keyboard</p>
+<dl class="method">
+<dt id="screen_keyboard.Keyboard.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_keyboard.Keyboard.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loops until enter, cancel or escape on the keyboard is pressed</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_keyboard.KeyboardBase">
+<em class="property">class </em><tt class="descclassname">screen_keyboard.</tt><tt class="descname">KeyboardBase</tt><big>(</big><em>screen_rect</em>, <em>caption</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#screen_keyboard.KeyboardBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base class</p>
+<dl class="method">
+<dt id="screen_keyboard.KeyboardBase.set_text">
+<tt class="descname">set_text</tt><big>(</big><em>text</em><big>)</big><a class="headerlink" href="#screen_keyboard.KeyboardBase.set_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the edit box&#8217;s text</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_keyboard.KeyboardLetters">
+<em class="property">class </em><tt class="descclassname">screen_keyboard.</tt><tt class="descname">KeyboardLetters</tt><big>(</big><em>screen_rect</em>, <em>caption</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#screen_keyboard.KeyboardLetters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays keyboard for letters</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_keyboard.KeyboardSymbols">
+<em class="property">class </em><tt class="descclassname">screen_keyboard.</tt><tt class="descname">KeyboardSymbols</tt><big>(</big><em>screen_rect</em>, <em>caption</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#screen_keyboard.KeyboardSymbols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays keyboard for numbers and symbols</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="raspberry_pi.html" class="btn btn-neutral float-right" title="Preparing your Raspberry Pi" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to pi-jukebox’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Mark Zwart.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1a',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
