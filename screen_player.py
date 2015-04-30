@@ -96,6 +96,7 @@ class ScreenPlayer(Screen):
         """
         :param x: The horizontal click position.
         :param y: The vertical click position.
+
         :return: Possibly returns a screen index number to switch to.
         """
         tag_name = super(ScreenPlayer, self).on_click(x, y)
@@ -122,5 +123,3 @@ class ScreenPlayer(Screen):
             mpd_controller.volume_set_relative(-10)
         elif tag_name == "list_playing":
             mpd_controller.play_playlist_item(self.components["list_playing"].item_selected+1)
-
-
