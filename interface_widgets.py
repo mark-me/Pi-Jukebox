@@ -301,7 +301,7 @@ class ItemList(Widget):
             item_nr += 1
 
     def clicked_item(self, x_pos, y_pos):
-        """ Determines which item, if any, was clicked
+        """ Determines which item, if any, was clicked.
 
             :param x_pos: The click's horizontal position
             :param y_pos: The click's vertical position
@@ -323,7 +323,7 @@ class ItemList(Widget):
         return self.list[self.active_item_index]
 
     def item_selected_get(self):
-        """ Returns selected item """
+        """ :return: selected item's text """
         return self.list[self.item_selected]
 
     def on_click(self, x_pos, y_pos):
@@ -331,13 +331,13 @@ class ItemList(Widget):
         return self.tag_name
 
     def show_next_items(self):
-        """ Shows next page of items """
+        """ Shows next page of items. """
         if self.items_start + self.__items_max < len(self.list):
             self.items_start += self.__items_max
             self.draw()
 
     def show_prev_items(self):
-        """ Shows previous page of items """
+        """ Shows previous page of items. """
         if self.items_start - self.__items_max >= 0:
             self.items_start -= self.__items_max
             self.draw()
@@ -345,6 +345,11 @@ class ItemList(Widget):
 
 class Screen(object):
     """ Basic screen used for displaying widgets.
+
+        :param screen_rect: The screen's rectangle where the screen is drawn on
+
+        :ivar components: Dictionary holding the screen's widgets with a tag_name as key and the widget as value
+        :ivar color: The screen's background color, default = BLACK
     """
     def __init__(self, screen_rect):
         self.screen = screen_rect
@@ -352,18 +357,24 @@ class Screen(object):
         self.color = BLACK
 
     def add_component(self, widget):
-        """ Adds components to component list, thus ensuring a component is found on a mouse event """
+        """ Adds components to component list, thus ensuring a component is found on a mouse event. """
         self.components[widget.tag_name] = widget
 
     def show(self):
-        """ Displays the screen """
+        """ Displays the screen. """
         self.screen.fill(self.color)
         for key, value in self.components.items():
             value.draw()
         pygame.display.flip()
 
     def on_click(self, x, y):
-        """ Determines which component was clicked and returns its tag_name """
+        """ Determines which component was clicked and fires it's click function in turn.
+
+            :param x: The horizontal click position.
+            :param y: The vertical click position.
+
+            :return: The tag_name of the clicked component.
+        """
         for key, value in self.components.items():
             if isinstance(value, ButtonIcon) or isinstance(value, ButtonText):
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
@@ -374,8 +385,13 @@ class Screen(object):
                     value.clicked_item(x, y)
                     return key
 
-    def on_swipe(self, x, y , swipe_type):
-        """ Relais swipe to ItemList components for next(up)/previous(down) swipes """
+    def on_swipe(self, x, y, swipe_type):
+        """ Relays swipe to ItemList components for next(up)/previous(down) swipes for ItemLists.
+
+            :param x: The horizontal start position of the swipe move.
+            :param y: The vertical start position of the swipe move.
+            :param swipe_type: The type of swipe movement done.
+        """
         for key, value in self.components.items():
             if isinstance(value, ItemList):
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
@@ -387,6 +403,11 @@ class Screen(object):
 
 class ScreenModal(Screen):
     """ Screen with its own event capture loop.
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+        :param title: The title displayed at the top of the screen.
+
+        :ivar title: The title displayed at the top of the screen.
     """
     def __init__(self, screen_rect, title):
         Screen.__init__(self, screen_rect)
@@ -400,7 +421,10 @@ class ScreenModal(Screen):
         self.window_color = FIFTIES_ORANGE
 
     def show(self):
-        """ Displays screen and starts own event capture loop """
+        """ Displays screen and starts own event capture loop.
+
+            :return: A return object.
+        """
         self.close_screen = False
         self.__draw_window()
         # Draw components
@@ -429,7 +453,10 @@ class ScreenModal(Screen):
         self.screen.blit(image, (title_rect.centerx-font_width /2, title_rect.centery-font_height/2))
 
     def __get_swipe_type(self):
-        """ Determines the kind of gesture. """
+        """ Determines the kind of gesture.
+
+            :return: The type of gesture [SWIPE_CLICK, SWIPE_DOWN, SWIPE_UP, SWIPE_LEFT, SWIPE_RIGHT]
+        """
         x, y = pygame.mouse.get_rel()  # Register mouse movement since last call
 
         if abs(x) <= MIN_SWIPE:
@@ -475,5 +502,5 @@ class ScreenModal(Screen):
                     self.close_screen = True
 
     def action(self, tag_name):
-        """ Virtual function for event-related execution """
+        """ Virtual function for event-related execution. """
         pass

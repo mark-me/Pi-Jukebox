@@ -1,7 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0479e9e3-f7f2-4a8d-9b51-615592a9ea2e" name="Default" comment="Adding documentation" />
+    <list default="true" id="0479e9e3-f7f2-4a8d-9b51-615592a9ea2e" name="Default" comment="Adding documentation">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/doctrees/code.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/doctrees/raspberry_pi.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/.buildinfo" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_sources/code.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_sources/index.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_sources/raspberry_pi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/ajax-loader.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/basic.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/comment-bright.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/comment-close.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/comment.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/css/badge_only.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/css/badge_only.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/css/theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/css/theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/down-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/down.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/file.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/FontAwesome.otf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/js/modernizr.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/js/theme.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/minus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/plus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/pygments.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_rtd_theme-master.zip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/underscore.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/up-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/up.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/_static/websupport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/code.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/raspberry_pi.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/search.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_static/sphinx_rtd_theme-master.zip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/breadcrumbs.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/footer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/layout.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/layout_old.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/search.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/searchbox.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/css/badge_only.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/css/badge_only.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/css/theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/css/theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/FontAwesome.otf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/Inconsolata-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/Inconsolata.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/Lato-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/Lato-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/RobotoSlab-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/RobotoSlab-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/fonts/fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/js/modernizr.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/static/js/theme.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/theme.conf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/_themes/sphinx_rtd_theme/versions.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/conf.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/doctrees/code.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/doctrees/environment.pickle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/doctrees/index.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/doctrees/raspberry_pi.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/.buildinfo" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_sources/code.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_sources/index.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_sources/raspberry_pi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/ajax-loader.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/basic.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/comment-bright.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/comment-close.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/comment.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/css/badge_only.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/css/badge_only.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/css/theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/css/theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/doctools.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/down-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/down.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/file.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/FontAwesome.otf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/Inconsolata-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/Inconsolata.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/Lato-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/Lato-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/RobotoSlab-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/RobotoSlab-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/fonts/fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/js/modernizr.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/js/theme.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/minus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/plus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/pygments.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/searchtools.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/sphinx_rtd_theme-master.zip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/underscore.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/up-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/up.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/_static/websupport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/code.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/genindex.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/objects.inv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/py-modindex.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/raspberry_pi.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/search.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/html/searchindex.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/index.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/raspberry_pi.rst" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interface_widgets.py" afterPath="$PROJECT_DIR$/interface_widgets.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/pi-jukebox.iml" afterPath="$PROJECT_DIR$/.idea/pi-jukebox.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="pi-jukebox.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +166,8 @@
       <file leaf-file-name="pi-jukebox.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pi-jukebox.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1845">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2010">
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -37,11 +176,9 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1515">
-              <caret line="9" column="21" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
-              <folding>
-                <element signature="e#66#75#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1515">
+              <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -49,8 +186,8 @@
       <file leaf-file-name="interface_widgets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/interface_widgets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47694755" vertical-offset="3195" max-vertical-offset="7230">
-              <caret line="236" column="100" selection-start-line="236" selection-start-column="100" selection-end-line="236" selection-end-column="100" />
+            <state vertical-scroll-proportion="-0.50341684" vertical-offset="6551" max-vertical-offset="7635">
+              <caret line="425" column="37" selection-start-line="425" selection-start-column="37" selection-end-line="425" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -104,9 +241,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="-4" />
-    <option name="width" value="1920" />
-    <option name="height" value="1084" />
+    <option name="x" value="-1" />
+    <option name="y" value="30" />
+    <option name="width" value="1026" />
+    <option name="height" value="571" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -131,7 +269,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -152,6 +289,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -434,29 +572,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-4" width="1920" height="1084" extended-state="6" />
-    <editor active="false" />
+    <frame x="-1" y="30" width="1026" height="571" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32738096" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985386" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19583334" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2421875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39039665" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31051588" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39039665" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31051588" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -475,9 +613,9 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2421875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3152401" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3152401" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -517,6 +655,38 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/pi-jukebox.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="1680">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="1560">
+          <caret line="9" column="21" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interface_widgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6045">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen_library.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1474" max-vertical-offset="4260">
+          <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pi-jukebox.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1770">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
@@ -525,8 +695,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pi-jukebox.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1845">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2010">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -541,18 +711,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1515">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
-          <folding>
-            <element signature="e#66#75#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1515">
+          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/interface_widgets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47694755" vertical-offset="3195" max-vertical-offset="7230">
-          <caret line="236" column="100" selection-start-line="236" selection-start-column="100" selection-end-line="236" selection-end-column="100" />
+        <state vertical-scroll-proportion="-0.50341684" vertical-offset="6551" max-vertical-offset="7635">
+          <caret line="425" column="37" selection-start-line="425" selection-start-column="37" selection-end-line="425" selection-end-column="37" />
           <folding />
         </state>
       </provider>
