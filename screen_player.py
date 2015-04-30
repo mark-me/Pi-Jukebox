@@ -17,17 +17,20 @@ from screen_settings import *
 
 
 class Playlist(ItemList):
-    """ Displays playlist information
+    """ Displays playlist information.
+
+        :param screen_rect: The display's rect where the library browser is drawn on.
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
-        ItemList.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, screen_rect):
+        ItemList.__init__(self, "list_playing", screen_rect, 52, 50, 216, 190)
         self.item_active_color = FIFTIES_ORANGE
         self.outline_color = FIFTIES_CHARCOAL
         self.font_color = FIFTIES_YELLOW
         self.outline_visible = False
 
     def show_playlist(self):
-        """ Display the playlist """
+        """ Display the playlist. """
         updated = False
         playing_nr = mpd_controller.get_playlist_current_playing_index()
         if self.list != mpd_controller.get_playlist_current():
@@ -64,11 +67,11 @@ class ScreenPlayer(Screen):
         self.add_component(LabelText("lbl_volume", self.screen, screen_width - 70, 23, 70, 18))
 
         # Playlist
-        self.add_component(Playlist("list_playing", self.screen, 52, 50, 216, 190))
+        self.add_component(Playlist(self.screen))
         self.components["list_playing"].active_item_index = mpd_controller.get_playlist_current_playing_index()
 
     def show(self):
-        """ Displays the screen """
+        """ Displays the screen. """
         super(ScreenPlayer, self).show()  # Draw screen
         self.update()  # Update mpd status to components
 
@@ -90,6 +93,11 @@ class ScreenPlayer(Screen):
             self.components["btn_play"].draw()
 
     def on_click(self, x, y):
+        """
+        :param x: The horizontal click position.
+        :param y: The vertical click position.
+        :return: Possibly returns a screen index number to switch to.
+        """
         tag_name = super(ScreenPlayer, self).on_click(x, y)
         if tag_name == "btn_home":
             return 0

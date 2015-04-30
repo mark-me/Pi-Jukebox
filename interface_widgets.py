@@ -327,6 +327,12 @@ class ItemList(Widget):
         return self.list[self.item_selected]
 
     def on_click(self, x_pos, y_pos):
+        """ Relays click action to a list item.
+        :param x_pos: The horizontal click position.
+        :param y_pos: The vertical click position.
+
+        :return: return the ListItem's tag_name.
+        """
         self.__clicked_item(x_pos, y_pos)
         return self.tag_name
 
@@ -357,7 +363,10 @@ class Screen(object):
         self.color = BLACK
 
     def add_component(self, widget):
-        """ Adds components to component list, thus ensuring a component is found on a mouse event. """
+        """ Adds components to component list, thus ensuring a component is found on a mouse event.
+
+            :param widget: The widget that should be added to the dictionary.
+        """
         self.components[widget.tag_name] = widget
 
     def show(self):
