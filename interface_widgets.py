@@ -22,17 +22,16 @@ VERT_BOTTOM = 2
 
 class Widget(object):
     """ Widget is the base class of screen widgets and should not be instantiated by itself
+
+        :param tag_name: Text identifying the widget
+        :param screen_rect: The screen's rectangle where the widget is drawn on
+        :param x: The horizontal starting position of the widget's rectangle
+        :param y: The vertical starting position of the widget's rectangle
+        :param width: The width of the widget's rectangle
+        :param height: The height of the widget's rectangle
+
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
-        """
-        :param tag_name: Text identifying the widget
-        :param screen_rect:
-        :param x:
-        :param y:
-        :param width:
-        :param height:
-        :return:
-        """
         self.tag_name = tag_name
         self.screen = screen_rect
         self.x_pos = x
@@ -58,6 +57,13 @@ class Widget(object):
 
 class LabelText(Widget):
     """ LabelText is used to write text that needs to fit in a pre-defined rectangle
+
+        :param tag_name: Text identifying the label
+        :param screen_rect: The screen's rectangle where the label is drawn on
+        :param x: The horizontal starting position of the label's rectangle
+        :param y: The vertical starting position of the label's rectangle
+        :param width: The width of the label's rectangle
+        :param height: The height of the label's rectangle
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
@@ -78,7 +84,12 @@ class LabelText(Widget):
         self.indent_vertical = vert_indent
 
     def draw(self, text=""):
-        """ Draws the label """
+        """ Draws the label
+
+            :param text: default = "", set's the label's text
+
+            :return: Text that couldn't be fitted inside the label's rectangle
+        """
         if text == "":
             self.caption = self.caption.decode('utf-8')
         else:
@@ -120,35 +131,57 @@ class LabelText(Widget):
 
 class ButtonIcon(Widget):
     """ ButtonIcon class is a button that only displays an icon
+
+        :param tag_name: Text identifying the widget
+        :param screen_rect: The screen's rectangle where the button should be drawn
+        :param x: The horizontal position of the button
+        :param y: The vertical position of the button
+
+        :ivar caption: The button's caption
+        :ivar image_file: The button's icon image file name
     """
     def __init__(self, tag_name, screen_rect, image, x, y):
         self.image_file = image
-        self.icon = pygame.image.load(self.image_file)
-        Widget.__init__(self, tag_name, screen_rect, x, y, self.icon.get_width(), self.icon.get_height())
+        self.__icon = pygame.image.load(self.image_file)
+        Widget.__init__(self, tag_name, screen_rect, x, y, self.__icon.get_width(), self.__icon.get_height())
         self.caption = ""
 
     def draw(self):
         """ Draws the button """
-        rect = self.screen.blit(self.icon, (self.x_pos, self.y_pos))
+        rect = self.screen.blit(self.__icon, (self.x_pos, self.y_pos))
         pygame.display.update(rect)
 
     def set_image_file(self, file_name):
-        """ Sets the buttons icon """
+        """ Sets the buttons icon.
+
+            :param file_name: Points to the icon's file name.
+        """
         self.image_file = file_name
-        self.icon = pygame.image.load(self.image_file)
-        self.width = self.icon.get_width()
-        self.height = self.icon.get_height()
+        self.__icon = pygame.image.load(self.image_file)
+        self.width = self.__icon.get_width()
+        self.height = self.__icon.get_height()
         self.draw()
 
 
 class ButtonText(LabelText):
     """ ButtonText class is a button with text that uses two images for button rendering
+        :param tag_name: Text identifying the widget
+        :param screen_rect: The screen's rectangle where the button should be drawn
+        :param x: The horizontal position of the button
+        :param y: The vertical position of the button
+        :param width: The label's rectangle width
+        :param text: default "", The label's caption
+
+        :ivar transparent: Whether the label's background is transparent, default = False
+        :ivar font_color: The text font color
+        :ivar alignment_horizontal: The button's text horizontal alignment
+        :ivar alignment_vertical: The button's text vertical alignment
     """
     def __init__(self, tag_name, screen_rect, x, y, width, text=""):
         LabelText.__init__(self, tag_name, screen_rect, x, y, width, 32, text)
-        self.background_left = None
-        self.background_middle = None
-        self.background_right = None
+        self.__background_left = None
+        self.__background_middle = None
+        self.__background_right = None
         self.transparent = True
         self.font_color = BLACK
         self.alignment_vertical = VERT_MID
@@ -156,55 +189,84 @@ class ButtonText(LabelText):
         self.__initialize_background()
 
     def draw(self):
-        """ Draws the button on the screen """
+        """ Draws the button on the screen. """
         # Left
-        rect_left = self.screen.blit(self.background_left, (self.x_pos, self.y_pos))
+        rect_left = self.screen.blit(self.__background_left, (self.x_pos, self.y_pos))
         pygame.display.update(rect_left)
         # Middle
-        x = self.x_pos + self.background_left.get_width()
-        rect_middle = self.screen.blit(self.background_middle, (x, self.y_pos))
+        x = self.x_pos + self.__background_left.get_width()
+        rect_middle = self.screen.blit(self.__background_middle, (x, self.y_pos))
         pygame.display.update(rect_middle)
         # Right
-        x += self.background_middle.get_width()
-        rect_right = self.screen.blit(self.background_right, (x, self.y_pos))
+        x += self.__background_middle.get_width()
+        rect_right = self.screen.blit(self.__background_right, (x, self.y_pos))
         pygame.display.update(rect_right)
         # Text
         super(ButtonText,self).draw()
 
     def __initialize_background(self):
-        """ Sets up the button's background """
+        """ Sets up the button's background. """
         # Left side
         background_left_file = RESOURCES + "button_bg_left_32.png"
-        self.background_left = pygame.image.load(background_left_file).convert()
+        self.__background_left = pygame.image.load(background_left_file).convert()
         # Middle
         background_middle_file = RESOURCES + "button_bg_middle_32.png"
-        self.background_middle = pygame.image.load(background_middle_file).convert()
-        width = self.width - (2 * self.background_left.get_width())
-        self.background_middle = pygame.transform.scale(self.background_middle, (width, self.height))
+        self.__background_middle = pygame.image.load(background_middle_file).convert()
+        width = self.width - (2 * self.__background_left.get_width())
+        self.__background_middle = pygame.transform.scale(self.__background_middle, (width, self.height))
         # Right
-        self.background_right = pygame.transform.flip(self.background_left, True, False)
+        self.__background_right = pygame.transform.flip(self.__background_left, True, False)
 
 
 class ItemList(Widget):
-    """ List of text items that can be clicked
+    """ List of text items that can be clicked.
+        :param tag_name: Text identifying the list.
+        :param screen_rect: The screen's rectangle where the list is drawn on.
+        :param x: The horizontal starting position of the list's rectangle.
+        :param y: The vertical starting position of the list's rectangle.
+        :param width: The width of the list's rectangle.
+        :param height: The height of the list's rectangle.
+
+        :ivar list: List containing items for ItemList.
+        :ivar outline_visible: Indicates whether the outline of the list is visible, default = True
+
+        :ivar item_height: The height of one list item, default = 25.
+        :ivar item_indent: The indent for the text of a list item, default = 2.
+        :ivar item_alignment_horizontal: Horizontal alignment of an item's text, default = HOR_LEFT
+        :ivar item_alignment_vertical: Vertical alignment of an item's text, default = VERT_MID
+        :ivar item_outline_visible: Boolean for displaying the rectangle of an item, default = False.
+
+        :ivar active_item_index: The index of the currently active list item. It differs from selected in that it is set by the program and not by the user, default = -1.
+        :ivar item_active_color: The active list item for color, default = BLUE.
+        :ivar item_active_background_color: The active list item background color, default = WHITE.
+        :ivar item_selected: The index of the selected list item, default = -1.
+        :ivar item_selected_color: The font color of a selected item, default = BLUE
+        :ivar item_selected_background_color: The selected list item background color, default = WHITE.
+
+
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
-        self.item_height = 25  # Height of an item
-        self.item_indent = 2  # The default indent for the text of an item
-        self.active_item_index = -1  # The active item index
-        self.item_active_color = BLUE  # The font color of an active item
-        self.item_active_background_color = WHITE  # The background color of an active item
-        self.item_selected = -1  # The index of a selected item
-        self.item_selected_color = BLUE  # The font color of a selected item
-        self.item_selected_background_color = WHITE  # The background color of a selected item
-        self.item_outline_visible = False  # Boolean for displaying the rectange of an item
-        self.list = []  # List containing items for ItemList
-        self.items_max = (self.height - 2 * self.item_indent)/self.item_height  # Maximum number
+        self.list = []
+        self.outline_visible = True
+
+        self.item_height = 25
+        self.item_indent = 2
+        self.item_alignment_horizontal = HOR_LEFT
+        self.item_alignment_vertical = VERT_MID
+        self.item_outline_visible = False
+
+        self.active_item_index = -1
+        self.item_active_color = BLUE
+        self.item_active_background_color = WHITE
+
+        self.item_selected = -1
+        self.item_selected_color = BLUE
+        self.item_selected_background_color = WHITE
+
+        self.__items_max = (self.height - 2 * self.item_indent) / self.item_height  # Maximum number
         self.items_start = 0  # Index of self.lift that is the first item displayed in the ItemList
-        self.outline_visible = True  # Indicates whether the outline of an item is visible
-        self.item_alignment_horizontal = HOR_LEFT  # Horizonal alignment of an item's text
-        self.item_alignment_vertical = VERT_MID  # Vertical alignment of an item's text
+
 
     def set_item_alignment(self, horizontal, vertical):
         """ Sets the alignment of the text of an item within the item's rectangle """
@@ -222,7 +284,7 @@ class ItemList(Widget):
             return
         # Populate the ItemList with items
         item_nr = 0
-        while item_nr + self.items_start < len(self.list) and item_nr < self.items_max:
+        while item_nr + self.items_start < len(self.list) and item_nr < self.__items_max:
             item_text = self.list[item_nr + self.items_start]                           # Get item text from list
             item_x_pos = self.x_pos + self.item_indent                                  # x position of item
             item_width = self.width - 2 * self.item_indent                              # Maximum item width
@@ -237,7 +299,13 @@ class ItemList(Widget):
             item_nr += 1
 
     def clicked_item(self, x_pos, y_pos):
-        """ Determines which item, if any, was clicked """
+        """ Determines which item, if any, was clicked
+
+            :param x_pos: The click's horizontal position
+            :param y_pos: The click's vertical position
+
+            :return: The index of the selected list item
+        """
         x_pos = x_pos - self.x_pos
         y_pos = y_pos - self.y_pos
         if x_pos < 0 or x_pos > self.width or y_pos < 0:  # Check whether the click was outside the control
@@ -262,19 +330,19 @@ class ItemList(Widget):
 
     def show_next_items(self):
         """ Shows next page of items """
-        if self.items_start + self.items_max < len(self.list):
-            self.items_start += self.items_max
+        if self.items_start + self.__items_max < len(self.list):
+            self.items_start += self.__items_max
             self.draw()
 
     def show_prev_items(self):
         """ Shows previous page of items """
-        if self.items_start - self.items_max >= 0:
-            self.items_start -= self.items_max
+        if self.items_start - self.__items_max >= 0:
+            self.items_start -= self.__items_max
             self.draw()
 
 
 class Screen(object):
-    """ Basic screen used for displaying widgets
+    """ Basic screen used for displaying widgets.
     """
     def __init__(self, screen_rect):
         self.screen = screen_rect
@@ -316,7 +384,7 @@ class Screen(object):
 
 
 class ScreenModal(Screen):
-    """ Screen with its own event capture loop
+    """ Screen with its own event capture loop.
     """
     def __init__(self, screen_rect, title):
         Screen.__init__(self, screen_rect)
