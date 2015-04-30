@@ -1,7 +1,7 @@
 Auto Generated Documentation
 ============================
 
-.. warning:: Check the module settings for the value of the variable __production
+.. warning:: Check the module settings.py for the value of the variable __run_on_raspberry_pi
 
 .. automodule:: settings
    :members: 

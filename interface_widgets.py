@@ -21,14 +21,14 @@ VERT_BOTTOM = 2
 
 
 class Widget(object):
-    """ Widget is the base class of screen widgets and should not be instantiated by itself
+    """ Widget is the base class of screen widgets and should not be instantiated by itself.
 
-        :param tag_name: Text identifying the widget
-        :param screen_rect: The screen's rectangle where the widget is drawn on
-        :param x: The horizontal starting position of the widget's rectangle
-        :param y: The vertical starting position of the widget's rectangle
-        :param width: The width of the widget's rectangle
-        :param height: The height of the widget's rectangle
+        :param tag_name: Text identifying the widget.
+        :param screen_rect: The screen's rectangle where the widget is drawn on.
+        :param x: The horizontal starting position of the widget's rectangle.
+        :param y: The vertical starting position of the widget's rectangle.
+        :param width: The width of the widget's rectangle.
+        :param height: The height of the widget's rectangle.
 
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
@@ -56,14 +56,14 @@ class Widget(object):
 
 
 class LabelText(Widget):
-    """ LabelText is used to write text that needs to fit in a pre-defined rectangle
+    """ LabelText is used to write text that needs to fit in a pre-defined rectangle.
 
-        :param tag_name: Text identifying the label
-        :param screen_rect: The screen's rectangle where the label is drawn on
-        :param x: The horizontal starting position of the label's rectangle
-        :param y: The vertical starting position of the label's rectangle
-        :param width: The width of the label's rectangle
-        :param height: The height of the label's rectangle
+        :param tag_name: Text identifying the label.
+        :param screen_rect: The screen's rectangle where the label is drawn on.
+        :param x: The horizontal starting position of the label's rectangle.
+        :param y: The vertical starting position of the label's rectangle.
+        :param width: The width of the label's rectangle.
+        :param height: The height of the label's rectangle.
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
@@ -77,18 +77,18 @@ class LabelText(Widget):
         self.transparent = False
 
     def set_alignment(self, horizontal, vertical, hor_indent=0, vert_indent=0):
-        """ Sets the label's alignment within the defined rectange """
+        """ Sets the label's alignment within the defined rectangle, """
         self.alignment_horizontal = horizontal
         self.alignment_vertical = vertical
         self.indent_horizontal = hor_indent
         self.indent_vertical = vert_indent
 
     def draw(self, text=""):
-        """ Draws the label
+        """ Draws the label.
 
-            :param text: default = "", set's the label's text
+            :param text: default = "", set's the label's text,
 
-            :return: Text that couldn't be fitted inside the label's rectangle
+            :return: Text that couldn't be fitted inside the label's rectangle,
         """
         if text == "":
             self.caption = self.caption.decode('utf-8')
@@ -130,15 +130,15 @@ class LabelText(Widget):
 
 
 class ButtonIcon(Widget):
-    """ ButtonIcon class is a button that only displays an icon
+    """ ButtonIcon class is a button that only displays an icon.
 
-        :param tag_name: Text identifying the widget
-        :param screen_rect: The screen's rectangle where the button should be drawn
-        :param x: The horizontal position of the button
-        :param y: The vertical position of the button
+        :param tag_name: Text identifying the widget,
+        :param screen_rect: The screen's rectangle where the button should be drawn,
+        :param x: The horizontal position of the button,
+        :param y: The vertical position of the button,
 
-        :ivar caption: The button's caption
-        :ivar image_file: The button's icon image file name
+        :ivar caption: The button's caption,
+        :ivar image_file: The button's icon image file name,
     """
     def __init__(self, tag_name, screen_rect, image, x, y):
         self.image_file = image
@@ -164,18 +164,19 @@ class ButtonIcon(Widget):
 
 
 class ButtonText(LabelText):
-    """ ButtonText class is a button with text that uses two images for button rendering
-        :param tag_name: Text identifying the widget
-        :param screen_rect: The screen's rectangle where the button should be drawn
-        :param x: The horizontal position of the button
-        :param y: The vertical position of the button
-        :param width: The label's rectangle width
-        :param text: default "", The label's caption
+    """ ButtonText class is a button with text that uses two images for button rendering.
 
-        :ivar transparent: Whether the label's background is transparent, default = False
-        :ivar font_color: The text font color
-        :ivar alignment_horizontal: The button's text horizontal alignment
-        :ivar alignment_vertical: The button's text vertical alignment
+        :param tag_name: Text identifying the widget,
+        :param screen_rect: The screen's rectangle where the button should be drawn,
+        :param x: The horizontal position of the button,
+        :param y: The vertical position of the button,
+        :param width: The label's rectangle width,
+        :param text: default "", The label's caption,
+
+        :ivar transparent: Whether the label's background is transparent, default = False,
+        :ivar font_color: The text font color,
+        :ivar alignment_horizontal: The button's text horizontal alignment, default = HOR_MID.
+        :ivar alignment_vertical: The button's text vertical alignment, default = VERT_MID,
     """
     def __init__(self, tag_name, screen_rect, x, y, width, text=""):
         LabelText.__init__(self, tag_name, screen_rect, x, y, width, 32, text)
@@ -220,6 +221,7 @@ class ButtonText(LabelText):
 
 class ItemList(Widget):
     """ List of text items that can be clicked.
+
         :param tag_name: Text identifying the list.
         :param screen_rect: The screen's rectangle where the list is drawn on.
         :param x: The horizontal starting position of the list's rectangle.
@@ -228,19 +230,19 @@ class ItemList(Widget):
         :param height: The height of the list's rectangle.
 
         :ivar list: List containing items for ItemList.
-        :ivar outline_visible: Indicates whether the outline of the list is visible, default = True
+        :ivar outline_visible: Indicates whether the outline of the list is visible, default = True.
 
         :ivar item_height: The height of one list item, default = 25.
         :ivar item_indent: The indent for the text of a list item, default = 2.
-        :ivar item_alignment_horizontal: Horizontal alignment of an item's text, default = HOR_LEFT
-        :ivar item_alignment_vertical: Vertical alignment of an item's text, default = VERT_MID
+        :ivar item_alignment_horizontal: Horizontal alignment of an item's text, default = HOR_LEFT.
+        :ivar item_alignment_vertical: Vertical alignment of an item's text, default = VERT_MID.
         :ivar item_outline_visible: Boolean for displaying the rectangle of an item, default = False.
 
         :ivar active_item_index: The index of the currently active list item. It differs from selected in that it is set by the program and not by the user, default = -1.
         :ivar item_active_color: The active list item for color, default = BLUE.
         :ivar item_active_background_color: The active list item background color, default = WHITE.
         :ivar item_selected: The index of the selected list item, default = -1.
-        :ivar item_selected_color: The font color of a selected item, default = BLUE
+        :ivar item_selected_color: The font color of a selected item, default = BLUE.
         :ivar item_selected_background_color: The selected list item background color, default = WHITE.
 
 
