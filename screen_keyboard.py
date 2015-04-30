@@ -17,7 +17,11 @@ ICO_LETTERS = RESOURCES + "letters_48x32.png"
 ICO_SYMBOLS = RESOURCES + "symbols_48x32.png"
 
 class KeyboardBase(ScreenModal):
-    """ The base class
+    """ The base class.
+
+        :param screen_rect: The display's rectangle where the keyboard is drawn on.
+        :param caption: The title displayed at the top of the screen.
+        :param text: The text that will be edited with the keyboard, default = ""
     """
     def __init__(self, screen_rect, caption, text=""):
         ScreenModal.__init__(self, screen_rect, caption)
@@ -166,7 +170,11 @@ class KeyboardSymbols(KeyboardBase):
 
 class Keyboard():
     """ Called keyboard class that displays a text edit field with a
-        letter or symbol keyboard
+        letter or symbol keyboard.
+
+        :param screen_rect: The display's rectangle where the keyboard is drawn on.
+        :param caption: The title displayed at the top of the screen.
+        :param text: The text that will be edited with the keyboard, default = ""
     """
     def __init__(self, screen_rect, caption, text=""):
         self.text = text
@@ -176,7 +184,11 @@ class Keyboard():
         self.keyboard_symbols = KeyboardSymbols(screen_rect, caption, text)
 
     def show(self):
-        """ Loops until enter, cancel or escape on the keyboard is pressed """
+        """ Loops until enter, cancel or escape on the keyboard is pressed.
+
+            :return: The text as it was edited when return was pressed, or the
+            original text in case of a cancellation.
+        """
         value = ""
         while value != "enter" and value != "cancel":
             # Switch between the different keyboards (letter or number/symbol)

@@ -1,9 +1,5 @@
 """
 screen_settings.py: Settings screen
-
-Class:
-* ScreenSettings    - Screen for settings or quitting/shutting down.
-
 """
 __author__ = 'Mark Zwart'
 
@@ -21,6 +17,8 @@ from screen_wifi import *
 
 class ScreenSettings(ScreenModal):
     """ Screen for settings or quitting/shutting down
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
     """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Settings")
