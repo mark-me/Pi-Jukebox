@@ -95,7 +95,7 @@ class ScreenLibrary(Screen):
         Screen.__init__(self, screen_rect)
         self.add_component(ButtonIcon("btn_home", self.screen, ICO_PLAYER, 3, 5))
         self.add_component(ButtonIcon("btn_library", self.screen, ICO_LIBRARY_ACTIVE, 3, 45))
-        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, screen_height - 37))
+        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
 
         self.add_component(ButtonIcon("btn_artists", self.screen, ICO_SEARCH_ARTIST, 55, 5))
         self.add_component(ButtonIcon("btn_albums", self.screen, ICO_SEARCH_ALBUM, 107, 5))
@@ -164,7 +164,7 @@ class ScreenLibrary(Screen):
     def playlist_action(self):
         """ Displays screen for follow-up actions when an item was selected from the library. """
         selected = self.components["list_library"].item_selected_get()
-        select_screen = ScreenSelected(screen, self.currently_showing, selected)
+        select_screen = ScreenSelected(self.screen, self.currently_showing, selected)
         select_screen.show()
         if isinstance(select_screen.return_object, list):
             self.components["list_library"].list = select_screen.return_object

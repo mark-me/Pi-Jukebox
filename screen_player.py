@@ -51,20 +51,20 @@ class ScreenPlayer(Screen):
         # Screen navigation buttons
         self.add_component(ButtonIcon("btn_home", self.screen, ICO_PLAYER_ACTIVE, 3, 5))
         self.add_component(ButtonIcon("btn_library", self.screen, ICO_LIBRARY, 3, 45))
-        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, screen_height - 37))
+        self.add_component(ButtonIcon("btn_settings", self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
 
         # Player specific buttons
-        self.add_component(ButtonIcon("btn_play", self.screen, ICO_PLAY, screen_width - 52, 42))
-        self.add_component(ButtonIcon("btn_prev", self.screen, ICO_PREVIOUS, screen_width - 52, 82))
-        self.add_component(ButtonIcon("btn_next", self.screen, ICO_NEXT, screen_width - 52, 122))
-        self.add_component(ButtonIcon("btn_volume_up", self.screen, ICO_VOLUME_UP, screen_width - 52, 164))
-        self.add_component(ButtonIcon("btn_volume_down", self.screen, ICO_VOLUME_DOWN, screen_width - 52, 204))
+        self.add_component(ButtonIcon("btn_play", self.screen, ICO_PLAY, SCREEN_WIDTH - 52, 42))
+        self.add_component(ButtonIcon("btn_prev", self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 52, 82))
+        self.add_component(ButtonIcon("btn_next", self.screen, ICO_NEXT, SCREEN_WIDTH - 52, 122))
+        self.add_component(ButtonIcon("btn_volume_up", self.screen, ICO_VOLUME_UP, SCREEN_WIDTH - 52, 164))
+        self.add_component(ButtonIcon("btn_volume_down", self.screen, ICO_VOLUME_DOWN, SCREEN_WIDTH - 52, 204))
 
         # Player specific labels
-        self.add_component(LabelText("lbl_track_title", self.screen, 55, 5, screen_width - 130, 18))
+        self.add_component(LabelText("lbl_track_title", self.screen, 55, 5, SCREEN_WIDTH - 130, 18))
         self.add_component(LabelText("lbl_track_artist", self.screen, 55, 23, 213, 18))
-        self.add_component(LabelText("lbl_time", self.screen, screen_width - 75, 5, 75, 18))
-        self.add_component(LabelText("lbl_volume", self.screen, screen_width - 70, 23, 70, 18))
+        self.add_component(LabelText("lbl_time", self.screen, SCREEN_WIDTH - 75, 5, 75, 18))
+        self.add_component(LabelText("lbl_volume", self.screen, SCREEN_WIDTH - 70, 23, 70, 18))
 
         # Playlist
         self.add_component(Playlist(self.screen))

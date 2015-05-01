@@ -37,10 +37,6 @@ class MPDController(object):
         self.updating_library = False
 
         self.__playlist_current_playing_index = 0
-#        self.list_albums = []
-#        self.list_artists = []
-#        self.list_songs = []
-#        self.list_query_results = []
         self.__last_update_time = 0   # For checking last update time (milliseconds)
         self.__status = []            # mpc's current status output
         self.__status_previous = []   # mpc's previous status output

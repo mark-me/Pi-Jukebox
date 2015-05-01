@@ -24,14 +24,14 @@ class PiJukeboxScreens(Screens):
         updates on screen(s)
     """
     def __init__(self):
-        Screens.__init()
+        Screens.__init__(self)
         self.screen_list.append(ScreenPlayer(SCREEN))  # Create player (home) screen
         self.screen_list.append(ScreenLibrary(SCREEN))  # Create library browsing screen
 
     def mpd_updates(self):
         """ Updates a current screen if it shows mpd relevant content. """
-        if isinstance(self.screen_list[self.screen_list_current], ScreenPlayer):
-            self.screen_list[self.screen_list_current].update()
+        if isinstance(self.screen_list[self.current_index], ScreenPlayer):
+            self.screen_list[self.current_index].update()
 
 
 def main():

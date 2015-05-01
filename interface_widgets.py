@@ -423,8 +423,8 @@ class ScreenModal(Screen):
         self.title = title
         self.window_x = 0
         self.window_y = 0
-        self.window_width = screen_width
-        self.window_height = screen_height
+        self.window_width = SCREEN_WIDTH
+        self.window_height = SCREEN_HEIGHT
         self.return_object = None
         self.close_screen = False
         self.window_color = FIFTIES_ORANGE
@@ -452,10 +452,10 @@ class ScreenModal(Screen):
         """ Draws window border and title """
         # Drawing window
         window_rect = Rect(self.window_x, self.window_y, self.window_width, self.window_height)
-        pygame.draw.rect(screen, BLACK, window_rect)
+        pygame.draw.rect(self.screen, BLACK, window_rect)
         # Window title bar
         title_rect = Rect(self.window_x, self.window_y, self.window_width, 20)
-        pygame.draw.rect(screen, self.window_color, title_rect)
+        pygame.draw.rect(self.screen, self.window_color, title_rect)
         font_height = FONT.size("Tg")[1]
         font_width = FONT.size(self.title)[0]
         image = FONT.render(self.title, True, BLACK)

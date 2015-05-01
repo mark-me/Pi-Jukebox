@@ -46,7 +46,10 @@ class KeyboardBase(ScreenModal):
             x += button_width
 
     def set_text(self, text):
-        """ Sets the edit box's text """
+        """ Sets the edit box's text.
+
+            :param text: Text that needs to be edited using the keyboard
+        """
         self.text = text
         self.components["lbl_edit_box"].caption = text
 
@@ -90,7 +93,6 @@ class KeyboardLetters(KeyboardBase):
                 value.caption = new_letter
         self.shift_state = not self.shift_state
         self.show()
-
 
     def on_click(self, x, y):
         tag_name = super(KeyboardLetters, self).on_click(x, y)
@@ -177,7 +179,7 @@ class Keyboard():
 
         :param screen_rect: The display's rectangle where the keyboard is drawn on.
         :param caption: The title displayed at the top of the screen.
-        :param text: The text that will be edited with the keyboard, default = ""
+        :param text: The text that will be edited with the keyboard, default = "".
     """
     def __init__(self, screen_rect, caption, text=""):
         self.text = text
@@ -189,8 +191,7 @@ class Keyboard():
     def show(self):
         """ Loops until enter, cancel or escape on the keyboard is pressed.
 
-            :return: The text as it was edited when return was pressed, or the
-            original text in case of a cancellation.
+            :return: The text as it was edited when return was pressed, or the original text in case of a cancellation.
         """
         value = ""
         while value != "enter" and value != "cancel":
