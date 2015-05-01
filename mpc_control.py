@@ -410,7 +410,7 @@ class MPD(object):
     def playlist_add_song(self, song_name, play=False, clear_playlist=False):
         """ Adds a song to the current playlist
 
-        :param album_name: The song's name
+        :param song_name: The song's name
         :param play: Boolean indicating whether you want to start playing what was just added.
         :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
         """
@@ -419,7 +419,7 @@ class MPD(object):
     def playlist_add_playlist(self, playlist_name, play=False, clear_playlist=False):
         """ Adds a playlist to the current playlist
 
-        :param album_name: The playlist's name
+        :param playlist_name: The playlist's name
         :param play: Boolean indicating whether you want to start playing what was just added.
         :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
         """
