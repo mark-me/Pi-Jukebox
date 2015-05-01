@@ -32,12 +32,12 @@ class Playlist(ItemList):
     def show_playlist(self):
         """ Display the playlist. """
         updated = False
-        playing_nr = mpd_controller.get_playlist_current_playing_index()
-        if self.list != mpd_controller.get_playlist_current():
-            self.list = mpd_controller.get_playlist_current()
+        playing_nr = mpd.mpd_control.get_playlist_current_playing_index()
+        if self.list != mpd.mpd_control.get_playlist_current():
+            self.list = mpd.mpd_control.get_playlist_current()
             updated = True
-        if self.item_selected != mpd_controller.get_playlist_current_playing_index():
-            self.item_selected = mpd_controller.get_playlist_current_playing_index()
+        if self.item_selected != mpd.mpd_control.get_playlist_current_playing_index():
+            self.item_selected = mpd.mpd_control.get_playlist_current_playing_index()
             updated = True
         if updated:
             self.draw()
@@ -68,7 +68,7 @@ class ScreenPlayer(Screen):
 
         # Playlist
         self.add_component(Playlist(self.screen))
-        self.components["list_playing"].active_item_index = mpd_controller.get_playlist_current_playing_index()
+        self.components["list_playing"].active_item_index = mpd.mpd_control.get_playlist_current_playing_index()
 
     def show(self):
         """ Displays the screen. """
@@ -77,18 +77,18 @@ class ScreenPlayer(Screen):
 
     def update(self):
         """ Update controls that depend on mpd's status """
-        self.components["list_playing"].active_item_index = mpd_controller.get_playlist_current_playing_index()
+        self.components["list_playing"].active_item_index = mpd.mpd_control.get_playlist_current_playing_index()
         self.components["list_playing"].show_playlist()
-        if self.components["lbl_track_title"].caption != mpd_controller.track_name:
-            self.components["lbl_track_title"].draw(mpd_controller.track_name)
-        if self.components["lbl_track_artist"].caption != mpd_controller.track_artist:
-            self.components["lbl_track_artist"].draw(mpd_controller.track_artist)
-        self.components["lbl_time"].draw(mpd_controller.time_current + "/" + mpd_controller.time_total)
-        self.components["lbl_volume"].draw("Vol: " + str(mpd_controller.volume) + "%")
-        if self.components["btn_play"].image_file != ICO_PAUSE and mpd_controller.player_control == "playing":
+        if self.components["lbl_track_title"].caption != mpd.mpd_control.track_name:
+            self.components["lbl_track_title"].draw(mpd.mpd_control.track_name)
+        if self.components["lbl_track_artist"].caption != mpd.mpd_control.track_artist:
+            self.components["lbl_track_artist"].draw(mpd.mpd_control.track_artist)
+        self.components["lbl_time"].draw(mpd.mpd_control.time_current + "/" + mpd.mpd_control.time_total)
+        self.components["lbl_volume"].draw("Vol: " + str(mpd.mpd_control.volume) + "%")
+        if self.components["btn_play"].image_file != ICO_PAUSE and mpd.mpd_control.player_control == "playing":
             self.components["btn_play"].set_image_file(ICO_PAUSE)
             self.components["btn_play"].draw()
-        elif self.components["btn_play"].image_file == ICO_PAUSE and mpd_controller.player_control != "playing":
+        elif self.components["btn_play"].image_file == ICO_PAUSE and mpd.mpd_control.player_control != "playing":
             self.components["btn_play"].set_image_file(ICO_PLAY)
             self.components["btn_play"].draw()
 
@@ -109,17 +109,17 @@ class ScreenPlayer(Screen):
             setting_screen.show()
             self.show()
         elif tag_name == "btn_play":
-            if mpd_controller.player_control_get() == "playing":
-                mpd_controller.player_control_set("pause")
+            if mpd.mpd_control.player_control_get() == "playing":
+                mpd.mpd_control.player_control_set("pause")
             else:
-                mpd_controller.player_control_set("play")
+                mpd.mpd_control.player_control_set("play")
         elif tag_name == "btn_prev":
-            mpd_controller.player_control_set("previous")
+            mpd.mpd_control.player_control_set("previous")
         elif tag_name == "btn_next":
-            mpd_controller.player_control_set("next")
+            mpd.mpd_control.player_control_set("next")
         elif tag_name == "btn_volume_up":
-            mpd_controller.volume_set_relative(10)
+            mpd.mpd_control.volume_set_relative(10)
         elif tag_name == "btn_volume_down":
-            mpd_controller.volume_set_relative(-10)
+            mpd.mpd_control.volume_set_relative(-10)
         elif tag_name == "list_playing":
-            mpd_controller.play_playlist_item(self.components["list_playing"].item_selected+1)
+            mpd.mpd_control.play_playlist_item(self.components["list_playing"].item_selected + 1)

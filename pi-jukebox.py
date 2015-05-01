@@ -38,18 +38,18 @@ def main():
     """ The function where it all starts...."""
     pygame.display.set_caption("Pi Jukebox")
     # Check whether mpd is running and get it's status
-    if not mpd_controller.is_mpd_running():
+    if not mpd.is_mpd_running():
         print("mpd is not running... Start the mpd daemon service with 'sudo service mpd start'.")
         sys.exit()
 
+    mpd.mpd_control.status_get()  # Get mpd status
     screens = PiJukeboxScreens()  # Screens
-    mpd_controller.status_get()  # Get mpd status
     screens.show()  # Display the screen
 
     while 1:
 
         # Check whether mpd's status changed
-        if mpd_controller.status_get():
+        if mpd.mpd_control.status_get():
             screens.mpd_updates()  # If so update relevant screens
 
         for event in pygame.event.get():  # Do for all events in pygame's event queue

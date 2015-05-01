@@ -38,8 +38,8 @@ class LibraryBrowser(ItemList):
             :param only_start: Boolean indicating whether the search string only matches the first letters, default = True
         """
         updated = False
-        if self.list != mpd_library.artists_get(search, only_start):
-            self.list = mpd_library.artists_get(search, only_start)
+        if self.list != mpd.artists_get(search, only_start):
+            self.list = mpd.artists_get(search, only_start)
             updated = True
         if updated:
             self.draw()
@@ -51,8 +51,8 @@ class LibraryBrowser(ItemList):
             :param only_start: Boolean indicating whether the search string only matches the first letters, default = True
         """
         updated = False
-        if self.list != mpd_library.albums_get(search, only_start):
-            self.list = mpd_library.albums_get(search, only_start)
+        if self.list != mpd.albums_get(search, only_start):
+            self.list = mpd.albums_get(search, only_start)
             updated = True
         if updated: self.draw()
 
@@ -63,8 +63,8 @@ class LibraryBrowser(ItemList):
             :param only_start: Boolean indicating whether the search string only matches the first letters, default = True
         """
         updated = False
-        if self.list != mpd_library.songs_get(search, only_start):
-            self.list = mpd_library.songs_get(search, only_start)
+        if self.list != mpd.songs_get(search, only_start):
+            self.list = mpd.songs_get(search, only_start)
             updated = True
         if updated: self.draw()
 
@@ -300,22 +300,22 @@ class ScreenSelected(ScreenModal):
             clear_playlist = True
         if tag_name == "btn_add" or tag_name == "btn_add_play" or tag_name == "btn_replace":
             if self.type == "artists":
-                mpd_library.playlist_add_artist(self.selected, play, clear_playlist)
+                mpd.playlist_add_artist(self.selected, play, clear_playlist)
             elif self.type == "albums":
-                mpd_library.playlist_add_album(self.selected, play, clear_playlist)
+                mpd.playlist_add_album(self.selected, play, clear_playlist)
             elif self.type == "songs":
-                mpd_library.playlist_add_song(self.selected, play, clear_playlist)
+                mpd.playlist_add_song(self.selected, play, clear_playlist)
             self.return_object = None
         elif tag_name == "btn_artist_get_albums":
-            self.return_object = mpd_library.artist_albums_get(self.selected)
+            self.return_object = mpd.artist_albums_get(self.selected)
             self.return_type = "albums"
             self.close()
         elif tag_name == "btn_artist_get_songs":
-            self.return_object = mpd_library.artist_songs_get(self.selected)
+            self.return_object = mpd.artist_songs_get(self.selected)
             self.return_type = "songs"
             self.close()
         elif tag_name == "btn_album_get_songs":
-            self.return_object = mpd_library.album_songs_get(self.selected)
+            self.return_object = mpd.album_songs_get(self.selected)
             self.return_type = "songs"
             self.close()
         self.close()

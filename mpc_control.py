@@ -93,14 +93,6 @@ class MPDController(object):
         self.__parse_mpc_status()   # Parse mpc status output
         return True
 
-    # Checks whether MPD deamon is running
-    def is_mpd_running(self):
-        try:
-            result_string = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return False
-        return True
-
     # Control playback
     def player_control_set(self, play_status=None):
         if play_status is None:
@@ -181,14 +173,26 @@ class MPDController(object):
             return False
 
 
-class MPDLibrary(object):
+class MPD(object):
     """ Browsing mpd library and adding to playlist
     """
     def __init__(self):
+        self.mpd_control = MPDController()
         self.list_albums = []
         self.list_artists = []
         self.list_songs = []
         self.list_query_results = []
+
+    def is_mpd_running(self):
+        """ Checks whether MPD daemon is running.
+
+        :return Boolean for mpd running
+        """
+        try:
+            result_string = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError, e:
+            return False
+        return True
 
     def update_library(self):
         subprocess.call("mpc update")
@@ -275,11 +279,11 @@ class MPDLibrary(object):
 
     def playlist_add(self, tag_type, tag_name, play=False, clear_playlist=False):
         if clear_playlist:
-            self.playlist_current_clear()
-        i = self.playlist_current_count()
+            mpd.mpd_control.playlist_current_clear()
+        i = mpd.mpd_control.playlist_current_count()
         subprocess.call("mpc findadd " + tag_type + " \"" + tag_name + "\"", shell=True)
         if play:
-            self.play_playlist_item(i)
+            mpd.mpd_control.play_playlist_item(i)
 
     def playlist_add_artist(self, artist_name, play=False, clear_playlist=False):
         self.playlist_add("artist", artist_name, play, clear_playlist)
@@ -297,5 +301,4 @@ class MPDLibrary(object):
                 self.list_songs = self.songs_get()
 """
 
-mpd_controller = MPDController()  # Setting up mpc status monitoring
-mpd_library = MPDLibrary()
+mpd = MPD()
