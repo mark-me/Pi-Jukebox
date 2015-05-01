@@ -68,6 +68,17 @@ class LibraryBrowser(ItemList):
             updated = True
         if updated: self.draw()
 
+    def show_playlists(self, first_letter=None):
+        """ Displays all playlists or based on the first letter.
+
+            :param first_letter: Search string, default = None
+        """
+        updated = False
+        if self.list != mpd.playlists_get(first_letter):
+            self.list = mpd.playlists_get(first_letter)
+            updated = True
+        if updated: self.draw()
+
 
 class LetterBrowser(ItemList):
     """ The graphical control for selecting artists/albums/songs starting with a letter.
@@ -100,7 +111,8 @@ class ScreenLibrary(Screen):
         self.add_component(ButtonIcon("btn_artists", self.screen, ICO_SEARCH_ARTIST, 55, 5))
         self.add_component(ButtonIcon("btn_albums", self.screen, ICO_SEARCH_ALBUM, 107, 5))
         self.add_component(ButtonIcon("btn_songs", self.screen, ICO_SEARCH_SONG, 159, 5))
-        self.add_component(ButtonIcon("btn_search", self.screen, ICO_SEARCH, 211, 5))
+        self.add_component(ButtonIcon("btn_playlists", self.screen, ICO_PLAYLISTS, 211, 5))
+        self.add_component(ButtonIcon("btn_search", self.screen, ICO_SEARCH, 263, 5))
 
         self.add_component(LibraryBrowser(self.screen))
         self.add_component(LetterBrowser(self.screen))
@@ -112,24 +124,29 @@ class ScreenLibrary(Screen):
     def set_currently_showing(self, type_showing):
         """ Switch icons to active dependent on which kind of searching is active.
 
-            :param type_showing: The type of search results showing [artists, albums, songs]
+            :param type_showing: The type of search results showing [artists, albums, songs, playlists]
         """
         self.currently_showing = type_showing
         if type_showing == "artists":
             self.components["btn_artists"].set_image_file(ICO_SEARCH_ARTIST_ACTIVE)
             self.components["btn_albums"].set_image_file(ICO_SEARCH_ALBUM)
             self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG)
-            self.components["btn_search"].set_image_file(ICO_SEARCH)
+            self.components["btn_playlists"].set_image_file(ICO_PLAYLISTS)
         elif type_showing == "albums":
             self.components["btn_artists"].set_image_file(ICO_SEARCH_ARTIST)
             self.components["btn_albums"].set_image_file(ICO_SEARCH_ALBUM_ACTIVE)
             self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG)
-            self.components["btn_search"].set_image_file(ICO_SEARCH)
+            self.components["btn_playlists"].set_image_file(ICO_PLAYLISTS)
         elif type_showing == "songs":
             self.components["btn_artists"].set_image_file(ICO_SEARCH_ARTIST)
             self.components["btn_albums"].set_image_file(ICO_SEARCH_ALBUM)
             self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG_ACTIVE)
-            self.components["btn_search"].set_image_file(ICO_SEARCH)
+            self.components["btn_playlists"].set_image_file(ICO_PLAYLISTS)
+        elif type_showing == "playlists":
+            self.components["btn_artists"].set_image_file(ICO_SEARCH_ARTIST)
+            self.components["btn_albums"].set_image_file(ICO_SEARCH_ALBUM)
+            self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG)
+            self.components["btn_playlists"].set_image_file(ICO_PLAYLISTS_ACTIVE)
 
     def find_first_letter(self):
         """ Adjust current search type according to the letter clicked in the letter list """
@@ -140,6 +157,8 @@ class ScreenLibrary(Screen):
             self.components["list_library"].show_albums(letter)
         elif self.currently_showing == "songs":
             self.components["list_library"].show_songs(letter)
+        elif self.currently_showing == "playlists":
+            self.components["list_library"].show_playlists(letter)
 
     def find_text(self):
         """ Find results according to part of the text.
@@ -192,6 +211,9 @@ class ScreenLibrary(Screen):
         elif tag_name == "btn_songs":
             self.set_currently_showing("songs")
             self.components["list_library"].show_songs()
+        elif tag_name == "btn_playlists":
+            self.set_currently_showing("playlists")
+            self.components["list_library"].show_playlists()
         elif tag_name == "btn_search":
             self.find_text()
         elif tag_name == "list_letters":
@@ -305,6 +327,8 @@ class ScreenSelected(ScreenModal):
                 mpd.playlist_add_album(self.selected, play, clear_playlist)
             elif self.type == "songs":
                 mpd.playlist_add_song(self.selected, play, clear_playlist)
+            elif self.type == "playlists":
+                mpd.playlist_add_playlist(self.selected, play, clear_playlist)
             self.return_object = None
         elif tag_name == "btn_artist_get_albums":
             self.return_object = mpd.artist_albums_get(self.selected)

@@ -161,6 +161,7 @@ class MPDController(object):
 
     def playlist_current_clear(self):
         subprocess.call("mpc clear", shell=True)
+        self.playlist_current = []
 
     def playlist_current_crop(self):
         subprocess.call("mpc crop", shell=True)
@@ -277,6 +278,17 @@ class MPD(object):
     def album_songs_get(self, album_name):
         return self.__search_of_type("title", "album", album_name)
 
+    def playlists_get(self, first_letter=None):
+        try:
+            if first_letter is None:
+                result_string = subprocess.check_output("mpc lsplaylists", shell=True, stderr=subprocess.STDOUT)
+            else:
+                result_string = subprocess.check_output("mpc lsplaylists | grep ^" + first_letter, shell=True,
+                                                        stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError, e:
+            return []
+        return self.__format_results(result_string)
+
     def playlist_add(self, tag_type, tag_name, play=False, clear_playlist=False):
         if clear_playlist:
             mpd.mpd_control.playlist_current_clear()
@@ -293,6 +305,15 @@ class MPD(object):
 
     def playlist_add_song(self, song_name, play=False, clear_playlist=False):
         self.playlist_add("title", song_name, play, clear_playlist)
+
+    def playlist_add_playlist(self, playlist_name, play=False, clear_playlist=False):
+        if clear_playlist:
+            mpd.mpd_control.playlist_current_clear()
+        i = mpd.mpd_control.playlist_current_count()
+        subprocess.call("mpc load " + " \"" + playlist_name + "\"", shell=True)
+        if play:
+            mpd.mpd_control.play_playlist_item(i)
+
 
 """            # If updating is finished reload artist, album and song lists
             if self.updating_library and status_line[:14] != "Updating DB (#":
