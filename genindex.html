@@ -136,6 +136,7 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
@@ -168,10 +169,30 @@
   <dt><a href="code.html#interface_widgets.Screen.add_component">add_component() (interface_widgets.Screen method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#interface_widgets.Screens.add_screen">add_screen() (interface_widgets.Screens method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.album_songs_get">album_songs_get() (mpc_control.MPD method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.Screens.add_screen">add_screen() (interface_widgets.Screens method)</a>
+  <dt><a href="code.html#mpc_control.MPD.albums_get">albums_get() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.artist_albums_get">artist_albums_get() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.artist_songs_get">artist_songs_get() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.artists_get">artists_get() (mpc_control.MPD method)</a>
   </dt>
 
   </dl></td>
@@ -259,6 +280,16 @@
   </dl></td>
 </tr></table>
 
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpc_control.MPDController.get_playlist_current_playing_index">get_playlist_current_playing_index() (mpc_control.MPDController method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
@@ -277,11 +308,19 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ItemList.item_active_get">item_active_get() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#mpc_control.MPDController.is_int">is_int() (mpc_control.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.is_mpd_running">is_mpd_running() (mpc_control.MPD method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#interface_widgets.ItemList.item_active_get">item_active_get() (interface_widgets.ItemList method)</a>
+  </dt>
+
       
   <dt><a href="code.html#interface_widgets.ItemList.item_selected_get">item_selected_get() (interface_widgets.ItemList method)</a>
   </dt>
@@ -345,13 +384,13 @@
   </dt>
 
       
-  <dt><a href="code.html#mpc_control.MPDController">MPDController (class in mpc_control)</a>
+  <dt><a href="code.html#mpc_control.MPD">MPD (class in mpc_control)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#mpc_control.MPDLibrary">MPDLibrary (class in mpc_control)</a>
+  <dt><a href="code.html#mpc_control.MPDController">MPDController (class in mpc_control)</a>
   </dt>
 
   </dl></td>
@@ -402,8 +441,44 @@
   <dt><a href="code.html#screen_library.ScreenLibrary.playlist_action">playlist_action() (screen_library.ScreenLibrary method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#mpc_control.MPD.playlist_add">playlist_add() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.playlist_add_album">playlist_add_album() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.playlist_add_artist">playlist_add_artist() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.playlist_add_playlist">playlist_add_playlist() (mpc_control.MPD method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpc_control.MPD.playlist_add_song">playlist_add_song() (mpc_control.MPD method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPDController.playlist_current_clear">playlist_current_clear() (mpc_control.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPDController.playlist_current_count">playlist_current_count() (mpc_control.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPDController.playlist_current_crop">playlist_current_crop() (mpc_control.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.playlists_get">playlists_get() (mpc_control.MPD method)</a>
+  </dt>
+
       
   <dt><a href="code.html#interface_widgets.Screens.process_mouse_event">process_mouse_event() (interface_widgets.Screens method)</a>
   </dt>
@@ -466,18 +541,22 @@
   <dt><a href="code.html#interface_widgets.LabelText.set_alignment">set_alignment() (interface_widgets.LabelText method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_library.ScreenLibrary.set_currently_showing">set_currently_showing() (screen_library.ScreenLibrary method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#interface_widgets.ButtonIcon.set_image_file">set_image_file() (interface_widgets.ButtonIcon method)</a>
   </dt>
 
       
   <dt><a href="code.html#interface_widgets.ItemList.set_item_alignment">set_item_alignment() (interface_widgets.ItemList method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPDController.set_playlist_current_playing_index">set_playlist_current_playing_index() (mpc_control.MPDController method)</a>
   </dt>
 
       
@@ -523,11 +602,19 @@
   </dt>
 
       
+  <dt><a href="code.html#screen_library.LibraryBrowser.show_playlists">show_playlists() (screen_library.LibraryBrowser method)</a>
+  </dt>
+
+      
   <dt><a href="code.html#interface_widgets.ItemList.show_prev_items">show_prev_items() (interface_widgets.ItemList method)</a>
   </dt>
 
       
   <dt><a href="code.html#screen_library.LibraryBrowser.show_songs">show_songs() (screen_library.LibraryBrowser method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpc_control.MPD.songs_get">songs_get() (mpc_control.MPD method)</a>
   </dt>
 
       
@@ -542,6 +629,12 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_player.ScreenPlayer.update">update() (screen_player.ScreenPlayer method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpc_control.MPD.update_library">update_library() (mpc_control.MPD method)</a>
   </dt>
 
   </dl></td>

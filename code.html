@@ -257,6 +257,20 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="screen_library.LibraryBrowser.show_playlists">
+<tt class="descname">show_playlists</tt><big>(</big><em>first_letter=None</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.show_playlists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays all playlists or based on the first letter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>first_letter</strong> &#8211; Search string, default = None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="screen_library.LibraryBrowser.show_songs">
 <tt class="descname">show_songs</tt><big>(</big><em>search=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.show_songs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays all songs or based on the first letter or partial string match.</p>
@@ -321,7 +335,7 @@ Launching a keyboard so that the user can specify the search string.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type_showing</strong> &#8211; The type of search results showing [artists, albums, songs]</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type_showing</strong> &#8211; The type of search results showing [artists, albums, songs, playlists]</td>
 </tr>
 </tbody>
 </table>
@@ -420,15 +434,321 @@ Launching a keyboard so that the user can specify the search string.</p>
 <span class="target" id="module-mpc_control"></span><div class="section" id="mpc-control-py-controlling-and-monitoring-mpd-via-mpc">
 <h2><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.<a class="headerlink" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="mpc_control.MPDController">
-<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPDController</tt><a class="headerlink" href="#mpc_control.MPDController" title="Permalink to this definition">¶</a></dt>
-<dd><p>Controls playback and volume</p>
+<dt id="mpc_control.MPD">
+<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPD</tt><a class="headerlink" href="#mpc_control.MPD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Browsing mpd library and adding to playlist</p>
+<dl class="method">
+<dt id="mpc_control.MPD.album_songs_get">
+<tt class="descname">album_songs_get</tt><big>(</big><em>album_name</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.album_songs_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves all song titles of an album.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>album_name</strong> &#8211; The name of the album</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of song titles</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.albums_get">
+<tt class="descname">albums_get</tt><big>(</big><em>part=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.albums_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves all album titles or matching by first letter(s) or partial search string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>part</strong> &#8211; Search string.</li>
+<li><strong>only_start</strong> &#8211; Only search as first letter(s).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching album titles.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.artist_albums_get">
+<tt class="descname">artist_albums_get</tt><big>(</big><em>artist_name</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.artist_albums_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves artist&#8217;s albums.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>artist_name</strong> &#8211; The name of the artist to retrieve the albums of.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of album titles.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.artist_songs_get">
+<tt class="descname">artist_songs_get</tt><big>(</big><em>artist_name</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.artist_songs_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves artist&#8217;s songs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>artist_name</strong> &#8211; The name of the artist to retrieve the songs of.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of song titles</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.artists_get">
+<tt class="descname">artists_get</tt><big>(</big><em>part=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.artists_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves all artist names or matching by first letter(s) or partial search string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>part</strong> &#8211; Search string</li>
+<li><strong>only_start</strong> &#8211; Only search as first letter(s).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching artist names.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.is_mpd_running">
+<tt class="descname">is_mpd_running</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPD.is_mpd_running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether MPD daemon is running.</p>
+<p>:return Boolean for mpd running</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.playlist_add">
+<tt class="descname">playlist_add</tt><big>(</big><em>tag_type</em>, <em>tag_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds songs to the current playlist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tag_type</strong> &#8211; Kind of add you want to do [&#8220;artist&#8221;, &#8220;album&#8221;, song&#8221;title&#8221;].</li>
+<li><strong>tag_name</strong> &#8211; The name of the tag_type.</li>
+<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
+<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.playlist_add_album">
+<tt class="descname">playlist_add_album</tt><big>(</big><em>album_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds all album&#8217;s songs to the current playlist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>album_name</strong> &#8211; The album name</li>
+<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
+<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.playlist_add_artist">
+<tt class="descname">playlist_add_artist</tt><big>(</big><em>artist_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_artist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds all artist&#8217;s songs to the current playlist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>artist_name</strong> &#8211; The name of the artist.</li>
+<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
+<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.playlist_add_playlist">
+<tt class="descname">playlist_add_playlist</tt><big>(</big><em>playlist_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_playlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a playlist to the current playlist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>album_name</strong> &#8211; The playlist&#8217;s name</li>
+<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
+<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.playlist_add_song">
+<tt class="descname">playlist_add_song</tt><big>(</big><em>song_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_song" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a song to the current playlist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>album_name</strong> &#8211; The song&#8217;s name</li>
+<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
+<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.playlists_get">
+<tt class="descname">playlists_get</tt><big>(</big><em>first_letter=None</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlists_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves all playlists or those matching the first letter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>first_letter</strong> &#8211; Letter</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of playlist names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.songs_get">
+<tt class="descname">songs_get</tt><big>(</big><em>part=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.songs_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves all song titles or matching by first letter(s) or partial search string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>part</strong> &#8211; Search string</li>
+<li><strong>only_start</strong> &#8211; Only search as first letter(s)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching song titles</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPD.update_library">
+<tt class="descname">update_library</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPD.update_library" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the mpd library</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
-<dt id="mpc_control.MPDLibrary">
-<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPDLibrary</tt><a class="headerlink" href="#mpc_control.MPDLibrary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Browsing mpd library and adding to playlist</p>
+<dt id="mpc_control.MPDController">
+<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPDController</tt><a class="headerlink" href="#mpc_control.MPDController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls playback and volume</p>
+<dl class="method">
+<dt id="mpc_control.MPDController.get_playlist_current_playing_index">
+<tt class="descname">get_playlist_current_playing_index</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.get_playlist_current_playing_index" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The track number playing on the current playlist.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPDController.is_int">
+<tt class="descname">is_int</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#mpc_control.MPDController.is_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a string is an integer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPDController.playlist_current_clear">
+<tt class="descname">playlist_current_clear</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.playlist_current_clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes everything from the current playlist</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPDController.playlist_current_count">
+<tt class="descname">playlist_current_count</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.playlist_current_count" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of items in the current playlist</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPDController.playlist_current_crop">
+<tt class="descname">playlist_current_crop</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.playlist_current_crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes everything from the current playlist except what is currently playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mpc_control.MPDController.set_playlist_current_playing_index">
+<tt class="descname">set_playlist_current_playing_index</tt><big>(</big><em>index</em><big>)</big><a class="headerlink" href="#mpc_control.MPDController.set_playlist_current_playing_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts playing item _index_ of the current playlist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> &#8211; The track number to be played</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The current playing index</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
