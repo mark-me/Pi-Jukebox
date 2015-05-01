@@ -147,26 +147,44 @@ class MPDController(object):
         return self.playlist_current
 
     def get_playlist_current_playing_index(self):
+        """
+        :return: The track number playing on the current playlist.
+        """
         self.status_get()
         return self.__playlist_current_playing_index
 
     def set_playlist_current_playing_index(self, index):
+        """ Starts playing item _index_ of the current playlist.
+
+        :param index: The track number to be played
+        :return: The current playing index
+        """
         if index > 0 and index <= self.playlist_current_count():
             subprocess.call("mpc play " + str(index + 1), shell=True)
             self.__playlist_current_playing_index = index
         return self.__playlist_current_playing_index
 
     def playlist_current_count(self):
+        """
+        :return: The number of items in the current playlist
+        """
         return len(self.playlist_current)
 
     def playlist_current_clear(self):
+        """ Removes everything from the current playlist """
         subprocess.call("mpc clear", shell=True)
         self.playlist_current = []
 
     def playlist_current_crop(self):
+        """ Removes everything from the current playlist except what is currently playing. """
         subprocess.call("mpc crop", shell=True)
 
     def is_int(self, s):
+        """ Checks whether a string is an integer.
+
+        :param s: string
+        :return: boolean
+        """
         try:
             int(s)
             return True
@@ -196,9 +214,14 @@ class MPD(object):
         return True
 
     def update_library(self):
+        """ Updates the mpd library """
         subprocess.call("mpc update")
 
     def __format_results(self, result_string):
+        """ Makes mpc search output legible for the rest of the program
+        :param result_string: The mpc search output string
+        :return: A list containing the mpc search output
+        """
         result_list = result_string.split("\n")
         result_list.sort()
         for i in result_list:
@@ -207,6 +230,11 @@ class MPD(object):
         return result_list
 
     def __search(self, tag_type):
+        """ Searches all entries of a certain type.
+
+        :param tag_type: ["artist"s, "album"s, song"title"s]
+        :return: A list with search results.
+        """
         try:
             result_string = subprocess.check_output("mpc list " + tag_type, shell=True, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError, e:
@@ -214,6 +242,12 @@ class MPD(object):
         return self.__format_results(result_string)
 
     def __search_first_letter(self, tag_type, first_letter):
+        """ Searches all entries of a certain type matching a first letter
+
+        :param tag_type: ["artist"s, "album"s, song"title"s]
+        :param first_letter: The first letter
+        :return: A list with search results.
+        """
         try:
             result_string = subprocess.check_output("mpc list " + tag_type + " | grep ^" + first_letter, shell=True, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError, e:
@@ -221,6 +255,12 @@ class MPD(object):
         return self.__format_results(result_string)
 
     def __search_partial(self, tag_type, part):
+        """ Searches all entries of a certain type partially matching search string.
+
+        :param tag_type: ["artist"s, "album"s, song"title"s]
+        :param part: Search string.
+        :return: A list with search results.
+        """
         command = "mpc list " + tag_type + " | grep -i \"" + part + "\""
         try:
             result_string = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
@@ -229,6 +269,13 @@ class MPD(object):
         return self.__format_results(result_string)
 
     def __search_of_type(self, type_result, type_filter, name_filter):
+        """ Searching one type depending on another type (very clear description isn't it?)
+
+        :param type_result: The type of result-set generated ["artist"s, "album"s, song"title"s]
+        :param type_filter: The type of filter used ["artist"s, "album"s, song"title"s]
+        :param name_filter: The name used to filter
+        :return:
+        """
         command = "mpc list " + type_result + " " + type_filter + " \"" + name_filter + "\""
         try:
             result_string = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
@@ -237,6 +284,12 @@ class MPD(object):
         return self.__format_results(result_string)
 
     def artists_get(self, part=None, only_start=True):
+        """ Retrieves all artist names or matching by first letter(s) or partial search string.
+
+        :param part: Search string
+        :param only_start: Only search as first letter(s).
+        :return: A list of matching artist names.
+        """
         if part is None:
             if len(self.list_artists) == 0:
                 self.list_artists = self.__search("artist")
@@ -248,6 +301,12 @@ class MPD(object):
         return self.list_query_results
 
     def albums_get(self, part=None, only_start=True):
+        """ Retrieves all album titles or matching by first letter(s) or partial search string.
+
+        :param part: Search string.
+        :param only_start: Only search as first letter(s).
+        :return: A list of matching album titles.
+        """
         if part is None:
             if len(self.list_albums) == 0:
                 self.list_albums = self.__search("album")
@@ -259,6 +318,12 @@ class MPD(object):
         return self.list_query_results
 
     def songs_get(self, part=None, only_start=True):
+        """ Retrieves all song titles or matching by first letter(s) or partial search string
+
+        :param part: Search string
+        :param only_start: Only search as first letter(s)
+        :return: A list of matching song titles
+        """
         if part is None:
             if len(self.list_songs) == 0:
                 self.list_songs = self.__search("title")
@@ -270,15 +335,35 @@ class MPD(object):
         return self.list_query_results
 
     def artist_albums_get(self, artist_name):
+        """ Retrieves artist's albums.
+
+        :param artist_name: The name of the artist to retrieve the albums of.
+        :return: A list of album titles.
+        """
         return self.__search_of_type("album", "artist", artist_name)
 
     def artist_songs_get(self, artist_name):
+        """ Retrieves artist's songs.
+
+        :param artist_name: The name of the artist to retrieve the songs of.
+        :return: A list of song titles
+        """
         return self.__search_of_type("title", "artist", artist_name)
 
     def album_songs_get(self, album_name):
+        """ Retrieves all song titles of an album.
+
+        :param album_name: The name of the album
+        :return: A list of song titles
+        """
         return self.__search_of_type("title", "album", album_name)
 
     def playlists_get(self, first_letter=None):
+        """ Retrieves all playlists or those matching the first letter
+
+        :param first_letter: Letter
+        :return: A list of playlist names
+        """
         try:
             if first_letter is None:
                 result_string = subprocess.check_output("mpc lsplaylists", shell=True, stderr=subprocess.STDOUT)
@@ -290,6 +375,13 @@ class MPD(object):
         return self.__format_results(result_string)
 
     def playlist_add(self, tag_type, tag_name, play=False, clear_playlist=False):
+        """ Adds songs to the current playlist
+
+        :param tag_type: Kind of add you want to do ["artist", "album", song"title"].
+        :param tag_name: The name of the tag_type.
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
         if clear_playlist:
             mpd.mpd_control.playlist_current_clear()
         i = mpd.mpd_control.playlist_current_count()
@@ -298,15 +390,39 @@ class MPD(object):
             mpd.mpd_control.play_playlist_item(i)
 
     def playlist_add_artist(self, artist_name, play=False, clear_playlist=False):
+        """ Adds all artist's songs to the current playlist
+
+        :param artist_name: The name of the artist.
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
         self.playlist_add("artist", artist_name, play, clear_playlist)
 
     def playlist_add_album(self, album_name, play=False, clear_playlist=False):
+        """ Adds all album's songs to the current playlist
+
+        :param album_name: The album name
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
         self.playlist_add("album", album_name, play, clear_playlist)
 
     def playlist_add_song(self, song_name, play=False, clear_playlist=False):
+        """ Adds a song to the current playlist
+
+        :param album_name: The song's name
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
         self.playlist_add("title", song_name, play, clear_playlist)
 
     def playlist_add_playlist(self, playlist_name, play=False, clear_playlist=False):
+        """ Adds a playlist to the current playlist
+
+        :param album_name: The playlist's name
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
         if clear_playlist:
             mpd.mpd_control.playlist_current_clear()
         i = mpd.mpd_control.playlist_current_count()
