@@ -30,6 +30,8 @@
   
 
   
+        <link rel="author" title="About these documents"
+              href="about.html"/>
     <link rel="top" title="pi-jukebox 0.1a documentation" href="index.html"/>
         <link rel="next" title="Preparing your Raspberry Pi" href="raspberry_pi.html"/>
         <link rel="prev" title="Screenshots" href="screenshots.html"/> 
@@ -72,7 +74,18 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-player-screen">The player screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#searching-an-artist">Searching an artist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#settings-screen">Settings screen</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
@@ -1275,6 +1288,12 @@ letter or symbol keyboard.</p>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="screen_keyboard.KeyboardBase.add_row_buttons">
+<tt class="descname">add_row_buttons</tt><big>(</big><em>list_symbols</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#screen_keyboard.KeyboardBase.add_row_buttons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of symbol keys starting at x on y.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="screen_keyboard.KeyboardBase.set_text">
 <tt class="descname">set_text</tt><big>(</big><em>text</em><big>)</big><a class="headerlink" href="#screen_keyboard.KeyboardBase.set_text" title="Permalink to this definition">¶</a></dt>
