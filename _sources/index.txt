@@ -11,6 +11,8 @@ music (mpd) player with a touch screen? I did. So I made Pi-Jukebox; a
 python application that did just that. If you have the same urge I had:
 have fun using it!  
 
+You can find the program here_.
+
 **Contents:**
 
 .. toctree::
@@ -29,3 +31,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _here: https://github.com/mark-me/Pi-Jukebox
