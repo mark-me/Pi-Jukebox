@@ -30,4 +30,4 @@ Be sure to check the value of **__RUN_ON_RASPBERRY_PI** in the **settings.py** w
 
        sudo python pi-jukebox.py
        
-.. _adafruit's pi radio project: https://learn.adafruit.com/raspberry-pi-radio-player-with-touchscreen/overview       
+.. _project: https://learn.adafruit.com/raspberry-pi-radio-player-with-touchscreen/overview       
