@@ -39,7 +39,7 @@ class ScreenSettings(ScreenModal):
     def on_click(self, x, y):
         tag_name = super(ScreenSettings, self).on_click(x, y)
         if tag_name == "btn_update":
-            mpd_controller.update_library()
+            mpd.mpd_controller.update_library()
         elif tag_name == "btn_wifi":
             screen_wifi = ScreenWifi()
         elif tag_name == "btn_shutdown":

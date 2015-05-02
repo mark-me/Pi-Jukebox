@@ -182,6 +182,16 @@ To make the mounted (or future mounted) USB sticks available to mpd scanning we 
 .. code-block:: bash
 
    sudo ln -s /media/ /var/lib/mpd/music/
+   
+Finally: adding the music to the mpd library
+============================================
+To scan all the music sources you just added so the music can actually be reached through mpd:
+
+.. code-block:: bash
+
+   mpc update
+   
+Depending on the size of your library this can take some time. Make sure the scan is completed before rebooting or turning off your Raspberry or you'll have to start scanning again. I suggest to do the scanning after completing the rest of the set-up.
 
 --------------------------------------------
 Zeroconf
@@ -259,10 +269,7 @@ To make the changes effective we're going to restart the samba server:
 -------------
 WiFi
 -------------
-Yes.... Wait and see
-
-
-
-
-
+You want to enable your WiFi right? Is there life worth living without 
+wifi? So bet your life I'm on it! I'm all about 'making magic happen'. 
+In time it will be all right here... Wait, see and weep.
 

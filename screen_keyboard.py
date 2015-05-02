@@ -36,8 +36,8 @@ class KeyboardBase(ScreenModal):
         edit_box.set_alignment(HOR_LEFT, VERT_MID, 5)
         self.add_component(edit_box)
 
-    def __add_row_buttons(self, list_symbols, x, y):
-        """ Adds a list of symbol keys starting at x on y """
+    def add_row_buttons(self, list_symbols, x, y):
+        """ Adds a list of symbol keys starting at x on y. """
         button_width = 32
         for letter in list_symbols:
             btn_name = "btn_symbol_" + letter
@@ -65,13 +65,13 @@ class KeyboardLetters(KeyboardBase):
         y_row = 65
         y_row_increment = 45
         first_row = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"]
-        self.__add_row_buttons(first_row, 0, y_row)
+        self.add_row_buttons(first_row, 0, y_row)
         second_row = ["a", "s", "d", "f", "g", "h", "j", "k", "l"]
         y_row += y_row_increment
-        self.__add_row_buttons(second_row, 17, y_row)
+        self.add_row_buttons(second_row, 17, y_row)
         third_row = ["z", "x", "c", "v", "b", "n", "m"]
         y_row += y_row_increment
-        self.__add_row_buttons(third_row, 49, y_row)
+        self.add_row_buttons(third_row, 49, y_row)
         self.add_component(ButtonIcon("btn_shift", screen_rect, ICO_SHIFT, 3, y_row))
         self.add_component(ButtonIcon("btn_backspace", screen_rect, ICO_BACKSPACE, 271, y_row))
 
@@ -131,15 +131,15 @@ class KeyboardSymbols(KeyboardBase):
         y_row = 65
         y_row_increment = 45
         first_row = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-        self.__add_row_buttons(first_row, 0, y_row)
+        self.add_row_buttons(first_row, 0, y_row)
 
         y_row += y_row_increment
         second_row = ["-", "+", "=" "/",  "(", ")", "%","$", "#", "\""]
-        self.__add_row_buttons(second_row, 0, y_row)
+        self.add_row_buttons(second_row, 0, y_row)
 
         y_row += y_row_increment
         third_row = [":", ";", ".", ",", "?", "!", "'", "*", "_"]
-        self.__add_row_buttons(third_row, 0, y_row)
+        self.add_row_buttons(third_row, 0, y_row)
         self.add_component(ButtonIcon("btn_backspace", screen_rect, ICO_BACKSPACE, 271, y_row))
 
         y_row += y_row_increment

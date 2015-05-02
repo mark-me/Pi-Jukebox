@@ -6,19 +6,20 @@
 Welcome to pi-jukebox's documentation!
 ======================================
 
-Pi-Jukebox is a application which you can use with a Raspberry Pi with touchscreen. Although it is made with a 320x240 touchscreen, it should be fairly simple to adjust it for larger screens (in later versions I'm planning to do some scaling).
+Did you ever have a project in mind in which you wanted a Raspberry Pi 
+music (mpd) player with a touch screen? I did. So I made Pi-Jukebox; a 
+python application that did just that. If you have the same urge I had:
+have fun using it!
 
-I wanted my music player to be able to access a NAS drive which contained my music collection, but also I wanted to be able to play music friends brought on their USB stick.
-
-Future plans include:
-# Bluetooth streaming
-# Switching between single room and multi-room simultaneous playback.
+You can find the python application here_.
 
 **Contents:**
 
 .. toctree::
    :maxdepth: 2
-   
+
+          about
+          screenshots
    code
    raspberry_pi
    
@@ -30,3 +31,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _here: https://github.com/mark-me/Pi-Jukebox
