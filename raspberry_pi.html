@@ -281,6 +281,14 @@ sudo service mpd-sima restart
 </pre></div>
 </div>
 </div>
+<div class="section" id="finally-adding-the-music-to-the-mpd-library">
+<h3>Finally: adding the music to the mpd library<a class="headerlink" href="#finally-adding-the-music-to-the-mpd-library" title="Permalink to this headline">¶</a></h3>
+<p>To scan all the music sources you just added so the music can actually be reached through mpd:</p>
+<div class="highlight-bash"><div class="highlight"><pre>mpc update
+</pre></div>
+</div>
+<p>Depending on the size of your library this can take some time. Make sure the scan is completed before rebooting or turning off your Raspberry or you&#8217;ll have to start scanning again. I suggest to do the scanning after completing the rest of the set-up.</p>
+</div>
 </div>
 <div class="section" id="zeroconf">
 <h2>Zeroconf<a class="headerlink" href="#zeroconf" title="Permalink to this headline">¶</a></h2>
