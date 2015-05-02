@@ -24,7 +24,9 @@ Future plans include:
 
 Running pi-jukebox on your Raspberry Pi
 ---------------------------------------
-Be sure to check the value of **__RUN_ON_RASPBERRY_PI** in the **settings.py** if you are trying to run pi-jukebox on your Raspberry Pi. Run with:
+
+Be sure to check the value of **__RUN_ON_RASPBERRY_PI** in the **settings.py** when you are trying to run pi-jukebox on your Raspberry Pi. Run with:
     .. code-block:: bash
 
        sudo python pi-jukebox.py
+       
