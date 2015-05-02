@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to pi-jukebox’s documentation! &mdash; pi-jukebox 0.1a documentation</title>
+  <title>About pi-jukebox &mdash; pi-jukebox 0.1a documentation</title>
   
 
   
@@ -31,9 +31,10 @@
 
   
         <link rel="author" title="About these documents"
-              href="about.html"/>
-    <link rel="top" title="pi-jukebox 0.1a documentation" href="#"/>
-        <link rel="next" title="About pi-jukebox" href="about.html"/> 
+              href="#"/>
+    <link rel="top" title="pi-jukebox 0.1a documentation" href="index.html"/>
+        <link rel="next" title="Screenshots" href="screenshots.html"/>
+        <link rel="prev" title="Welcome to pi-jukebox’s documentation!" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -50,7 +51,7 @@
         
 
         
-          <a href="#" class="icon icon-home"> pi-jukebox
+          <a href="index.html" class="icon icon-home"> pi-jukebox
         
 
         
@@ -72,9 +73,9 @@
         
           
           
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">About pi-jukebox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
@@ -117,7 +118,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">pi-jukebox</a>
+        <a href="index.html">pi-jukebox</a>
       </nav>
 
 
@@ -126,13 +127,13 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
+    <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Welcome to pi-jukebox&#8217;s documentation!</li>
+    <li>About pi-jukebox</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/about.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -141,56 +142,41 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="welcome-to-pi-jukebox-s-documentation">
-<h1>Welcome to pi-jukebox&#8217;s documentation!<a class="headerlink" href="#welcome-to-pi-jukebox-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Did you ever have a project in mind in which you wanted a Raspberry Pi
-music (mpd) player with a touch screen? I did. So I made Pi-Jukebox; a
-python application that did just that. If you have the same urge I had:
-have fun using it!</p>
-<p><strong>Contents:</strong></p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
+  <div class="section" id="about-pi-jukebox">
+<h1>About pi-jukebox<a class="headerlink" href="#about-pi-jukebox" title="Permalink to this headline">¶</a></h1>
+<p>Pi-Jukebox is an mpd client application which you can use with a
+Raspberry Pi with touchscreen.</p>
+<p>Do you have a huge music collection and wanted to be able to access it
+anywhere in your house? I did. I was inspired by some other Raspberry Pi
+projects. I wanted my music player to be able to access my music from my
+NAS drive, but also wanted to be able to play music brought by friends
+on their USB stick. These projects brought me to mpd: a music server program
+that allows you to control enormous amounts of music. It is easy to search
+through your music collection and play it. mpd has many client apps
+by which you can control your music on loads of different devices. But...
+What if there&#8217;s no wifi access? You must be able to control the device
+directly: enter the touchscreen and enter pi-jukebox.</p>
+<dl class="docutils">
+<dt>Future plans include:</dt>
+<dd><ul class="first last simple">
+<li>Bluetooth streaming</li>
+<li>Switching between single room and multi-room simultaneous playback.</li>
+<li>Although it is made with a adafruit 320x240
+touchscreen in mind, it should be fairly simple to adjust it for larger
+screens (in later versions I&#8217;m planning to do some scaling).</li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-player-screen">The player screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#settings-screen">Settings screen</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="code.html">Documentation pi-jukebox code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="code.html#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html#mpc-control-py-controlling-and-monitoring-mpd-via-mpc"><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="raspberry_pi.html">Preparing your Raspberry Pi</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#hardware">Hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#installing-the-operating-system">Installing the operating system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#configuring-the-raspberry-pi">Configuring the Raspberry Pi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#configuring-the-usb-music-device">Configuring the USB music device</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#installing-and-configuring-mpd">Installing and configuring mpd</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#setting-up-the-music-library">Setting up the music library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#zeroconf">Zeroconf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#samba-server">Samba server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="raspberry_pi.html#wifi">WiFi</a></li>
-</ul>
-</li>
-</ul>
+</dd>
+</dl>
+<div class="section" id="running-pi-jukebox-on-your-raspberry-pi">
+<h2>Running pi-jukebox on your Raspberry Pi<a class="headerlink" href="#running-pi-jukebox-on-your-raspberry-pi" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Be sure to check the value of <strong>__RUN_ON_RASPBERRY_PI</strong> in the <strong>settings.py</strong> if you are trying to run pi-jukebox on your Raspberry Pi. Run with:</dt>
+<dd><div class="first last highlight-bash"><div class="highlight"><pre>sudo python pi-jukebox.py
+</pre></div>
 </div>
+</dd>
+</dl>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
 </div>
 
 
@@ -199,8 +185,10 @@ have fun using it!</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="about.html" class="btn btn-neutral float-right" title="About pi-jukebox" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="screenshots.html" class="btn btn-neutral float-right" title="Screenshots" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to pi-jukebox’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

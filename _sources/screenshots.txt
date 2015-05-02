@@ -1,0 +1,17 @@
+Screenshots
+===========
+
+The player screen
+-----------------
+    .. image:: ./images/screens/1_player_explained.png
+The library screen
+------------------
+    .. image:: ./images/screens/2_library_browser_explained.png
+Selected artist Beck from the library
+-------------------------------------
+    .. image:: ./images/screens/3_library_action.png
+Settings screen
+---------------
+    .. image:: ./images/screens/4_settings.png
+Wifi configuration is a work in progress.... ;-)
+
