@@ -49,8 +49,8 @@ class MPDController(object):
             self.updating_library = status_line[:14] == "Updating DB (#"
 
             if not self.updating_library and line_count == 0 and status_line[:7] != "volume:":
-                self.track_artist = status_line[0:status_line.find(" - ")]                          # Artist of current song
-                self.track_name = status_line[status_line.find(" - ")+3:status_line.find("\n")]     # Song title of current song
+                self.track_artist = status_line[0:status_line.find(" - ")]  # Artist of current song
+                self.track_name = status_line[status_line.find(" - ") + 3:]  # Song title of current song
 
             if status_line[:7] == "volume:":
                 volume = status_line[status_line.find("volume:")+7:status_line.find("%")]
