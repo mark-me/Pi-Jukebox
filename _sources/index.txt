@@ -18,8 +18,8 @@ You can find the python application here_.
 .. toctree::
    :maxdepth: 2
 
-   about
-   screenshots
+          about
+          screenshots
    code
    raspberry_pi
    
