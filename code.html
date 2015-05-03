@@ -34,7 +34,7 @@
               href="about.html"/>
     <link rel="top" title="pi-jukebox 0.1a documentation" href="index.html"/>
         <link rel="next" title="Preparing your Raspberry Pi" href="raspberry_pi.html"/>
-        <link rel="prev" title="Screenshots" href="screenshots.html"/> 
+        <link rel="prev" title="Welcome to pi-jukebox’s documentation!" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -74,21 +74,10 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-player-screen">The player screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#searching-an-artist">Searching an artist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#settings-screen">Settings screen</a></li>
-</ul>
-</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc"><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
@@ -438,50 +427,26 @@ Launching a keyboard so that the user can specify the search string.</p>
 </dd></dl>
 
 </div>
-<span class="target" id="module-screen_settings"></span><p>screen_settings.py: Settings screen</p>
-<dl class="class">
-<dt id="screen_settings.ScreenSettings">
-<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettings</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Screen for settings or quitting/shutting down</p>
+<span class="target" id="module-screen_settings"></span><div class="section" id="screen-settings-py-settings-screen">
+<h2><strong>screen_settings.py</strong>: Settings screen<a class="headerlink" href="#screen-settings-py-settings-screen" title="Permalink to this headline">¶</a></h2>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
+<tr class="field-odd field"><th class="field-name">members:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="class">
-<dt id="screen_settings.ScreenSettingsPlayback">
-<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettingsPlayback</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettingsPlayback" title="Permalink to this definition">¶</a></dt>
-<dd><p>Screen for settings playback options</p>
-<table class="docutils field-list" frame="void" rules="none">
+<span class="target" id="module-screen_wifi"></span><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
+<tr class="field-odd field"><th class="field-name">members:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="class">
-<dt id="screen_settings.ScreenSettingsQuit">
-<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettingsQuit</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettingsQuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Screen for quitting pi-jukebox.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<span class="target" id="module-screen_wifi"></span><span class="target" id="module-mpc_control"></span><div class="section" id="mpc-control-py-controlling-and-monitoring-mpd-via-mpc">
+<span class="target" id="module-mpc_control"></span><div class="section" id="mpc-control-py-controlling-and-monitoring-mpd-via-mpc">
 <h2><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.<a class="headerlink" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="mpc_control.MPD">
@@ -1370,7 +1335,7 @@ letter or symbol keyboard.</p>
         <a href="raspberry_pi.html" class="btn btn-neutral float-right" title="Preparing your Raspberry Pi" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="screenshots.html" class="btn btn-neutral" title="Screenshots" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Welcome to pi-jukebox’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
