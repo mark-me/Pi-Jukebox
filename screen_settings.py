@@ -29,10 +29,10 @@ class ScreenSettings(ScreenModal):
         self.add_component(ButtonText("btn_quit", self.screen, button_left, 30, button_width, label))
         label = "Playback options"
         self.add_component(ButtonText("btn_playback", self.screen, button_left, 72, button_width, label))
-        label = "Entry"
-        self.add_component(ButtonText("entry_1", self.screen, button_left, 114, button_width, label))
-        label = "Entry"
-        self.add_component(ButtonText("entry_2", self.screen, button_left, 156, button_width, label))
+        # label = "Entry"
+        #self.add_component(ButtonText("entry_1", self.screen, button_left, 114, button_width, label))
+        #label = "Entry"
+        #self.add_component(ButtonText("entry_2", self.screen, button_left, 156, button_width, label))
         label = "Back"
         self.add_component(ButtonText("btn_return", self.screen, button_left, 198, button_width, label))
 
