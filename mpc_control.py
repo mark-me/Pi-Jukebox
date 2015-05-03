@@ -130,17 +130,17 @@ class MPDController(object):
         else:
             self.volume_set(self.volume+percentage)
 
-    def random_set(self):
+    def random_switch(self):
         subprocess.call("mpc random", shell=True)
 
-    def repeat_on_set(self):
+    def repeat_switch(self):
         subprocess.call("mpc repeat", shell=True)
 
-    def single_on_set(self):
-        subprocess.call("mpc single on", shell=True)
+    def single_switch(self):
+        subprocess.call("mpc single", shell=True)
 
-    def consume_on_set(self):
-        subprocess.call("mpc consume on", shell=True)
+    def consume_switch(self):
+        subprocess.call("mpc consume", shell=True)
 
     def get_playlist_current(self):
         self.playlist_current = subprocess.check_output("mpc playlist -f \"[%position%. %title%]\"", shell=True, stderr=subprocess.STDOUT).split("\n")

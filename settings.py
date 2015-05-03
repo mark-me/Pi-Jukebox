@@ -39,7 +39,6 @@ RESOURCES = os.path.dirname(__file__) + "/resources/"
 
 
 #: Standard font type
-# FONT = pygame.font.Font(RESOURCES + "UbuntuMono-B.ttf", 14)
 FONT = pygame.font.Font(RESOURCES + "DroidSans.ttf", 14)
 
 """ Color definitions """
@@ -75,6 +74,10 @@ SWIPE_DOWN = 4
 SWIPE_LONG_PRESS = 5
 
 """ Used icons """
+# Switch icons
+ICO_SWITCH_ON = RESOURCES + "switch_on_48x32.png"
+ICO_SWITCH_OFF = RESOURCES + "switch_off_48x32.png"
+
 # General icons
 ICO_PLAYER = RESOURCES + "home_48x32.png"
 ICO_PLAYER_ACTIVE = RESOURCES + "home_active_48x32.png"

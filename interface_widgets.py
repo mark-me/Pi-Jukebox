@@ -219,6 +219,36 @@ class ButtonText(LabelText):
         self.__background_right = pygame.transform.flip(self.__background_left, True, False)
 
 
+class Switch(Widget):
+    def __init__(self, tag_name, screen_rect, x, y):
+        self.__icon_on = pygame.image.load(ICO_SWITCH_ON)
+        self.__icon_off = pygame.image.load(ICO_SWITCH_OFF)
+        self.width = self.__icon_on.get_width()
+        self.height = self.__icon_on.get_height()
+        Widget.__init__(self, tag_name, screen_rect, x, y, self.width, self.height)
+        self.__is_on = False
+
+    def set_on(self, boolean):
+        self.__is_on = boolean
+        self.draw()
+
+    def get_on(self):
+        return self.__is_on
+
+    def on_click(self, x, y):
+        self.screen.fill(self.background_color, self.rect)
+        self.__is_on = not self.__is_on
+        self.draw()
+        return self.tag_name
+
+    def draw(self):
+        if self.__is_on:
+            rect = self.screen.blit(self.__icon_on, (self.x_pos, self.y_pos))
+        else:
+            rect = self.screen.blit(self.__icon_off, (self.x_pos, self.y_pos))
+        pygame.display.update(rect)
+
+
 class ItemList(Widget):
     """ List of text items that can be clicked.
 
@@ -385,7 +415,7 @@ class Screen(object):
             :return: The tag_name of the clicked component.
         """
         for key, value in self.components.items():
-            if isinstance(value, ButtonIcon) or isinstance(value, ButtonText):
+            if isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or isinstance(value, Switch):
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
                     value.on_click(x, y)
                     return key
@@ -427,7 +457,9 @@ class ScreenModal(Screen):
         self.window_height = SCREEN_HEIGHT
         self.return_object = None
         self.close_screen = False
-        self.window_color = FIFTIES_ORANGE
+        self.title_color = FIFTIES_ORANGE
+        self.outline_shown = False
+        self.outline_color = FIFTIES_ORANGE
 
     def show(self):
         """ Displays screen and starts own event capture loop.
@@ -450,12 +482,21 @@ class ScreenModal(Screen):
 
     def __draw_window(self):
         """ Draws window border and title """
+        # Draws backdrop screen
+        if self.window_width < SCREEN_WIDTH or self.window_height < SCREEN_HEIGHT:
+            backdrop = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+            backdrop.set_alpha(128)
+            backdrop.fill(BLACK)
+            SCREEN.blit(backdrop, (0, 0))
         # Drawing window
         window_rect = Rect(self.window_x, self.window_y, self.window_width, self.window_height)
         pygame.draw.rect(self.screen, BLACK, window_rect)
+        # Draw outline
+        if self.outline_shown:
+            pygame.draw.rect(self.screen, self.outline_color, window_rect, 1)
         # Window title bar
         title_rect = Rect(self.window_x, self.window_y, self.window_width, 20)
-        pygame.draw.rect(self.screen, self.window_color, title_rect)
+        pygame.draw.rect(self.screen, self.title_color, title_rect)
         font_height = FONT.size("Tg")[1]
         font_width = FONT.size(self.title)[0]
         image = FONT.render(self.title, True, BLACK)
