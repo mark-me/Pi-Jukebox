@@ -296,8 +296,8 @@ class ItemList(Widget):
         self.item_selected_color = BLUE
         self.item_selected_background_color = WHITE
 
-        self.__items_max = (self.height - 2 * self.item_indent) / self.item_height  # Maximum number
-        self.items_start = 0  # Index of self.lift that is the first item displayed in the ItemList
+        self.items_per_page = (self.height - 2 * self.item_indent) / self.item_height  # Maximum number
+        self.page_showing_index = 0  # Index of page currently showing
 
 
     def set_item_alignment(self, horizontal, vertical):
@@ -316,15 +316,17 @@ class ItemList(Widget):
             return
         # Populate the ItemList with items
         item_nr = 0
-        while item_nr + self.items_start < len(self.list) and item_nr < self.__items_max:
-            item_text = self.list[item_nr + self.items_start]                           # Get item text from list
+        item_start = self.page_showing_index * self.items_per_page
+        while item_nr + item_start < len(self.list) and item_nr < self.items_per_page:
+            item_text = self.list[item_nr + item_start]  # Get item text from list
             item_x_pos = self.x_pos + self.item_indent                                  # x position of item
             item_width = self.width - 2 * self.item_indent                              # Maximum item width
             item_y_pos = self.y_pos + self.item_indent + (self.item_height * item_nr)   # y position of item
-            list_item = LabelText("lbl_item_" + str(item_nr), self.screen, item_x_pos, item_y_pos, item_width, self.item_height, item_text) # Create label
+            list_item = LabelText("lbl_item_" + str(item_nr), self.screen, item_x_pos, item_y_pos, item_width,
+                                  self.item_height, item_text)  # Create label
             list_item.font_color = self.font_color
             list_item.outline_visible = self.item_outline_visible
-            if item_nr + self.items_start == self.active_item_index:  # Give active item designated colour
+            if item_nr + item_start == self.active_item_index:  # Give active item designated colour
                 list_item.font_color = self.item_active_color
             list_item.set_alignment(self.item_alignment_horizontal, self.item_alignment_vertical)
             list_item.draw()  # Draw item on screen
@@ -342,15 +344,20 @@ class ItemList(Widget):
         y_pos = y_pos - self.y_pos
         if x_pos < 0 or x_pos > self.width or y_pos < 0:  # Check whether the click was outside the control
             return None
-        if y_pos > self.height or self.items_start + (y_pos + 2) / self.item_height >= len(
-                self.list):  # Check whether no item was clicked
+        if y_pos > self.height or self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height >= len(
+                self.list) - 1:  # Check whether no item was clicked
             return None
-        self.item_selected = (self.items_start + (y_pos + 2)/self.item_height)
+        self.item_selected = (self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height)
         return self.item_selected
 
     def item_active_get(self):
         """ :return: active item text """
         return self.list[self.active_item_index]
+
+    def item_active_index_set(self, index):
+        if index >= 0 and index < len(list):
+            self.active_item_index = index
+            self.draw()
 
     def item_selected_get(self):
         """ :return: selected item's text """
@@ -363,20 +370,29 @@ class ItemList(Widget):
 
         :return: return the ListItem's tag_name.
         """
-        self.__clicked_item(x_pos, y_pos)
+        self.clicked_item(x_pos, y_pos)
         return self.tag_name
 
     def show_next_items(self):
         """ Shows next page of items. """
-        if self.items_start + self.__items_max < len(self.list):
-            self.items_start += self.__items_max
+        if self.page_showing_index * self.items_per_page + self.items_per_page < len(self.list):
+            self.page_showing_index += 1
             self.draw()
 
     def show_prev_items(self):
         """ Shows previous page of items. """
-        if self.items_start - self.__items_max >= 0:
-            self.items_start -= self.__items_max
-            self.draw()
+        if self.page_showing_index * self.items_per_page + self.items_per_page - self.items_per_page >= 0:
+            self.page_showing_index -= 1
+        else:
+            self.page_showing_index = 0
+        self.draw()
+
+    def show_item_active(self):
+        page_no = 0
+        while self.active_item_index > (page_no + 1) * self.items_per_page:
+            page_no += 1
+        self.page_showing_index = page_no
+        self.draw()
 
 
 class Screen(object):

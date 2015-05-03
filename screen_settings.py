@@ -1,5 +1,7 @@
 """
-screen_settings.py: Settings screen
+====================================
+**screen_settings.py**: Settings screen
+====================================
 """
 __author__ = 'Mark Zwart'
 
@@ -76,7 +78,10 @@ class ScreenSettingsQuit(ScreenModal):
             print ("Bye!")
             sys.exit()
         elif tag_name == "btn_shutdown":
-            subprocess.call("sudo shutdown -h now")
+            if RUN_ON_RASPBERRY_PI:
+                subprocess.call("sudo shutdown -h now")
+            else:
+                sys.exit()
         elif tag_name == "btn_cancel":
             self.close()
 

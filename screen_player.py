@@ -36,8 +36,8 @@ class Playlist(ItemList):
         if self.list != mpd.mpd_control.get_playlist_current():
             self.list = mpd.mpd_control.get_playlist_current()
             updated = True
-        if self.item_selected != mpd.mpd_control.get_playlist_current_playing_index():
-            self.item_selected = mpd.mpd_control.get_playlist_current_playing_index()
+        if self.active_item_index != mpd.mpd_control.get_playlist_current_playing_index():
+            self.active_item_index = mpd.mpd_control.get_playlist_current_playing_index()
             updated = True
         if updated:
             self.draw()
@@ -72,6 +72,7 @@ class ScreenPlayer(Screen):
 
     def show(self):
         """ Displays the screen. """
+        self.components["list_playing"].show_item_active()
         super(ScreenPlayer, self).show()  # Draw screen
         self.update()  # Update mpd status to components
 
@@ -122,4 +123,10 @@ class ScreenPlayer(Screen):
         elif tag_name == "btn_volume_down":
             mpd.mpd_control.volume_set_relative(-10)
         elif tag_name == "list_playing":
-            mpd.mpd_control.play_playlist_item(self.components["list_playing"].item_selected + 1)
+            selected_index = self.components["list_playing"].item_selected
+            if selected_index > 0:
+                mpd.mpd_control.play_playlist_item(selected_index + 1)
+                self.components["list_playing"].active_item_index = selected_index
+                self.components["list_playing"].draw()
+
+

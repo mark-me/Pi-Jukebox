@@ -13,10 +13,10 @@ from pygame.locals import *
 import time
 
 #: Switches between development/debugging on your desktop/laptop versus running on your Raspberry Pi
-__RUN_ON_RASPBERRY_PI = False
+RUN_ON_RASPBERRY_PI = False
 
 # Setting up touch screen, set if statement to true on Raspberry Pi
-if __RUN_ON_RASPBERRY_PI:
+if RUN_ON_RASPBERRY_PI:
     os.environ["SDL_FBDEV"] = "/dev/fb1"
     os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
     os.environ["SDL_MOUSEDRV"] = "TSLIB"
@@ -26,7 +26,7 @@ pygame.init() 	# Pygame initialization
 #: The display dimensions, change this if you have a bigger touch screen.
 DISPLAY_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 320, 240
 
-if __RUN_ON_RASPBERRY_PI:  # If started on Raspberry Pi
+if RUN_ON_RASPBERRY_PI:  # If started on Raspberry Pi
     display_flags = FULLSCREEN | DOUBLEBUF                          # Turn on video acceleration
     #: Points to the display.
     SCREEN = pygame.display.set_mode(DISPLAY_SIZE, display_flags)
