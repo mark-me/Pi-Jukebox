@@ -11,10 +11,10 @@ Documentation pi-jukebox code
    :members:   
 
 .. automodule:: screen_settings
-:members:
+   :members:
 
 .. automodule:: screen_wifi
-:members:
+   :members:
 
 .. automodule:: mpc_control
    :members:
