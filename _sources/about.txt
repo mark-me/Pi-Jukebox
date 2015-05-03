@@ -16,7 +16,8 @@ What if there's no wifi access? You must be able to control the device
 directly: enter the touchscreen and enter pi-jukebox.
 
 Future plans include:
-    - Bluetooth streaming
+    - Modipy support.
+    - Bluetooth streaming.
     - Switching between single room and multi-room simultaneous playback.
     - Although it is made with a adafruit 320x240 
       touchscreen in mind, it should be fairly simple to adjust it for larger 
