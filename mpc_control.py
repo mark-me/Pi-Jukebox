@@ -45,6 +45,10 @@ class MPDController(object):
         self.__status = []            # mpc's current status output
         self.__status_previous = []   # mpc's previous status output
 
+    def close(self):
+        self.mpd_client.close()
+        self.mpd_client.disconnect()
+
     def __parse_mpc_status(self):
         """ Parses the mpd status """
 

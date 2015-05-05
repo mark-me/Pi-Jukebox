@@ -57,6 +57,7 @@ def main():
             screens.process_mouse_event(event)  # Handle mouse related events
 
             if event.type == KEYDOWN and event.key == K_ESCAPE:
+                mpd.mpd_control.close()
                 sys.exit()
 
     time.sleep(0.2)

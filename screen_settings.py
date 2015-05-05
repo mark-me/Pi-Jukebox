@@ -74,6 +74,7 @@ class ScreenSettingsQuit(ScreenModal):
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
         if tag_name == "btn_quit":
+            mpd.mpd_control.close()
             print ("Bye!")
             sys.exit()
         elif tag_name == "btn_shutdown":
