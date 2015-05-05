@@ -87,7 +87,7 @@ class Slider(Rectangle):
     def progress_percentage_set(self, percentage):
         if percentage < 0:
             percentage = 0
-        if percentage > 100:
+        elif percentage > 100:
             percentage = 100
         if percentage == 0:
             width = 1

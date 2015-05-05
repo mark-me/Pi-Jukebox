@@ -17,6 +17,8 @@ MPC_TYPE_ARTIST = "artist"
 MPC_TYPE_ALBUM = "album"
 MPC_TYPE_SONGS = "title"
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 class MPDController(object):
     """ Controls playback and volume
@@ -243,17 +245,6 @@ class MPD(object):
         self.list_songs = []
         self.list_query_results = []
 
-    def is_mpd_running(self):
-        """ Checks whether MPD daemon is running.
-
-        :return Boolean for mpd running
-        """
-        try:
-            result_string = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return False
-        return True
-
     def library_update(self):
         """ Updates the mpd library """
         self.mpd_control.mpd_client.update()
@@ -292,8 +283,13 @@ class MPD(object):
         :param part: Search string.
         :return: A list with search results.
         """
-        test = self.mpd_control.mpd_client.list(tag_type, tag_type, part)
-        return test
+        all_results = self.mpd_control.mpd_client.list(tag_type)
+        end_result = []
+        for i in all_results:
+            result_upper = i.upper()
+            if result_upper.find(part.upper()) > -1:
+                end_result.append(i)
+        return end_result
 
     def __search_of_type(self, type_result, type_filter, name_filter):
         """ Searching one type depending on another type (very clear description isn't it?)

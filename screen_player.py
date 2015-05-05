@@ -186,3 +186,15 @@ class ScreenVolume(ScreenModal):
         else:
             self.components["btn_mute"].set_image_file(ICO_VOLUME_MUTE)
         self.components["btn_mute"].draw()
+
+
+class ScreenCoverArt(ScreenModal):
+    """ Screen cover art
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+    """
+
+    def __init__(self, screen_rect):
+        ScreenModal.__init__(self, screen_rect, "Now playing")
+        self.title_color = FIFTIES_GREEN
+        self.outline_color = FIFTIES_GREEN
