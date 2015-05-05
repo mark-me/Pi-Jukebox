@@ -327,13 +327,18 @@ class ItemList(Widget):
 
     def draw_page_indicator(self):
         """ Draws a 'progress' indicator on the list. """
+        no_pages = self.pages_count()
         if self.pages_count() > 1:
             indicator_width = 3
             indicator_height = self.height / self.pages_count()
             indicator_x = self.x_pos + self.width - indicator_width
             indicator_y = self.y_pos + self.page_showing_index * indicator_height
+            # indicator = pygame.Surface(indicator_width, indicator_height)
+            #indicator.set_alpha(128)
+            #indicator.fill(FIFTIES_ORANGE)
+            #SCREEN.blit(indicator, (indicator_x, indicator_y))
             indicator = Rect(indicator_x, indicator_y, indicator_width, indicator_height)
-            # indicator.set_alpha(128)
+            #            indicator.set_alpha(128)
             pygame.draw.rect(self.screen, FIFTIES_ORANGE, indicator)
 
     def draw_items(self):

@@ -92,14 +92,15 @@ class ScreenSettingsPlayback(ScreenModal):
     """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Playback settings")
-        self.add_component(LabelText("lbl_shuffle", screen_rect, 10, 30, 80, 20, "Shuffle"))
-        self.add_component(Switch("switch_shuffle", screen_rect, 150, 23))
-        self.add_component(LabelText("lbl_repeat", screen_rect, 10, 60, 80, 20, "Repeat"))
-        self.add_component(Switch("switch_repeat", screen_rect, 150, 53))
-        self.add_component(LabelText("lbl_single", screen_rect, 10, 90, 80, 20, "Single"))
-        self.add_component(Switch("switch_single", screen_rect, 150, 83))
-        self.add_component(LabelText("lbl_consume", screen_rect, 10, 120, 120, 20, "Consume playlist"))
-        self.add_component(Switch("switch_consume", screen_rect, 150, 113))
+        self.add_component(LabelText("lbl_shuffle", screen_rect, 10, 30, 40, 20, "Shuffle"))
+        self.add_component(Switch("switch_shuffle", screen_rect, 60, 23))
+        self.add_component(LabelText("lbl_repeat", screen_rect, 120, 30, 40, 20, "Repeat"))
+        self.add_component(Switch("switch_repeat", screen_rect, 170, 23))
+        self.add_component(LabelText("lbl_single", screen_rect, 230, 30, 40, 20, "Single"))
+        self.add_component(Switch("switch_single", screen_rect, 280, 23))
+        self.add_component(LabelText("lbl_consume", screen_rect, 10, 65, 110, 20, "Consume playlist"))
+        self.add_component(Switch("switch_consume", screen_rect, 125, 58))
+        self.add_component(ButtonText("btn_rescan", self.screen, 10, 108, self.window_width - 20, "Re-scan library"))
         self.add_component(ButtonText("btn_update", self.screen, 10, 150, self.window_width - 20, "Update library"))
         self.add_component(ButtonText("btn_return", screen_rect, 10, 192, self.window_width - 20, "Back"))
 
@@ -128,6 +129,8 @@ class ScreenSettingsPlayback(ScreenModal):
             mpd.mpd_control.single_switch()
         elif tag_name == "switch_consume":
             mpd.mpd_control.consume_switch()
+        elif tag_name == "btn_rescan":
+            mpd.mpd_controller.library_rescan()
         elif tag_name == "btn_update":
             mpd.mpd_controller.library_update()
         elif tag_name == "btn_return":

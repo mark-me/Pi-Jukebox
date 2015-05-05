@@ -133,7 +133,7 @@ class ScreenPlayer(Screen):
             self.components["lbl_volume"].draw("Vol: " + str(mpd.mpd_control.volume) + "%")
         elif tag_name == "list_playing":
             selected_index = self.components["list_playing"].item_selected_index
-            if selected_index > 0:
+            if selected_index >= 0:
                 mpd.mpd_control.play_playlist_item(selected_index + 1)
                 self.components["list_playing"].active_item_index = selected_index
                 self.components["list_playing"].draw()
