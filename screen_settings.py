@@ -57,7 +57,6 @@ class ScreenSettingsQuit(ScreenModal):
 
         :param screen_rect: The display's rectangle where the screen is drawn on.
     """
-
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Quit")
         self.window_x = 90
@@ -91,7 +90,6 @@ class ScreenSettingsPlayback(ScreenModal):
 
         :param screen_rect: The display's rectangle where the screen is drawn on.
     """
-
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Playback settings")
         self.add_component(LabelText("lbl_shuffle", screen_rect, 10, 30, 80, 20, "Shuffle"))
@@ -131,6 +129,6 @@ class ScreenSettingsPlayback(ScreenModal):
         elif tag_name == "switch_consume":
             mpd.mpd_control.consume_switch()
         elif tag_name == "btn_update":
-            mpd.mpd_controller.update_library()
+            mpd.mpd_controller.library_update()
         elif tag_name == "btn_return":
             self.close()

@@ -54,7 +54,7 @@ def main():
 
         for event in pygame.event.get():  # Do for all events in pygame's event queue
 
-            screens.process_mouse_event(event.type)  # Handle mouse related events
+            screens.process_mouse_event(event)  # Handle mouse related events
 
             if event.type == KEYDOWN and event.key == K_ESCAPE:
                 sys.exit()

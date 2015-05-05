@@ -11,6 +11,7 @@ import time
 import subprocess
 import os
 import glob
+from mpd import *
 
 MPC_TYPE_ARTIST = "artist"
 MPC_TYPE_ALBUM = "album"
@@ -21,6 +22,8 @@ class MPDController(object):
     """ Controls playback and volume
     """
     def __init__(self):
+        self.mpd_client = MPDClient()
+        self.mpd_client.connect("localhost", 6600)
         self.update_interval = 1000 # Interval between mpc status update calls (milliseconds)
         self.player_control = ""    # Indicates whether mpd is playing, pausing or has stopped playing music
         self.track_name = ""        # Currently playing song name
@@ -43,53 +46,48 @@ class MPDController(object):
 
     def __parse_mpc_status(self):
         """ Parses the mpd status """
-        line_count = 0
-        for status_line in self.__status:
 
-            self.updating_library = status_line[:14] == "Updating DB (#"
+        # self.updating_library = status_line[:14] == "Updating DB (#"
+        status = self.mpd_client.status()
+        now_playing = self.mpd_client.currentsong()
 
-            if not self.updating_library and line_count == 0 and status_line[:7] != "volume:":
-                self.track_artist = status_line[0:status_line.find(" - ")]  # Artist of current song
-                self.track_name = status_line[status_line.find(" - ") + 3:]  # Song title of current song
-
-            if status_line[:7] == "volume:":
-                volume = status_line[status_line.find("volume:")+7:status_line.find("%")]
-                if self.is_int(volume):
-                    self.volume = int(volume)   # Current volume
-                else:
-                    self.volume = 0
-                self.repeat = status_line[status_line.find("repeat: ")+8:status_line.find("repeat: ")+10] == "on"
-                self.random = status_line[status_line.find("random: ")+8:status_line.find("random: ")+10] == "on"
-                self.single = status_line[status_line.find("single: ")+8:status_line.find("single: ")+10] == "on"
-                self.consume = status_line[status_line.find("consume: ")+9:status_line.find("consume: ")+11] == "on"
-            if status_line[:1] == "[":
-                self.player_control = status_line[status_line.find("\n[")+2:status_line.find("]")]
-                self.__playlist_current_playing_index = int(status_line[status_line.find("#")+1:status_line.find("/")]) - 1   # Current playlist index
-                self.time_current = status_line[status_line.find(":")-2:status_line.find(":")+3]                    # Playing time current
-                self.time_total = status_line[status_line.find("/", status_line.find("/")+1)+1:status_line.find("/", status_line.find("/")+1)+5] # Playing time total
-                self.time_percentage = status_line[status_line.find("(")+1:status_line.find(")")-1]
-
-            line_count += 1
-
-        if line_count == 1:
-            self.player_control = "stopped"
+        if len(now_playing) > 0:
+            self.track_artist = now_playing["artist"]  # Artist of current song
+            self.track_name = now_playing["title"]  # Song title of current song
+        else:
             self.track_artist = ""
             self.track_name = ""
-            self.playlist_current_playing_index = 0
-            self.time_current = "0:00"
-            self.time_total = "0:00"
+
+        self.volume = int(status["volume"])  # Current volume
+        self.repeat = status["repeat"] == '1'
+        self.random = status["random"] == '1'
+        self.single = status["single"] == '1'
+        self.consume = status["consume"] == '1'
+        self.player_control = status["state"]
+
+        if self.player_control != "stop":
+            self.__playlist_current_playing_index = int(status["song"])  # Current playlist index
+        else:
+            self.__playlist_current_playing_index = -1
+        if self.player_control != "stop":
+            current_seconds = self.str_to_float(status["elapsed"])
+            current_total = self.str_to_float(now_playing["time"])
+            self.time_percentage = int(current_seconds / current_total * 100)
+        else:
+            current_seconds = 0
+            current_total = 0
             self.time_percentage = 0
 
-    # Updates mpc data, returns True when status data is updated
+        self.time_current = self.make_time_string(current_seconds)  # Playing time current
+        self.time_total = self.make_time_string(current_total)  # Total time current
+
     def status_get(self):
-        # Wait at least 'update_interval' milliseconds before updating mpc status data
+        """ Updates mpc data, returns True when status data is updated
+             Wait at least 'update_interval' milliseconds before updating mpc status data
+        """
         if pygame.time.get_ticks() > self.update_interval and pygame.time.get_ticks() - self.__last_update_time < self.update_interval:
             return False
         self.__last_update_time = pygame.time.get_ticks() # Reset update
-        self.__status = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT).split("\n")  # Read mpc status
-        # If the status is the same as the last, indicate nothing was updated
-        if self.__status == self.__status_previous: return False
-        self.__status_previous = self.__status  # Set current status as previous for next comparison
         self.__parse_mpc_status()   # Parse mpc status output
         return True
 
@@ -99,51 +97,65 @@ class MPDController(object):
             self.status_get()
             return self.player_control
         elif play_status == "play":
-            subprocess.call("mpc play", shell=True)
+            self.mpd_client.play()
         elif play_status == "pause":
-            subprocess.call("mpc pause", shell=True)
+            self.mpd_client.pause()
         elif play_status == "stop":
-            subprocess.call("mpc stop", shell=True)
+            self.mpd_client.stop()
         elif play_status == "next":
-            subprocess.call("mpc next", shell=True)
+            self.mpd_client.next()
         elif play_status == "previous":
-            subprocess.call("mpc prev", shell=True)
+            self.mpd_client.previous()
 
     def player_control_get(self):
         self.status_get()
         return self.player_control
 
-    def play_playlist_item(self, number):
-        subprocess.call("mpc play " + str(number), shell=True)
+    def play_playlist_item(self, index):
+        self.mpd_client.play(index - 1)
 
     def volume_set(self, percentage):
         if percentage < 0 or percentage > 100: return
-        print ("mpc volume " + str(percentage))
-        subprocess.call("mpc volume " + str(percentage), shell=True)
+        self.mpd_client.setvol(percentage)
         self.volume = percentage
 
     def volume_set_relative(self, percentage):
-        if self.volume + percentage < 0:
-            self.volume_set(0)
-        elif self.volume + percentage > 100:
-            self.volume_set(100)
-        else:
-            self.volume_set(self.volume+percentage)
+        if self.volume + percentage >= 0 and self.volume + percentage <= 100:
+            self.volume += percentage
+            self.mpd_client.setvol(self.volume)
 
     def random_switch(self):
-        subprocess.call("mpc random", shell=True)
+        self.random = not self.random
+        if self.random:
+            self.mpd_client.random(1)
+        else:
+            self.mpd_client.random(0)
 
     def repeat_switch(self):
-        subprocess.call("mpc repeat", shell=True)
+        self.repeat = not self.repeat
+        if self.repeat:
+            self.mpd_client.repeat(1)
+        else:
+            self.mpd_client.repeat(0)
 
     def single_switch(self):
-        subprocess.call("mpc single", shell=True)
+        self.single = not self.single
+        if self.consume:
+            self.mpd_client.single(1)
+        else:
+            self.mpd_client.single(0)
 
     def consume_switch(self):
-        subprocess.call("mpc consume", shell=True)
+        self.consume = not self.consume
+        if self.consume:
+            self.mpd_client.consume(1)
+        else:
+            self.mpd_client.consume(0)
 
     def get_playlist_current(self):
-        self.playlist_current = subprocess.check_output("mpc playlist -f \"[%position%. %title%]\"", shell=True, stderr=subprocess.STDOUT).split("\n")
+        self.playlist_current = []
+        for i in self.mpd_client.playlistinfo():
+            self.playlist_current.append(i["id"] + ". " + i["title"])
         return self.playlist_current
 
     def get_playlist_current_playing_index(self):
@@ -160,7 +172,7 @@ class MPDController(object):
         :return: The current playing index
         """
         if index > 0 and index <= self.playlist_current_count():
-            subprocess.call("mpc play " + str(index + 1), shell=True)
+            self.mpd_client.playid(index)
             self.__playlist_current_playing_index = index
         return self.__playlist_current_playing_index
 
@@ -172,24 +184,31 @@ class MPDController(object):
 
     def playlist_current_clear(self):
         """ Removes everything from the current playlist """
-        subprocess.call("mpc clear", shell=True)
+        self.mpd_client.clear()
         self.playlist_current = []
 
-    def playlist_current_crop(self):
-        """ Removes everything from the current playlist except what is currently playing. """
-        subprocess.call("mpc crop", shell=True)
+    def make_time_string(self, seconds):
+        minutes = int(seconds / 60)
+        seconds_left = int(round(seconds - minutes * 60, 0))
+        time_string = str(minutes) + ":"
+        seconds_string = ""
+        if seconds_left < 10:
+            seconds_string = "0" + str(seconds_left)
+        else:
+            seconds_string = str(seconds_left)
+        time_string += seconds_string
+        return time_string
 
-    def is_int(self, s):
+    def str_to_float(self, s):
         """ Checks whether a string is an integer.
 
         :param s: string
-        :return: boolean
+        :return: float
         """
         try:
-            int(s)
-            return True
+            return float(s)
         except ValueError:
-            return False
+            return float(0)
 
 
 class MPD(object):
@@ -213,21 +232,13 @@ class MPD(object):
             return False
         return True
 
-    def update_library(self):
+    def library_update(self):
         """ Updates the mpd library """
-        subprocess.call("mpc update")
+        self.mpd_control.mpd_client.update()
 
-    def __format_results(self, result_string):
-        """ Makes mpc search output legible for the rest of the program
-        :param result_string: The mpc search output string
-        :return: A list containing the mpc search output
-        """
-        result_list = result_string.split("\n")
-        result_list.sort()
-        for i in result_list:
-            if i == "":
-                result_list.pop(0)     # Remove oddity of mpc
-        return result_list
+    def library_rescan(self):
+        """ Rebuild library. """
+        self.mpd_control.mpd_client.rescan()
 
     def __search(self, tag_type):
         """ Searches all entries of a certain type.
@@ -235,11 +246,8 @@ class MPD(object):
         :param tag_type: ["artist"s, "album"s, song"title"s]
         :return: A list with search results.
         """
-        try:
-            result_string = subprocess.check_output("mpc list " + tag_type, shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return []
-        return self.__format_results(result_string)
+        result_list = self.mpd_control.mpd_client.list(tag_type)
+        return result_list
 
     def __search_first_letter(self, tag_type, first_letter):
         """ Searches all entries of a certain type matching a first letter
@@ -248,11 +256,12 @@ class MPD(object):
         :param first_letter: The first letter
         :return: A list with search results.
         """
-        try:
-            result_string = subprocess.check_output("mpc list " + tag_type + " | grep ^" + first_letter, shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return []
-        return self.__format_results(result_string)
+        all_results = self.mpd_control.mpd_client.list(tag_type)
+        end_result = []
+        for i in all_results:
+            if i[:1].upper() == first_letter.upper():
+                end_result.append(i)
+        return end_result
 
     def __search_partial(self, tag_type, part):
         """ Searches all entries of a certain type partially matching search string.
@@ -261,12 +270,8 @@ class MPD(object):
         :param part: Search string.
         :return: A list with search results.
         """
-        command = "mpc list " + tag_type + " | grep -i \"" + part + "\""
-        try:
-            result_string = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return []
-        return self.__format_results(result_string)
+        test = self.mpd_control.mpd_client.list(tag_type, tag_type, part)
+        return test
 
     def __search_of_type(self, type_result, type_filter, name_filter):
         """ Searching one type depending on another type (very clear description isn't it?)
@@ -276,12 +281,7 @@ class MPD(object):
         :param name_filter: The name used to filter
         :return:
         """
-        command = "mpc list " + type_result + " " + type_filter + " \"" + name_filter + "\""
-        try:
-            result_string = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return []
-        return self.__format_results(result_string)
+        return self.mpd_control.mpd_client.list(type_result, type_filter, name_filter)
 
     def artists_get(self, part=None, only_start=True):
         """ Retrieves all artist names or matching by first letter(s) or partial search string.
@@ -364,15 +364,15 @@ class MPD(object):
         :param first_letter: Letter
         :return: A list of playlist names
         """
-        try:
-            if first_letter is None:
-                result_string = subprocess.check_output("mpc lsplaylists", shell=True, stderr=subprocess.STDOUT)
-            else:
-                result_string = subprocess.check_output("mpc lsplaylists | grep ^" + first_letter, shell=True,
-                                                        stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
-            return []
-        return self.__format_results(result_string)
+        result_list = []
+        if first_letter is None:
+            for playlist in self.mpd_control.mpd_client.listplaylists():
+                result_list.append(playlist["playlist"])
+        else:
+            for playlist in self.mpd_control.mpd_client.listplaylists():
+                if playlist["playlist"][:1].upper() == first_letter.upper():
+                    result_list.append(playlist["playlist"])
+        return result_list
 
     def playlist_add(self, tag_type, tag_name, play=False, clear_playlist=False):
         """ Adds songs to the current playlist
@@ -385,9 +385,9 @@ class MPD(object):
         if clear_playlist:
             mpd.mpd_control.playlist_current_clear()
         i = mpd.mpd_control.playlist_current_count()
-        subprocess.call("mpc findadd " + tag_type + " \"" + tag_name + "\"", shell=True)
+        self.mpd_control.mpd_client.findadd(tag_type, tag_name)
         if play:
-            mpd.mpd_control.play_playlist_item(i)
+            mpd.mpd_control.play_playlist_item(i + 1)
 
     def playlist_add_artist(self, artist_name, play=False, clear_playlist=False):
         """ Adds all artist's songs to the current playlist
@@ -426,9 +426,9 @@ class MPD(object):
         if clear_playlist:
             mpd.mpd_control.playlist_current_clear()
         i = mpd.mpd_control.playlist_current_count()
-        subprocess.call("mpc load " + " \"" + playlist_name + "\"", shell=True)
+        self.mpd_control.mpd_client.load(playlist_name)
         if play:
-            mpd.mpd_control.play_playlist_item(i)
+            mpd.mpd_control.play_playlist_item(i + 1)
 
 
 """            # If updating is finished reload artist, album and song lists

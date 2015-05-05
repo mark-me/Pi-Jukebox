@@ -18,14 +18,32 @@ from settings import *
 from screen_keyboard import *
 from screen_settings import *
 
-class LibraryBrowser(ItemList):
-    """ The component that displays mpd library entries.
+
+class LetterBrowser(ItemList):
+    """ The graphical control for selecting artists/albums/songs starting with a letter.
 
         :param screen_rect: The screen rect where the library browser is drawn on.
     """
 
     def __init__(self, screen_rect):
-        ItemList.__init__(self, "list_library", screen_rect, 55, 40, 210, 210)
+        ItemList.__init__(self, "list_letters", screen_rect, 268, 40, 52, 195)
+        self.item_outline_visible = True
+        self.outline_visible = False
+        self.font_color = FIFTIES_GREEN
+        self.set_item_alignment(HOR_MID, VERT_MID)
+        self.list = []
+        # self.list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"\
+        #                , "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" \
+        #                , "0", "1", "2", "3", "4", "5", "7", "8", "9"]
+
+
+class LibraryBrowser(ItemList):
+    """ The component that displays mpd library entries.
+
+        :param screen_rect: The screen rect where the library browser is drawn on.
+    """
+    def __init__(self, screen_rect):
+        ItemList.__init__(self, "list_library", screen_rect, 55, 42, 210, 194)
         self.outline_visible = False
         self.item_outline_visible = True
         self.font_color = FIFTIES_YELLOW
@@ -79,26 +97,23 @@ class LibraryBrowser(ItemList):
             updated = True
         if updated: self.draw()
 
+    def first_letters_in_result_get(self):
+        """ Get's the symbols that are first letters of the items in the result list.
 
-class LetterBrowser(ItemList):
-    """ The graphical control for selecting artists/albums/songs starting with a letter.
-
-        :param screen_rect: The screen rect where the library browser is drawn on.
-    """
-
-    def __init__(self, screen_rect):
-        ItemList.__init__(self, "list_letters", screen_rect, 268, 35, 52, 210)
-        self.item_outline_visible = True
-        self.outline_visible = False
-        self.font_color = FIFTIES_GREEN
-        self.set_item_alignment( HOR_MID, VERT_MID)
-        self.list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"\
-                        , "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" \
-                        , "0", "1", "2", "3", "4", "5", "7", "8", "9"]
+            :return: List of letters
+        """
+        output_set = set()
+        for item in self.list:
+            first_letter = item[:1].upper()
+            output_set.add(first_letter)
+        letter_list = list(output_set)
+        letter_list.sort(key=lambda item: (
+        [str, int].index(type(item)), item))  # Sorting, making sure letters are put before numbers
+        return letter_list
 
 
 class ScreenLibrary(Screen):
-    """ The screen where the user can browse in the MPD database and playlist_add items to playlists
+    """ The screen where the user can browse in the MPD database and playlist_add items to playlists.
 
         :param screen_rect: The display's rect where the library browser is drawn on.
     """
@@ -120,11 +135,12 @@ class ScreenLibrary(Screen):
         self.currently_showing = "artists"
         self.set_currently_showing("artists")
         self.components["list_library"].show_artists()
+        self.letter_list_update()
 
     def set_currently_showing(self, type_showing):
         """ Switch icons to active dependent on which kind of searching is active.
 
-            :param type_showing: The type of search results showing [artists, albums, songs, playlists]
+            :param type_showing: The type of search results showing [artists, albums, songs, playlists].
         """
         self.currently_showing = type_showing
         if type_showing == "artists":
@@ -148,13 +164,18 @@ class ScreenLibrary(Screen):
             self.components["btn_songs"].set_image_file(ICO_SEARCH_SONG)
             self.components["btn_playlists"].set_image_file(ICO_PLAYLISTS_ACTIVE)
 
+    def letter_list_update(self):
+        self.components["list_letters"].list = self.components["list_library"].first_letters_in_result_get()
+        self.components["list_letters"].draw()
+
     def find_first_letter(self):
-        """ Adjust current search type according to the letter clicked in the letter list """
+        """ Adjust current search type according to the letter clicked in the letter list. """
         letter = self.components["list_letters"].item_selected_get()
         if self.currently_showing == "artists":
             self.components["list_library"].show_artists(letter)
         elif self.currently_showing == "albums":
             self.components["list_library"].show_albums(letter)
+
         elif self.currently_showing == "songs":
             self.components["list_library"].show_songs(letter)
         elif self.currently_showing == "playlists":
@@ -177,7 +198,7 @@ class ScreenLibrary(Screen):
         elif search_type == "song":
             self.components["list_library"].show_songs(search_text, False)
             self.set_currently_showing("songs")
-        print (search_text)
+        self.letter_list_update()
         self.show()
 
     def playlist_action(self):
@@ -205,15 +226,19 @@ class ScreenLibrary(Screen):
         elif tag_name == "btn_artists":
             self.set_currently_showing("artists")
             self.components["list_library"].show_artists()
+            self.letter_list_update()
         elif tag_name == "btn_albums":
             self.set_currently_showing("albums")
             self.components["list_library"].show_albums()
+            self.letter_list_update()
         elif tag_name == "btn_songs":
             self.set_currently_showing("songs")
             self.components["list_library"].show_songs()
+            self.letter_list_update()
         elif tag_name == "btn_playlists":
             self.set_currently_showing("playlists")
             self.components["list_library"].show_playlists()
+            self.letter_list_update()
         elif tag_name == "btn_search":
             self.find_text()
         elif tag_name == "list_letters":
@@ -289,7 +314,7 @@ class ScreenSelected(ScreenModal):
         self.return_type = ""
 
     def initialize(self):
-        """ Set-up screen controls """
+        """ Set-up screen controls. """
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
 
@@ -311,7 +336,7 @@ class ScreenSelected(ScreenModal):
         #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 134, button_width, label))
 
     def action(self, tag_name):
-        """ Action that should be performed on a click """
+        """ Action that should be performed on a click. """
         play = False
         clear_playlist = False
 

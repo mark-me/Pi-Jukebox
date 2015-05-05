@@ -9,6 +9,7 @@ __author__ = 'Mark Zwart'
 import sys, pygame
 from pygame.locals import *
 import time
+import math
 from settings import *
 
 # Alignment variables
@@ -33,6 +34,7 @@ class Widget(object):
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         self.tag_name = tag_name
+        self.visible = True
         self.screen = screen_rect
         self.x_pos = x
         self.y_pos = y
@@ -53,6 +55,17 @@ class Widget(object):
     def set_font(self, font_name, font_size, font_color=FIFTIES_YELLOW):
         self.font = pygame.font.Font(font_name, font_size)
         self.font_color = font_color
+
+
+class Rectangle(Widget):
+    def __init__(self, tag_name, screen_rect, x, y, width, height):
+        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+        self.background_color = FIFTIES_CHARCOAL
+
+    def draw(self):
+        """ Draws the label. """
+        self.screen.fill(self.background_color, self.rect)  # Background
+        pygame.display.update(self.rect)
 
 
 class LabelText(Widget):
@@ -271,11 +284,9 @@ class ItemList(Widget):
         :ivar active_item_index: The index of the currently active list item. It differs from selected in that it is set by the program and not by the user, default = -1.
         :ivar item_active_color: The active list item for color, default = :py:const:BLUE.
         :ivar item_active_background_color: The active list item background color, default = :py:const:WHITE.
-        :ivar item_selected: The index of the selected list item, default = -1.
+        :ivar item_selected_index: The index of the selected list item, default = -1.
         :ivar item_selected_color: The font color of a selected item, default = :py:const:BLUE.
         :ivar item_selected_background_color: The selected list item background color, default = :py:const:WHITE.
-
-
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
@@ -292,25 +303,41 @@ class ItemList(Widget):
         self.item_active_color = BLUE
         self.item_active_background_color = WHITE
 
-        self.item_selected = -1
+        self.item_selected_index = -1
         self.item_selected_color = BLUE
         self.item_selected_background_color = WHITE
 
         self.items_per_page = (self.height - 2 * self.item_indent) / self.item_height  # Maximum number
         self.page_showing_index = 0  # Index of page currently showing
 
-
     def set_item_alignment(self, horizontal, vertical):
-        """ Sets the alignment of the text of an item within the item's rectangle """
+        """ Sets the alignment of the text of an item within the item's rectangle. """
         self.item_alignment_horizontal = horizontal
         self.item_alignment_vertical = vertical
 
     def draw(self):
-        """ Draws the item list on screen """
+        """ Draws the item list on screen. """
         self.screen.fill(self.background_color, self.rect)
         if self.outline_visible:
             pygame.draw.rect(self.screen, self.outline_color, self.rect, 1)
         pygame.display.update(self.rect)
+        self.draw_items()
+        self.draw_page_indicator()
+        pygame.display.flip()
+
+    def draw_page_indicator(self):
+        """ Draws a 'progress' indicator on the list. """
+        if self.pages_count() > 1:
+            indicator_width = 3
+            indicator_height = self.height / self.pages_count()
+            indicator_x = self.x_pos + self.width - indicator_width
+            indicator_y = self.y_pos + self.page_showing_index * indicator_height
+            indicator = Rect(indicator_x, indicator_y, indicator_width, indicator_height)
+            # indicator.set_alpha(128)
+            pygame.draw.rect(self.screen, FIFTIES_ORANGE, indicator)
+
+    def draw_items(self):
+        """ Draws the list items. """
         # Do not draw items when there are none
         if self.list is None:
             return
@@ -320,7 +347,7 @@ class ItemList(Widget):
         while item_nr + item_start < len(self.list) and item_nr < self.items_per_page:
             item_text = self.list[item_nr + item_start]  # Get item text from list
             item_x_pos = self.x_pos + self.item_indent                                  # x position of item
-            item_width = self.width - 2 * self.item_indent                              # Maximum item width
+            item_width = self.width - 2 * self.item_indent - 10  # Maximum item width
             item_y_pos = self.y_pos + self.item_indent + (self.item_height * item_nr)   # y position of item
             list_item = LabelText("lbl_item_" + str(item_nr), self.screen, item_x_pos, item_y_pos, item_width,
                                   self.item_height, item_text)  # Create label
@@ -347,8 +374,14 @@ class ItemList(Widget):
         if y_pos > self.height or self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height >= len(
                 self.list) - 1:  # Check whether no item was clicked
             return None
-        self.item_selected = (self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height)
-        return self.item_selected
+        self.item_selected_index = (self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height)
+        return self.item_selected_index
+
+    def pages_count(self):
+        """ :return: The number of pages filled with list items. """
+        items_count = len(self.list)
+        page_count = int(math.ceil(items_count / self.items_per_page) + 1)
+        return page_count
 
     def item_active_get(self):
         """ :return: active item text """
@@ -361,7 +394,7 @@ class ItemList(Widget):
 
     def item_selected_get(self):
         """ :return: selected item's text """
-        return self.list[self.item_selected]
+        return self.list[self.item_selected_index]
 
     def on_click(self, x_pos, y_pos):
         """ Relays click action to a list item.
@@ -381,11 +414,11 @@ class ItemList(Widget):
 
     def show_prev_items(self):
         """ Shows previous page of items. """
-        if self.page_showing_index * self.items_per_page + self.items_per_page - self.items_per_page >= 0:
+        if self.page_showing_index * self.items_per_page > 0:
             self.page_showing_index -= 1
+            self.draw()
         else:
             self.page_showing_index = 0
-        self.draw()
 
     def show_item_active(self):
         page_no = 0
@@ -393,6 +426,81 @@ class ItemList(Widget):
             page_no += 1
         self.page_showing_index = page_no
         self.draw()
+
+
+class GestureDetector(object):
+    def __init__(self):
+        self.gesture = GESTURE_NONE
+        self.x_start = 0
+        self.y_start = 0
+        self.x_moved = 0
+        self.y_moved = 0
+        self.drag_length = 0
+        self.press_duration = 0
+        self.x_start, self.y_start = pygame.mouse.get_pos()
+
+    def capture_gesture(self, event):
+        """ Mouse event loop """
+
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return GESTURE_NONE
+
+        gesture_ended = False
+
+        mouse_down_time = pygame.time.get_ticks()  # Start timer to detect long mouse clicks
+        self.x_start, self.y_start = pygame.mouse.get_pos()  # Get click position (= start position for swipe)
+        pygame.mouse.get_rel()  # Start tracking mouse movement
+        mouse_down_time = pygame.time.get_ticks()
+
+        while not gesture_ended:
+            for event in pygame.event.get():
+
+                if event.type == pygame.MOUSEBUTTONUP:  # Gesture end
+                    self.press_duration = pygame.time.get_ticks() - mouse_down_time
+                    self.x_moved, self.y_moved = pygame.mouse.get_rel()  # Movements since start gesture
+                    self.gesture = self.__determine_gesture_type()  # Determines the kind of gesture used
+                    gesture_ended = True
+
+        return self.gesture
+
+    def __determine_gesture_type(self):
+        """ Determines the kind of gesture.
+
+            :return: The type of gesture [:py:const:GESTURE_CLICK, :py:const:GESTURE_SWIPE_DOWN, :py:const:GESTURE_SWIPE_UP, :py:const:GESTURE_SWIPE_LEFT, :py:const:GESTURE_SWIPE_RIGHT]
+        """
+        x = self.x_moved
+        y = self.y_moved
+        if self.press_duration < GESTURE_PRESS_MIN:
+            if abs(x) <= GESTURE_MOVE_MIN:
+                if abs(y) <= GESTURE_MOVE_MIN:
+                    if abs(x) < GESTURE_CLICK_MAX and abs(y) < GESTURE_CLICK_MAX:
+                        return GESTURE_CLICK  # Tap (click)
+                    else:
+                        return -1  # No idea what the user did
+                elif y > GESTURE_MOVE_MIN:  # Down swipe
+                    return GESTURE_SWIPE_DOWN
+                elif y < -GESTURE_MOVE_MIN:  # Up swipe
+                    return GESTURE_SWIPE_UP
+            elif abs(y) <= GESTURE_MOVE_MIN:
+                if x > GESTURE_MOVE_MIN:  # Left swipe
+                    return GESTURE_SWIPE_LEFT
+                elif x < -GESTURE_MOVE_MIN:  # Right swipe
+                    return GESTURE_SWIPE_RIGHT
+        elif self.press_duration >= GESTURE_PRESS_MIN:
+            if abs(x) <= GESTURE_MOVE_MIN:
+                if abs(y) <= GESTURE_MOVE_MIN:
+                    if abs(x) < GESTURE_CLICK_MAX and abs(y) < GESTURE_CLICK_MAX:
+                        return GESTURE_LONG_PRESS  # Long press
+                    else:
+                        return -1  # No idea what the user did
+                elif abs(y) > GESTURE_MOVE_MIN:
+                    return GESTURE_DRAG_VERTICAL  # Vertical drag
+            elif abs(y) <= GESTURE_MOVE_MIN:
+                if abs(x) > GESTURE_MOVE_MIN:
+                    return GESTURE_DRAG_HORIZONTAL  # Horizontal drag
+        else:
+            pass
+            return GESTURE_NONE
 
 
 class Screen(object):
@@ -419,7 +527,8 @@ class Screen(object):
         """ Displays the screen. """
         self.screen.fill(self.color)
         for key, value in self.components.items():
-            value.draw()
+            if value.visible:
+                value.draw()
         pygame.display.flip()
 
     def on_click(self, x, y):
@@ -431,11 +540,12 @@ class Screen(object):
             :return: The tag_name of the clicked component.
         """
         for key, value in self.components.items():
-            if isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or isinstance(value, Switch):
+            if (isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or isinstance(value,
+                                                                                             Switch)) and value.visible:
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
                     value.on_click(x, y)
                     return key
-            if isinstance(value, ItemList):
+            if isinstance(value, ItemList) and value.visible:
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <=y <= value.y_pos + value.height:
                     value.clicked_item(x, y)
                     return key
@@ -450,9 +560,9 @@ class Screen(object):
         for key, value in self.components.items():
             if isinstance(value, ItemList):
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
-                    if swipe_type == SWIPE_UP:
+                    if swipe_type == GESTURE_SWIPE_UP:
                         value.show_next_items()
-                    if swipe_type == SWIPE_DOWN:
+                    if swipe_type == GESTURE_SWIPE_DOWN:
                         value.show_prev_items()
 
 
@@ -476,6 +586,7 @@ class ScreenModal(Screen):
         self.title_color = FIFTIES_ORANGE
         self.outline_shown = False
         self.outline_color = FIFTIES_ORANGE
+        self.gesture_detect = GestureDetector()
 
     def show(self):
         """ Displays screen and starts own event capture loop.
@@ -492,12 +603,15 @@ class ScreenModal(Screen):
         return self.return_object
 
     def close(self):
-        """ Closes event loop and returns the window's return object """
+        """ Closes event loop.
+
+            :return: Window's return object.
+        """
         self.close_screen = True
         return self.return_object
 
     def __draw_window(self):
-        """ Draws window border and title """
+        """ Draws window border and title. """
         # Draws backdrop screen
         if self.window_width < SCREEN_WIDTH or self.window_height < SCREEN_HEIGHT:
             backdrop = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -518,49 +632,20 @@ class ScreenModal(Screen):
         image = FONT.render(self.title, True, BLACK)
         self.screen.blit(image, (title_rect.centerx-font_width /2, title_rect.centery-font_height/2))
 
-    def __get_swipe_type(self):
-        """ Determines the kind of gesture.
-
-            :return: The type of gesture [:py:const:SWIPE_CLICK, :py:const:SWIPE_DOWN, :py:const:SWIPE_UP, :py:const:SWIPE_LEFT, :py:const:SWIPE_RIGHT]
-        """
-        x, y = pygame.mouse.get_rel()  # Register mouse movement since last call
-
-        if abs(x) <= MIN_SWIPE:
-            if abs(y) <= MIN_SWIPE:
-                if abs(x) < MAX_CLICK and abs(y) < MAX_CLICK:
-                    return SWIPE_CLICK      # Not a swipe but a tap (click)
-                else:
-                    return -1      # No idea what the user did
-            elif y > MIN_SWIPE:    # Down swipe
-                return SWIPE_DOWN
-            elif y < -MIN_SWIPE:   # Up swipe
-                return SWIPE_UP
-        elif abs(y) <= MIN_SWIPE:
-            if x > MIN_SWIPE:      # Left swipe
-                return SWIPE_LEFT
-            elif x < -MIN_SWIPE:   # Right swipe
-                return SWIPE_RIGHT
-        return SWIPE_CLICK		   # Tap
 
     def event_loop(self):
         """ The window's event loop """
         while not self.close_screen:
             for event in pygame.event.get():
 
-                if event.type == pygame.MOUSEBUTTONDOWN:        # Gesture start
-                    mouse_down_time = pygame.time.get_ticks()   # Start timer to detect long mouse clicks
-                    mouse_down_pos = pygame.mouse.get_pos()     # Get click position (= start position for swipe)
-                    pygame.mouse.get_rel()                      # Start tracking mouse movement
+                gesture = self.gesture_detect.capture_gesture(event)
 
-                if event.type == pygame.MOUSEBUTTONUP:      # Gesture end
-                    swipe_type = self.__get_swipe_type()    # Determines the kind of gesture used
-
-                    if swipe_type == SWIPE_CLICK:      # Fire click function
-                        self.action(self.on_click(mouse_down_pos[0], mouse_down_pos[1]))
-
-                    # Relay vertical swiping to active screen controls
-                    if swipe_type == SWIPE_UP or swipe_type == SWIPE_DOWN:
-                        self.on_swipe(mouse_down_pos[0], mouse_down_pos[1], swipe_type)
+                # Relays click to active screen controls
+                if gesture == GESTURE_CLICK:
+                    self.action(self.on_click(self.gesture_detect.x_start, self.gesture_detect.y_start))
+                # Relay vertical swiping to active screen controls
+                elif gesture == GESTURE_SWIPE_UP or gesture == GESTURE_SWIPE_DOWN:
+                    self.on_swipe(self.gesture_detect.x_start, self.gesture_detect.y_start, gesture)
 
                 # Possibility to close modal window with 'Esc' key
                 if event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -583,7 +668,7 @@ class Screens(object):
     def __init__(self):
         self.screen_list = []   #
         self.current_index = 0
-        self.mouse_down_pos = pygame.mouse.get_pos()  # Initialize mouse position
+        self.gesture_detect = GestureDetector()
 
     def show(self):
         """ Show the current screen """
@@ -593,56 +678,29 @@ class Screens(object):
         """ Adds screen to list """
         self.screen_list.append(screen)
 
-    def swipe_type_get(self):
-        """ Determines the kind of gesture.
-
-            :return: The type of swipe [:py:const:SWIPE_CLICK, :py:const:SWIPE_DOWN, :py:const:SWIPE_UP, :py:const:SWIPE_LEFT, :py:const:SWIPE_RIGHT]
-        """
-        x, y = pygame.mouse.get_rel()  # Register mouse movement since last call
-        if abs(x) <= MIN_SWIPE:
-            if abs(y) <= MIN_SWIPE:
-                if abs(x) < MAX_CLICK and abs(y) < MAX_CLICK:
-                    return SWIPE_CLICK  # Not a swipe but a tap (click)
-                else:
-                    return -1  # No idea what the user did
-            elif y > MIN_SWIPE:  # Down swipe
-                return SWIPE_DOWN
-            elif y < -MIN_SWIPE:  # Up swipe
-                return SWIPE_UP
-
-        elif abs(y) <= MIN_SWIPE:
-            if x > MIN_SWIPE:  # Left swipe
-                return SWIPE_LEFT
-            elif x < -MIN_SWIPE:  # Right swipe
-                return SWIPE_RIGHT
-        return SWIPE_CLICK  # Tap
-
-    def process_mouse_event(self, event_type):
+    def process_mouse_event(self, event):
         """ Processes mouse events. """
-        if event_type == pygame.MOUSEBUTTONDOWN:  # Gesture start
-            mouse_down_time = pygame.time.get_ticks()  # Start timer to detect long mouse clicks
-            self.mouse_down_pos = pygame.mouse.get_pos()  # Get click position (= start position for swipe)
-            pygame.mouse.get_rel()  # Start tracking mouse movement
-        elif event_type == pygame.MOUSEBUTTONUP:  # Gesture end
-            swipe_type = self.swipe_type_get()  # Determines the kind of gesture used
-            # Start mouse related event functions
-            if swipe_type == SWIPE_CLICK:  # Fire click function
-                x = self.mouse_down_pos[0]
-                y = self.mouse_down_pos[1]
-                ret_value = self.screen_list[self.current_index].on_click(x, y)  # Relay tap/click to active screen
-                # If the screen requests a screen switch
-                if ret_value >= 0 and ret_value < len(self.screen_list):
-                    self.current_index = ret_value
-                    self.show()
-            # Switch screens with horizontal swiping
-            if swipe_type == SWIPE_LEFT and self.current_index - 1 >= 0:
-                self.current_index -= 1
+        if event.type != pygame.MOUSEBUTTONDOWN and event.type != pygame.MOUSEBUTTONDOWN:
+            return None
+        gesture = self.gesture_detect.capture_gesture(event)
+        x = self.gesture_detect.x_start
+        y = self.gesture_detect.y_start
+
+        if gesture == GESTURE_CLICK:  # Fire click function
+            ret_value = self.screen_list[self.current_index].on_click(x, y)  # Relay tap/click to active screen
+            # If the screen requests a screen switch
+            if ret_value >= 0 and ret_value < len(self.screen_list):
+                self.current_index = ret_value
                 self.show()
-            if swipe_type == SWIPE_RIGHT and self.current_index + 1 < len(self.screen_list):
-                self.current_index += 1
-                self.show()
-            # Relay vertical swiping to active screen controls
-            if swipe_type == SWIPE_UP or swipe_type == SWIPE_DOWN:
-                x = self.mouse_down_pos[0]
-                y = self.mouse_down_pos[1]
-                self.screen_list[self.current_index].on_swipe(x, y, swipe_type)
+        # Switch screens with horizontal swiping
+        if gesture == GESTURE_SWIPE_LEFT and self.current_index - 1 >= 0:
+            self.current_index -= 1
+            self.show()
+        if gesture == GESTURE_SWIPE_RIGHT and self.current_index + 1 < len(self.screen_list):
+            self.current_index += 1
+            self.show()
+        # Relay vertical swiping to active screen controls
+        if gesture == GESTURE_SWIPE_UP or gesture == GESTURE_SWIPE_DOWN:
+            x = self.gesture_detect.x_start
+            y = self.gesture_detect.y_start
+            self.screen_list[self.current_index].on_swipe(x, y, gesture)
