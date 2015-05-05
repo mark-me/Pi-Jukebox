@@ -29,6 +29,7 @@ class MPDController(object):
         self.track_name = ""        # Currently playing song name
         self.track_artist = ""      # Currently playing artist
         self.volume = 0             # Playback volume
+        self.__muted = False  # Indicates whether muted
         self.time_current = ""      # Currently playing song time
         self.time_total = ""        # Currently playing song duration
         self.time_percentage = 0    # Currently playing song time as a percentage of the song duration
@@ -59,6 +60,10 @@ class MPDController(object):
             self.track_name = ""
 
         self.volume = int(status["volume"])  # Current volume
+        if self.volume == 0:
+            self.__muted = True
+        else:
+            self.__muted = False
         self.repeat = status["repeat"] == '1'
         self.random = status["random"] == '1'
         self.single = status["single"] == '1'
@@ -67,13 +72,11 @@ class MPDController(object):
 
         if self.player_control != "stop":
             self.__playlist_current_playing_index = int(status["song"])  # Current playlist index
-        else:
-            self.__playlist_current_playing_index = -1
-        if self.player_control != "stop":
             current_seconds = self.str_to_float(status["elapsed"])
             current_total = self.str_to_float(now_playing["time"])
             self.time_percentage = int(current_seconds / current_total * 100)
         else:
+            self.__playlist_current_playing_index = -1
             current_seconds = 0
             current_total = 0
             self.time_percentage = 0
@@ -128,8 +131,16 @@ class MPDController(object):
             self.volume += percentage
             self.mpd_client.setvol(self.volume)
 
-    def volume_mute(self):
-        self.mpd_client.setvol(0)
+    def volume_mute_switch(self):
+        if self.__muted:
+            self.mpd_client.setvol(self.volume)
+            self.__muted = False
+        else:
+            self.mpd_client.setvol(0)
+            self.__muted = True
+
+    def volume_mute_get(self):
+        return self.__muted
 
     def random_switch(self):
         self.random = not self.random

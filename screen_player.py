@@ -80,8 +80,8 @@ class ScreenPlayer(Screen):
 
     def update(self):
         """ Update controls that depend on mpd's status. """
-
-        self.components["list_playing"].active_item_index = mpd.mpd_control.get_playlist_current_playing_index()
+        if self.components["list_playing"].active_item_index != mpd.mpd_control.get_playlist_current_playing_index():
+            self.components["list_playing"].active_item_index != mpd.mpd_control.get_playlist_current_playing_index()
         self.components["list_playing"].show_playlist()
         if self.components["lbl_track_title"].caption != mpd.mpd_control.track_name:
             self.components["lbl_track_title"].draw(mpd.mpd_control.track_name)
@@ -163,13 +163,13 @@ class ScreenVolume(ScreenModal):
             Slider("slide_volume", self.screen, self.window_x + 8, self.window_y + 63, self.window_width - 18, 30))
         self.components["slide_volume"].progress_percentage_set(mpd.mpd_control.volume)
         self.add_component(
-            ButtonText("btn_back", self.screen, self.window_x + self.window_width / 2 - 25, self.window_y + 98, 50,
+            ButtonText("btn_back", self.screen, self.window_x + self.window_width / 2 - 23, self.window_y + 98, 46,
                        "Back"))
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
         if tag_name == "btn_mute":
-            mpd.mpd_control.volume_mute()
+            mpd.mpd_control.volume_mute_switch()
             self.components["slide_volume"].progress_percentage_set(mpd.mpd_control.volume)
         elif tag_name == "btn_volume_down":
             mpd.mpd_control.volume_set_relative(-10)
@@ -181,7 +181,7 @@ class ScreenVolume(ScreenModal):
             mpd.mpd_control.volume_set(self.components["slide_volume"].progress_percentage)
         elif tag_name == "btn_back":
             self.close()
-        if mpd.mpd_control.volume == 0:
+        if mpd.mpd_control.volume == 0 or mpd.mpd_control.volume_mute_get():
             self.components["btn_mute"].set_image_file(ICO_VOLUME_MUTE_ACTIVE)
         else:
             self.components["btn_mute"].set_image_file(ICO_VOLUME_MUTE)
