@@ -299,7 +299,8 @@ class MPD(object):
         :param name_filter: The name used to filter
         :return:
         """
-        return self.mpd_control.mpd_client.list(type_result, type_filter, name_filter)
+        result = self.mpd_control.mpd_client.list(type_result, type_filter, name_filter)
+        return result
 
     def artists_get(self, part=None, only_start=True):
         """ Retrieves all artist names or matching by first letter(s) or partial search string.
