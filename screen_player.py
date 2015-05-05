@@ -58,8 +58,7 @@ class ScreenPlayer(Screen):
         self.add_component(ButtonIcon("btn_play", self.screen, ICO_PLAY, SCREEN_WIDTH - 52, 45))
         self.add_component(ButtonIcon("btn_prev", self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 52, 85))
         self.add_component(ButtonIcon("btn_next", self.screen, ICO_NEXT, SCREEN_WIDTH - 52, 125))
-        self.add_component(ButtonIcon("btn_volume_up", self.screen, ICO_VOLUME_UP, SCREEN_WIDTH - 52, 165))
-        self.add_component(ButtonIcon("btn_volume_down", self.screen, ICO_VOLUME_DOWN, SCREEN_WIDTH - 52, 205))
+        self.add_component(ButtonIcon("btn_volume", self.screen, ICO_VOLUME, SCREEN_WIDTH - 52, 165))
 
         # Player specific labels
         self.add_component(LabelText("lbl_track_title", self.screen, 55, 5, SCREEN_WIDTH - 130, 18))
@@ -90,10 +89,10 @@ class ScreenPlayer(Screen):
             self.components["lbl_track_artist"].draw(mpd.mpd_control.track_artist)
         self.components["lbl_time"].draw(mpd.mpd_control.time_current + "/" + mpd.mpd_control.time_total)
         self.components["lbl_volume"].draw("Vol: " + str(mpd.mpd_control.volume) + "%")
-        if self.components["btn_play"].image_file != ICO_PAUSE and mpd.mpd_control.player_control == "playing":
+        if self.components["btn_play"].image_file != ICO_PAUSE and mpd.mpd_control.player_control == "play":
             self.components["btn_play"].set_image_file(ICO_PAUSE)
             self.components["btn_play"].draw()
-        elif self.components["btn_play"].image_file == ICO_PAUSE and mpd.mpd_control.player_control != "playing":
+        elif self.components["btn_play"].image_file == ICO_PAUSE and mpd.mpd_control.player_control != "play":
             self.components["btn_play"].set_image_file(ICO_PLAY)
             self.components["btn_play"].draw()
 
@@ -114,7 +113,7 @@ class ScreenPlayer(Screen):
             setting_screen.show()
             self.show()
         elif tag_name == "btn_play":
-            if mpd.mpd_control.player_control_get() == "playing":
+            if mpd.mpd_control.player_control_get() == "play":
                 mpd.mpd_control.player_control_set("pause")
                 self.components["btn_play"].set_image_file(ICO_PLAY)
             else:
@@ -125,12 +124,10 @@ class ScreenPlayer(Screen):
             mpd.mpd_control.player_control_set("previous")
         elif tag_name == "btn_next":
             mpd.mpd_control.player_control_set("next")
-        elif tag_name == "btn_volume_up":
-            mpd.mpd_control.volume_set_relative(10)
-            self.components["lbl_volume"].draw("Vol: " + str(mpd.mpd_control.volume) + "%")
-        elif tag_name == "btn_volume_down":
-            mpd.mpd_control.volume_set_relative(-10)
-            self.components["lbl_volume"].draw("Vol: " + str(mpd.mpd_control.volume) + "%")
+        elif tag_name == "btn_volume":
+            screen_volume = ScreenVolume(self.screen)
+            screen_volume.show()
+            self.show()
         elif tag_name == "list_playing":
             selected_index = self.components["list_playing"].item_selected_index
             if selected_index >= 0:
@@ -139,3 +136,53 @@ class ScreenPlayer(Screen):
                 self.components["list_playing"].draw()
 
 
+class ScreenVolume(ScreenModal):
+    """ Screen setting volume
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+    """
+
+    def __init__(self, screen_rect):
+        ScreenModal.__init__(self, screen_rect, "Volume")
+        self.window_x = 15
+        self.window_y = 52
+        self.window_width -= 2 * self.window_x
+        self.window_height -= 2 * self.window_y
+        self.outline_shown = True
+        self.title_color = FIFTIES_GREEN
+        self.outline_color = FIFTIES_GREEN
+
+        self.add_component(ButtonIcon("btn_mute", screen_rect, ICO_VOLUME_MUTE, self.window_x + 5, self.window_y + 25))
+        self.components["btn_mute"].x_pos = self.window_x + self.window_width / 2 - self.components[
+                                                                                        "btn_mute"].width / 2
+        self.add_component(
+            ButtonIcon("btn_volume_down", self.screen, ICO_VOLUME_DOWN, self.window_x + 5, self.window_y + 25))
+        self.add_component(
+            ButtonIcon("btn_volume_up", self.screen, ICO_VOLUME_UP, self.window_width - 40, self.window_y + 25))
+        self.add_component(
+            Slider("slide_volume", self.screen, self.window_x + 8, self.window_y + 63, self.window_width - 18, 30))
+        self.components["slide_volume"].progress_percentage_set(mpd.mpd_control.volume)
+        self.add_component(
+            ButtonText("btn_back", self.screen, self.window_x + self.window_width / 2 - 25, self.window_y + 98, 50,
+                       "Back"))
+
+    def on_click(self, x, y):
+        tag_name = super(ScreenModal, self).on_click(x, y)
+        if tag_name == "btn_mute":
+            mpd.mpd_control.volume_mute()
+            self.components["slide_volume"].progress_percentage_set(mpd.mpd_control.volume)
+        elif tag_name == "btn_volume_down":
+            mpd.mpd_control.volume_set_relative(-10)
+            self.components["slide_volume"].progress_percentage_set(mpd.mpd_control.volume)
+        elif tag_name == "btn_volume_up":
+            mpd.mpd_control.volume_set_relative(10)
+            self.components["slide_volume"].progress_percentage_set(mpd.mpd_control.volume)
+        elif tag_name == "slide_volume":
+            mpd.mpd_control.volume_set(self.components["slide_volume"].progress_percentage)
+        elif tag_name == "btn_back":
+            self.close()
+        if mpd.mpd_control.volume == 0:
+            self.components["btn_mute"].set_image_file(ICO_VOLUME_MUTE_ACTIVE)
+        else:
+            self.components["btn_mute"].set_image_file(ICO_VOLUME_MUTE)
+        self.components["btn_mute"].draw()

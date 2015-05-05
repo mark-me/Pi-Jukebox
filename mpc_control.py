@@ -99,7 +99,7 @@ class MPDController(object):
         elif play_status == "play":
             self.mpd_client.play()
         elif play_status == "pause":
-            self.mpd_client.pause()
+            self.mpd_client.pause(1)
         elif play_status == "stop":
             self.mpd_client.stop()
         elif play_status == "next":
@@ -120,9 +120,16 @@ class MPDController(object):
         self.volume = percentage
 
     def volume_set_relative(self, percentage):
-        if self.volume + percentage >= 0 and self.volume + percentage <= 100:
+        if self.volume + percentage < 0:
+            self.mpd_client.setvol(0)
+        elif self.volume + percentage > 100:
+            self.mpd_client.setvol(100)
+        else:
             self.volume += percentage
             self.mpd_client.setvol(self.volume)
+
+    def volume_mute(self):
+        self.mpd_client.setvol(0)
 
     def random_switch(self):
         self.random = not self.random

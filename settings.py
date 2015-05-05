@@ -96,8 +96,11 @@ ICO_PLAY = RESOURCES + "play_48x32.png"
 ICO_PAUSE = RESOURCES + "pause_48x32.png"
 ICO_NEXT = RESOURCES + "next_48x32.png"
 ICO_PREVIOUS = RESOURCES + "prev_48x32.png"
+ICO_VOLUME = RESOURCES + "vol_48x32.png"
 ICO_VOLUME_UP = RESOURCES + "vol_up_48x32.png"
 ICO_VOLUME_DOWN = RESOURCES + "vol_down_48x32.png"
+ICO_VOLUME_MUTE = RESOURCES + "vol_mute_48x32.png"
+ICO_VOLUME_MUTE_ACTIVE = RESOURCES + "vol_mute_active_48x32.png"
 
 # Library icons
 ICO_SEARCH = RESOURCES + "search_48x32.png"

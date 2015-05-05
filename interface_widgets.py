@@ -68,6 +68,41 @@ class Rectangle(Widget):
         pygame.display.update(self.rect)
 
 
+class Slider(Rectangle):
+    def __init__(self, tag_name, screen_rect, x, y, width, height):
+        Rectangle.__init__(self, tag_name, screen_rect, x, y, width, height)
+        self.progress_color = FIFTIES_GREEN
+        self.progress_percentage = 0
+        self.progress_rect = Rect(x + 1, y + 1, 1, height - 2)
+        self.caption_visible = True
+
+    def draw(self):
+        """ Draws the label. """
+        self.screen.fill(self.background_color, self.rect)  # Background
+        pygame.display.update(self.rect)
+        if self.progress_percentage > 0:
+            self.screen.fill(self.progress_color, self.progress_rect)  # Progress bar
+            pygame.display.update(self.progress_rect)
+
+    def progress_percentage_set(self, percentage):
+        if percentage < 0:
+            percentage = 0
+        if percentage > 100:
+            percentage = 100
+        if percentage == 0:
+            width = 1
+        else:
+            width = (self.width - 2) * (float(percentage) / 100)
+        self.progress_rect = Rect(self.x_pos + 1, self.y_pos + 1, width, self.height - 2)
+        self.progress_percentage = percentage
+        self.draw()
+
+    def on_click(self, x, y):
+        new_percentage = int((float(x - self.x_pos) / float(self.width)) * 100)
+        self.progress_percentage_set(new_percentage)
+        return self.tag_name
+
+
 class LabelText(Widget):
     """ LabelText is used to write text that needs to fit in a pre-defined rectangle.
 
@@ -545,8 +580,8 @@ class Screen(object):
             :return: The tag_name of the clicked component.
         """
         for key, value in self.components.items():
-            if (isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or isinstance(value,
-                                                                                             Switch)) and value.visible:
+            if (isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or \
+                        isinstance(value, Switch)) or isinstance(value, Slider) and value.visible:
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
                     value.on_click(x, y)
                     return key
