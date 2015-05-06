@@ -1,7 +1,7 @@
 """
 **pi-jukebox.py**: Main file
 """
-
+__author__ = 'Mark Zwart'
 import sys, pygame
 from pygame.locals import *
 import time

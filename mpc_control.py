@@ -178,8 +178,10 @@ class MPDController(object):
 
     def get_playlist_current(self):
         self.playlist_current = []
+        track_no = 0
         for i in self.mpd_client.playlistinfo():
-            self.playlist_current.append(i["id"] + ". " + i["title"])
+            track_no += 1
+            self.playlist_current.append(str(track_no) + ". " + i["title"])
         return self.playlist_current
 
     def get_playlist_current_playing_index(self):
