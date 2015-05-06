@@ -78,7 +78,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc"><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
 </ul>
@@ -165,9 +164,23 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="screen_player.ScreenCoverArt">
+<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenCoverArt</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenCoverArt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen cover art</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="screen_player.ScreenPlayer">
 <em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenPlayer</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer" title="Permalink to this definition">¶</a></dt>
-<dd><p>The screen containing everything to control playback</p>
+<dd><p>The screen containing everything to control playback.</p>
 <dl class="method">
 <dt id="screen_player.ScreenPlayer.on_click">
 <tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.on_click" title="Permalink to this definition">¶</a></dt>
@@ -197,9 +210,23 @@
 <dl class="method">
 <dt id="screen_player.ScreenPlayer.update">
 <tt class="descname">update</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update controls that depend on mpd&#8217;s status</p>
+<dd><p>Update controls that depend on mpd&#8217;s status.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="screen_player.ScreenVolume">
+<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenVolume</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenVolume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen setting volume</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -231,6 +258,20 @@
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="screen_library.LibraryBrowser.first_letters_in_result_get">
+<tt class="descname">first_letters_in_result_get</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.first_letters_in_result_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get&#8217;s the symbols that are first letters of the items in the result list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of letters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="screen_library.LibraryBrowser.show_albums">
 <tt class="descname">show_albums</tt><big>(</big><em>search=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#screen_library.LibraryBrowser.show_albums" title="Permalink to this definition">¶</a></dt>
@@ -304,7 +345,7 @@
 <dl class="class">
 <dt id="screen_library.ScreenLibrary">
 <em class="property">class </em><tt class="descclassname">screen_library.</tt><tt class="descname">ScreenLibrary</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary" title="Permalink to this definition">¶</a></dt>
-<dd><p>The screen where the user can browse in the MPD database and playlist_add items to playlists</p>
+<dd><p>The screen where the user can browse in the MPD database and playlist_add items to playlists.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -316,7 +357,7 @@
 <dl class="method">
 <dt id="screen_library.ScreenLibrary.find_first_letter">
 <tt class="descname">find_first_letter</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenLibrary.find_first_letter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adjust current search type according to the letter clicked in the letter list</p>
+<dd><p>Adjust current search type according to the letter clicked in the letter list.</p>
 </dd></dl>
 
 <dl class="method">
@@ -346,7 +387,7 @@ Launching a keyboard so that the user can specify the search string.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type_showing</strong> &#8211; The type of search results showing [artists, albums, songs, playlists]</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type_showing</strong> &#8211; The type of search results showing [artists, albums, songs, playlists].</td>
 </tr>
 </tbody>
 </table>
@@ -415,13 +456,13 @@ Launching a keyboard so that the user can specify the search string.</p>
 <dl class="method">
 <dt id="screen_library.ScreenSelected.action">
 <tt class="descname">action</tt><big>(</big><em>tag_name</em><big>)</big><a class="headerlink" href="#screen_library.ScreenSelected.action" title="Permalink to this definition">¶</a></dt>
-<dd><p>Action that should be performed on a click</p>
+<dd><p>Action that should be performed on a click.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="screen_library.ScreenSelected.initialize">
 <tt class="descname">initialize</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_library.ScreenSelected.initialize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set-up screen controls</p>
+<dd><p>Set-up screen controls.</p>
 </dd></dl>
 
 </dd></dl>
@@ -446,327 +487,6 @@ Launching a keyboard so that the user can specify the search string.</p>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mpc_control"></span><div class="section" id="mpc-control-py-controlling-and-monitoring-mpd-via-mpc">
-<h2><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.<a class="headerlink" href="#mpc-control-py-controlling-and-monitoring-mpd-via-mpc" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="mpc_control.MPD">
-<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPD</tt><a class="headerlink" href="#mpc_control.MPD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Browsing mpd library and adding to playlist</p>
-<dl class="method">
-<dt id="mpc_control.MPD.album_songs_get">
-<tt class="descname">album_songs_get</tt><big>(</big><em>album_name</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.album_songs_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all song titles of an album.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>album_name</strong> &#8211; The name of the album</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of song titles</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.albums_get">
-<tt class="descname">albums_get</tt><big>(</big><em>part=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.albums_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all album titles or matching by first letter(s) or partial search string.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>part</strong> &#8211; Search string.</li>
-<li><strong>only_start</strong> &#8211; Only search as first letter(s).</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching album titles.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.artist_albums_get">
-<tt class="descname">artist_albums_get</tt><big>(</big><em>artist_name</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.artist_albums_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves artist&#8217;s albums.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>artist_name</strong> &#8211; The name of the artist to retrieve the albums of.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of album titles.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.artist_songs_get">
-<tt class="descname">artist_songs_get</tt><big>(</big><em>artist_name</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.artist_songs_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves artist&#8217;s songs.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>artist_name</strong> &#8211; The name of the artist to retrieve the songs of.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of song titles</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.artists_get">
-<tt class="descname">artists_get</tt><big>(</big><em>part=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.artists_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all artist names or matching by first letter(s) or partial search string.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>part</strong> &#8211; Search string</li>
-<li><strong>only_start</strong> &#8211; Only search as first letter(s).</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching artist names.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.is_mpd_running">
-<tt class="descname">is_mpd_running</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPD.is_mpd_running" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks whether MPD daemon is running.</p>
-<p>:return Boolean for mpd running</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.playlist_add">
-<tt class="descname">playlist_add</tt><big>(</big><em>tag_type</em>, <em>tag_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds songs to the current playlist</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tag_type</strong> &#8211; Kind of add you want to do [&#8220;artist&#8221;, &#8220;album&#8221;, song&#8221;title&#8221;].</li>
-<li><strong>tag_name</strong> &#8211; The name of the tag_type.</li>
-<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
-<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.playlist_add_album">
-<tt class="descname">playlist_add_album</tt><big>(</big><em>album_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_album" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds all album&#8217;s songs to the current playlist</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>album_name</strong> &#8211; The album name</li>
-<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
-<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.playlist_add_artist">
-<tt class="descname">playlist_add_artist</tt><big>(</big><em>artist_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_artist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds all artist&#8217;s songs to the current playlist</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>artist_name</strong> &#8211; The name of the artist.</li>
-<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
-<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.playlist_add_playlist">
-<tt class="descname">playlist_add_playlist</tt><big>(</big><em>playlist_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_playlist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a playlist to the current playlist</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>playlist_name</strong> &#8211; The playlist&#8217;s name</li>
-<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
-<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.playlist_add_song">
-<tt class="descname">playlist_add_song</tt><big>(</big><em>song_name</em>, <em>play=False</em>, <em>clear_playlist=False</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlist_add_song" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a song to the current playlist</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>song_name</strong> &#8211; The song&#8217;s name</li>
-<li><strong>play</strong> &#8211; Boolean indicating whether you want to start playing what was just added.</li>
-<li><strong>clear_playlist</strong> &#8211; Boolean indicating whether to remove all previous entries from the current playlist.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.playlists_get">
-<tt class="descname">playlists_get</tt><big>(</big><em>first_letter=None</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.playlists_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all playlists or those matching the first letter</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>first_letter</strong> &#8211; Letter</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of playlist names</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.songs_get">
-<tt class="descname">songs_get</tt><big>(</big><em>part=None</em>, <em>only_start=True</em><big>)</big><a class="headerlink" href="#mpc_control.MPD.songs_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all song titles or matching by first letter(s) or partial search string</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>part</strong> &#8211; Search string</li>
-<li><strong>only_start</strong> &#8211; Only search as first letter(s)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching song titles</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPD.update_library">
-<tt class="descname">update_library</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPD.update_library" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates the mpd library</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="mpc_control.MPDController">
-<em class="property">class </em><tt class="descclassname">mpc_control.</tt><tt class="descname">MPDController</tt><a class="headerlink" href="#mpc_control.MPDController" title="Permalink to this definition">¶</a></dt>
-<dd><p>Controls playback and volume</p>
-<dl class="method">
-<dt id="mpc_control.MPDController.get_playlist_current_playing_index">
-<tt class="descname">get_playlist_current_playing_index</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.get_playlist_current_playing_index" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The track number playing on the current playlist.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPDController.is_int">
-<tt class="descname">is_int</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#mpc_control.MPDController.is_int" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks whether a string is an integer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; string</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPDController.playlist_current_clear">
-<tt class="descname">playlist_current_clear</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.playlist_current_clear" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes everything from the current playlist</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPDController.playlist_current_count">
-<tt class="descname">playlist_current_count</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.playlist_current_count" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of items in the current playlist</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPDController.playlist_current_crop">
-<tt class="descname">playlist_current_crop</tt><big>(</big><big>)</big><a class="headerlink" href="#mpc_control.MPDController.playlist_current_crop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes everything from the current playlist except what is currently playing.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="mpc_control.MPDController.set_playlist_current_playing_index">
-<tt class="descname">set_playlist_current_playing_index</tt><big>(</big><em>index</em><big>)</big><a class="headerlink" href="#mpc_control.MPDController.set_playlist_current_playing_index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts playing item _index_ of the current playlist.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> &#8211; The track number to be played</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The current playing index</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-</div>
 <span class="target" id="module-interface_widgets"></span><div class="section" id="interface-widgets-py-graphical-widgets-for-the-gui">
 <h2><strong>interface_widgets.py</strong>: graphical widgets for the GUI<a class="headerlink" href="#interface-widgets-py-graphical-widgets-for-the-gui" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -880,7 +600,7 @@ Launching a keyboard so that the user can specify the search string.</p>
 <li><strong>active_item_index</strong> &#8211; The index of the currently active list item. It differs from selected in that it is set by the program and not by the user, default = -1.</li>
 <li><strong>item_active_color</strong> &#8211; The active list item for color, default = :py:const:BLUE.</li>
 <li><strong>item_active_background_color</strong> &#8211; The active list item background color, default = :py:const:WHITE.</li>
-<li><strong>item_selected</strong> &#8211; The index of the selected list item, default = -1.</li>
+<li><strong>item_selected_index</strong> &#8211; The index of the selected list item, default = -1.</li>
 <li><strong>item_selected_color</strong> &#8211; The font color of a selected item, default = :py:const:BLUE.</li>
 <li><strong>item_selected_background_color</strong> &#8211; The selected list item background color, default = :py:const:WHITE.</li>
 </ul>
@@ -912,7 +632,19 @@ Launching a keyboard so that the user can specify the search string.</p>
 <dl class="method">
 <dt id="interface_widgets.ItemList.draw">
 <tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws the item list on screen</p>
+<dd><p>Draws the item list on screen.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.draw_items">
+<tt class="descname">draw_items</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the list items.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ItemList.draw_page_indicator">
+<tt class="descname">draw_page_indicator</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw_page_indicator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a &#8216;progress&#8217; indicator on the list.</p>
 </dd></dl>
 
 <dl class="method">
@@ -958,9 +690,22 @@ Launching a keyboard so that the user can specify the search string.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="interface_widgets.ItemList.pages_count">
+<tt class="descname">pages_count</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.pages_count" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of pages filled with list items.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="interface_widgets.ItemList.set_item_alignment">
 <tt class="descname">set_item_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.set_item_alignment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the alignment of the text of an item within the item&#8217;s rectangle</p>
+<dd><p>Sets the alignment of the text of an item within the item&#8217;s rectangle.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1019,6 +764,28 @@ Launching a keyboard so that the user can specify the search string.</p>
 <dd><p>Sets the label&#8217;s alignment within the defined rectangle,</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="interface_widgets.Picture">
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Picture</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.Picture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Picture on screen</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tag_name</strong> &#8211; Text identifying the picture.</li>
+<li><strong>screen_rect</strong> &#8211; The screen&#8217;s rectangle where the picture is drawn on.</li>
+<li><strong>x</strong> &#8211; The horizontal starting position of the picture&#8217;s rectangle.</li>
+<li><strong>y</strong> &#8211; The vertical starting position of the picture&#8217;s rectangle.</li>
+<li><strong>width</strong> &#8211; The width of the picture&#8217;s rectangle.</li>
+<li><strong>height</strong> &#8211; The height of the picture&#8217;s rectangle.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -1130,13 +897,27 @@ Launching a keyboard so that the user can specify the search string.</p>
 <dl class="method">
 <dt id="interface_widgets.ScreenModal.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes event loop and returns the window&#8217;s return object</p>
+<dd><p>Closes event loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Window&#8217;s return object.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="interface_widgets.ScreenModal.event_loop">
 <tt class="descname">event_loop</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.event_loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>The window&#8217;s event loop</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="interface_widgets.ScreenModal.event_loop_hook">
+<tt class="descname">event_loop_hook</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.event_loop_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Virtual function where you can add functions you want to execute during the event loop</p>
 </dd></dl>
 
 <dl class="method">
@@ -1181,7 +962,7 @@ Handles screen switching, clicking and swiping and mpd status updating.</p>
 
 <dl class="method">
 <dt id="interface_widgets.Screens.process_mouse_event">
-<tt class="descname">process_mouse_event</tt><big>(</big><em>event_type</em><big>)</big><a class="headerlink" href="#interface_widgets.Screens.process_mouse_event" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">process_mouse_event</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#interface_widgets.Screens.process_mouse_event" title="Permalink to this definition">¶</a></dt>
 <dd><p>Processes mouse events.</p>
 </dd></dl>
 
@@ -1189,20 +970,6 @@ Handles screen switching, clicking and swiping and mpd status updating.</p>
 <dt id="interface_widgets.Screens.show">
 <tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.Screens.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show the current screen</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="interface_widgets.Screens.swipe_type_get">
-<tt class="descname">swipe_type_get</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.Screens.swipe_type_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines the kind of gesture.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The type of swipe [:py:const:SWIPE_CLICK, :py:const:SWIPE_DOWN, :py:const:SWIPE_UP, :py:const:SWIPE_LEFT, :py:const:SWIPE_RIGHT]</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </dd></dl>
