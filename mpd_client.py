@@ -110,7 +110,7 @@ class MPDController(object):
             self.time_percentage = int(current_seconds / current_total * 100)
             self.__current_song_changed = True
             self.time_total = self.make_time_string(current_total)  # Total time current
-        elif self.current_song != current_song and len(current_song) == 0: # Changed to no current song
+        elif len(current_song) == 0:  # Changed to no current song
             self.current_song = None
             self.track_artist = ""
             self.track_name = ""

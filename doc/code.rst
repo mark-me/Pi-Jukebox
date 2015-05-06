@@ -1,9 +1,6 @@
 Documentation pi-jukebox code
 =============================
 
-.. automodule:: pi-jukebox
-:members:
-
 .. automodule:: screen_player
    :members: 
    
@@ -16,7 +13,7 @@ Documentation pi-jukebox code
 .. automodule:: screen_wifi
 :members:
 
-.. automodule:: mpc_control
+.. automodule:: mpd_client
    :members:
 
 .. automodule:: interface_widgets
