@@ -89,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code.html#mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2"><strong>mpd_client.py</strong>: controlling and monitoring mpd via python-mpd2.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
 </ul>
@@ -150,13 +151,17 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
 </div>
@@ -181,14 +186,34 @@
   <dt><a href="code.html#interface_widgets.Screen.add_component">add_component() (interface_widgets.Screen method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_keyboard.KeyboardBase.add_row_buttons">add_row_buttons() (screen_keyboard.KeyboardBase method)</a>
   </dt>
 
       
   <dt><a href="code.html#interface_widgets.Screens.add_screen">add_screen() (interface_widgets.Screens method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.album_songs_get">album_songs_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.albums_get">albums_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.artist_albums_get">artist_albums_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.artist_songs_get">artist_songs_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.artists_get">artists_get() (mpd_client.MPDController method)</a>
   </dt>
 
   </dl></td>
@@ -217,10 +242,18 @@
   <dt><a href="code.html#interface_widgets.ItemList.clicked_item">clicked_item() (interface_widgets.ItemList method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#interface_widgets.ScreenModal.close">close() (interface_widgets.ScreenModal method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ScreenModal.close">close() (interface_widgets.ScreenModal method)</a>
+  <dt><a href="code.html#mpd_client.MPDController.connect">connect() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.consume_switch">consume_switch() (mpd_client.MPDController method)</a>
   </dt>
 
   </dl></td>
@@ -229,6 +262,10 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.disconnect">disconnect() (mpd_client.MPDController method)</a>
+  </dt>
+
       
   <dt><a href="code.html#interface_widgets.ButtonIcon.draw">draw() (interface_widgets.ButtonIcon method)</a>
   </dt>
@@ -247,12 +284,12 @@
   </dt>
 
       </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#interface_widgets.ItemList.draw_items">draw_items() (interface_widgets.ItemList method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#interface_widgets.ItemList.draw_page_indicator">draw_page_indicator() (interface_widgets.ItemList method)</a>
   </dt>
@@ -291,6 +328,16 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_library.LibraryBrowser.first_letters_in_result_get">first_letters_in_result_get() (screen_library.LibraryBrowser method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.get_playlist_current_playing_index">get_playlist_current_playing_index() (mpd_client.MPDController method)</a>
   </dt>
 
   </dl></td>
@@ -365,10 +412,34 @@
   <dt><a href="code.html#screen_library.LetterBrowser">LetterBrowser (class in screen_library)</a>
   </dt>
 
+      
+  <dt><a href="code.html#mpd_client.MPDController.library_rescan">library_rescan() (mpd_client.MPDController method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="code.html#mpd_client.MPDController.library_update">library_update() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_library.LibraryBrowser">LibraryBrowser (class in screen_library)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#module-mpd_client">mpd_client (module)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController">MPDController (class in mpd_client)</a>
   </dt>
 
   </dl></td>
@@ -420,17 +491,77 @@
   </dt>
 
       
+  <dt><a href="code.html#mpd_client.MPDController.play_playlist_item">play_playlist_item() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.player_control_get">player_control_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.player_control_set">player_control_set() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_player.Playlist">Playlist (class in screen_player)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_library.ScreenLibrary.playlist_action">playlist_action() (screen_library.ScreenLibrary method)</a>
   </dt>
 
       
+  <dt><a href="code.html#mpd_client.MPDController.playlist_add">playlist_add() (mpd_client.MPDController method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlist_add_album">playlist_add_album() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlist_add_artist">playlist_add_artist() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlist_add_playlist">playlist_add_playlist() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlist_add_song">playlist_add_song() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlist_current_clear">playlist_current_clear() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlist_current_count">playlist_current_count() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.playlists_get">playlists_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
   <dt><a href="code.html#interface_widgets.Screens.process_mouse_event">process_mouse_event() (interface_widgets.Screens method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.random_switch">random_switch() (mpd_client.MPDController method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.repeat_switch">repeat_switch() (mpd_client.MPDController method)</a>
   </dt>
 
   </dl></td>
@@ -492,6 +623,18 @@
   </dt>
 
       
+  <dt><a href="code.html#screen_settings.ScreenSettings">ScreenSettings (class in screen_settings)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSettingsPlayback">ScreenSettingsPlayback (class in screen_settings)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSettingsQuit">ScreenSettingsQuit (class in screen_settings)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_player.ScreenVolume">ScreenVolume (class in screen_player)</a>
   </dt>
 
@@ -511,6 +654,10 @@
 
       
   <dt><a href="code.html#interface_widgets.ItemList.set_item_alignment">set_item_alignment() (interface_widgets.ItemList method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.set_playlist_current_playing_index">set_playlist_current_playing_index() (mpd_client.MPDController method)</a>
   </dt>
 
       
@@ -567,6 +714,14 @@
   <dt><a href="code.html#screen_library.LibraryBrowser.show_songs">show_songs() (screen_library.LibraryBrowser method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#mpd_client.MPDController.songs_get">songs_get() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.status_get">status_get() (mpd_client.MPDController method)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -575,6 +730,26 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_player.ScreenPlayer.update">update() (screen_player.ScreenPlayer method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.volume_mute_switch">volume_mute_switch() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#mpd_client.MPDController.volume_set">volume_set() (mpd_client.MPDController method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController.volume_set_relative">volume_set_relative() (mpd_client.MPDController method)</a>
   </dt>
 
   </dl></td>
