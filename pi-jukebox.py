@@ -10,7 +10,7 @@ import os
 import glob
 import interface_widgets
 from settings import *
-from mpc_control import *
+from mpd_client import *
 from screen_player import *
 from screen_library import *
 from screen_settings import *
@@ -42,14 +42,15 @@ def main():
     #    print("mpd is not running... Start the mpd daemon service with 'sudo service mpd start'.")
     #    sys.exit()
 
-    mpd.mpd_control.status_get()  # Get mpd status
+    mpd.connect()
+    mpd.status_get()  # Get mpd status
     screens = PiJukeboxScreens()  # Screens
     screens.show()  # Display the screen
 
     while 1:
 
         # Check whether mpd's status changed
-        if mpd.mpd_control.status_get():
+        if mpd.status_get():
             screens.mpd_updates()  # If so update relevant screens
 
         for event in pygame.event.get():  # Do for all events in pygame's event queue
@@ -57,7 +58,7 @@ def main():
             screens.process_mouse_event(event)  # Handle mouse related events
 
             if event.type == KEYDOWN and event.key == K_ESCAPE:
-                mpd.mpd_control.close()
+                mpd.disconnect()
                 sys.exit()
 
     time.sleep(0.2)

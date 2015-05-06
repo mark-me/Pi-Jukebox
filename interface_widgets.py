@@ -46,7 +46,7 @@ class Widget(object):
         self.background_color = BLACK
         self.font = FONT
         self.font_color = FIFTIES_YELLOW
-        self.font_height = self.font.size("Tg")[1]
+        self.font_height = self.font.size('Tg')[1]
 
     def on_click(self, x, y):
         """ The function called when a widget is clicked """
@@ -101,6 +101,32 @@ class Slider(Rectangle):
         new_percentage = int((float(x - self.x_pos) / float(self.width)) * 100)
         self.progress_percentage_set(new_percentage)
         return self.tag_name
+
+
+class Picture(Widget):
+    """ Picture on screen
+
+        :param tag_name: Text identifying the picture.
+        :param screen_rect: The screen's rectangle where the picture is drawn on.
+        :param x: The horizontal starting position of the picture's rectangle.
+        :param y: The vertical starting position of the picture's rectangle.
+        :param width: The width of the picture's rectangle.
+        :param height: The height of the picture's rectangle.
+    """
+
+    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
+        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+        self.__image_file = ""
+        self.__image = None
+
+    def file_set(self, file_name):
+        self.__image_file = file_name
+        self.__image = pygame.image.load(file_name).convert()
+        self.__image = pygame.transform.scale(self._image, (self.width, self.height))
+
+    def show(self):
+        SCREEN.blit(self.__image, (self.x_pos, self.y_pos))
+        pygame.display.update(self.rect)
 
 
 class LabelText(Widget):
@@ -256,10 +282,10 @@ class ButtonText(LabelText):
     def __initialize_background(self):
         """ Sets up the button's background. """
         # Left side
-        background_left_file = RESOURCES + "button_bg_left_32.png"
+        background_left_file = RESOURCES + 'button_bg_left_32.png'
         self.__background_left = pygame.image.load(background_left_file).convert()
         # Middle
-        background_middle_file = RESOURCES + "button_bg_middle_32.png"
+        background_middle_file = RESOURCES + 'button_bg_middle_32.png'
         self.__background_middle = pygame.image.load(background_middle_file).convert()
         width = self.width - (2 * self.__background_left.get_width())
         self.__background_middle = pygame.transform.scale(self.__background_middle, (width, self.height))
@@ -389,7 +415,7 @@ class ItemList(Widget):
             item_x_pos = self.x_pos + self.item_indent                                  # x position of item
             item_width = self.width - 2 * self.item_indent - 10  # Maximum item width
             item_y_pos = self.y_pos + self.item_indent + (self.item_height * item_nr)   # y position of item
-            list_item = LabelText("lbl_item_" + str(item_nr), self.screen, item_x_pos, item_y_pos, item_width,
+            list_item = LabelText('lbl_item_' + str(item_nr), self.screen, item_x_pos, item_y_pos, item_width,
                                   self.item_height, item_text)  # Create label
             list_item.font_color = self.font_color
             list_item.outline_visible = self.item_outline_visible
@@ -410,9 +436,11 @@ class ItemList(Widget):
         x_pos = x_pos - self.x_pos
         y_pos = y_pos - self.y_pos
         if x_pos < 0 or x_pos > self.width or y_pos < 0:  # Check whether the click was outside the control
+            self.item_selected_index = -1
             return None
         if y_pos > self.height or self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height >= len(
                 self.list) - 1:  # Check whether no item was clicked
+            self.item_selected_index = -1
             return None
         self.item_selected_index = (self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height)
         return self.item_selected_index
@@ -676,6 +704,7 @@ class ScreenModal(Screen):
     def event_loop(self):
         """ The window's event loop """
         while not self.close_screen:
+            self.event_loop_hook()
             for event in pygame.event.get():
 
                 gesture = self.gesture_detect.capture_gesture(event)
@@ -696,6 +725,9 @@ class ScreenModal(Screen):
         """ Virtual function for event-related execution. """
         pass
 
+    def event_loop_hook(self):
+        """ Virtual function where you can add functions you want to execute during the event loop """
+        pass
 
 class Screens(object):
     """ Manages screens of type Screen.

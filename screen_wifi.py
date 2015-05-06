@@ -16,7 +16,6 @@ import subprocess
 import os
 import glob
 from interface_widgets import *
-from mpc_control import *
 from settings import *
 from screen_keyboard import *
 
@@ -25,12 +24,13 @@ class WifiConnection(object):
     def __init__(self):
         self.connected = False
         self.SSID_list = []
-        self.adapter = "wlan0"
-        self.SSID = ""
-        self.passphrase = ""
+        self.adapter = 'wlan0'
+        self.SSID = ''
+        self.passphrase = ''
 
     def get_SSIDs (self):
-        self.SSID_list = subprocess.check_output("sudo iwlist wlan0 scan | grep ESSID", shell=True, stderr=subprocess.STDOUT).split("\n")
+        self.SSID_list = subprocess.check_output("sudo iwlist " + self.adapter + " scan | grep ESSID", shell=True,
+                                                 stderr=subprocess.STDOUT).split("\n")
 
     def connect_to(self, SSID, passphrase):
         self.SSID = SSID
@@ -57,8 +57,8 @@ class WifiConnection(object):
 class ScreenWifi(ScreenModal):
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect, "Setup WiFi connection")
-        self.add_components(ItemList("list_SSID", self.screen, 55, 40, 210, 165))
-        self.add_component(ButtonText("btn_connect", self.__init__screen, 235, 205, 80, text="Connect"))
+        self.add_components(ItemList('list_SSID', self.screen, 55, 40, 210, 165))
+        self.add_component(ButtonText('btn_connect', self.__init__screen, 235, 205, 80, text='Connect'))
 
 
 
