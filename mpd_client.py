@@ -120,8 +120,6 @@ class MPDController(object):
             self.__current_song_changed = True
             self.time_total = self.make_time_string(current_total)  # Total time current
 
-
-
         return True
 
     def status_get(self):
