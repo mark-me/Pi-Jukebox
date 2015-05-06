@@ -1,9 +1,6 @@
 Documentation pi-jukebox code
 =============================
 
-.. automodule:: pi-jukebox
-   :members:
-
 .. automodule:: screen_player
    :members: 
    
