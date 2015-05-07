@@ -73,13 +73,22 @@ class ScreenPlayer(Screen):
 
     def show(self):
         """ Displays the screen. """
-        self.update()  # Update mpd status to components
+        self.components['lbl_time'].draw(mpd.time_current + '/' + mpd.time_total)
+        self.components['lbl_volume'].draw('Vol: ' + str(mpd.volume) + '%')
+        if mpd.player_control_get() == 'play':
+            self.components['btn_play'].set_image_file(ICO_PAUSE)
+        else:
+            self.components['btn_play'].set_image_file(ICO_PLAY)
+        self.components['btn_play'].draw()
+        self.components['lbl_track_title'].draw(mpd.track_name)
+        self.components['lbl_track_artist'].draw(mpd.track_artist)
         super(ScreenPlayer, self).show()  # Draw screen
         self.components['list_playing'].show_playlist()
         self.components['list_playing'].show_item_active()  # Makes sure currently playing playlist item is on screen
 
     def update(self):
         """ Update controls that depend on mpd's status. """
+
         if self.components['list_playing'].active_item_index != mpd.get_playlist_current_playing_index():
             self.components['list_playing'].show_playlist()
         self.components['lbl_time'].draw(mpd.time_current + '/' + mpd.time_total)

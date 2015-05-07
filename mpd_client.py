@@ -12,6 +12,7 @@ import subprocess
 import os
 import glob
 import mpd
+from collections import deque
 
 MPC_TYPE_ARTIST = 'artist'
 MPC_TYPE_ALBUM = 'album'
@@ -40,6 +41,7 @@ class MPDController(object):
         self.single = False
         self.consume = False
         self.updating_library = False
+        self.events = deque([])  # Queue of mpd events
         # Database search results
         self.list_albums = []
         self.list_artists = []
@@ -68,7 +70,7 @@ class MPDController(object):
         self.mpd_client.disconnect()
 
     def __parse_mpc_status(self):
-        """ Parses the mpd status.
+        """ Parses the mpd status and fills mpd event queue
 
             :return: Boolean indicating if the status was changed
         """
@@ -77,26 +79,52 @@ class MPDController(object):
         status = self.mpd_client.status()
         if self.__status == status:
             return False
-        else:
-            self.__status = status
-            self.volume = int(status['volume'])  # Current volume
-            if self.volume == 0:
-                self.__muted = True
-            else:
-                self.__muted = False
+
+        self.__status = status
+        if self.volume != int(status['volume']):  # Current volume
+            self.volume = int(status['volume'])
+            self.events.append(['volume', self.volume])
+            self.__muted = self.volume == 0
+
+        if self.repeat != status['repeat'] == '1':
             self.repeat = status['repeat'] == '1'
+            self.events.append(['repeat', self.repeat])
+
+        if self.random != status['random'] == '1':
             self.random = status['random'] == '1'
+            self.events.append(['random', self.random])
+
+        if self.single != status['single'] == '1':
             self.single = status['single'] == '1'
+            self.events.append(['single', self.single])
+
+        if self.consume != status['consume'] == '1':
             self.consume = status['consume'] == '1'
+            self.events.append(['consume', self.consume])
+
+        if self.__player_control != status['state']:
             self.__player_control = status['state']
-            if self.__player_control != 'stop':
-                self.__playlist_current_playing_index = int(status['song'])  # Current playlist index
-                current_seconds = self.str_to_float(status['elapsed'])
-                self.time_current = self.make_time_string(current_seconds)  # Playing time current
-            else:
+            self.events.append(['player_control', self.__player_control])
+
+        if self.__player_control != 'stop':
+            if self.__playlist_current_playing_index != int(status['song']):  # Current playlist index
+                self.__playlist_current_playing_index = int(status['song'])
+                self.events.append(['playing_index', self.__playlist_current_playing_index])
+
+            current_seconds = self.str_to_float(status['elapsed'])
+            if self.time_current != self.make_time_string(current_seconds):  # Playing time current
+                self.time_current = self.make_time_string(current_seconds)
+                self.events.append(['time_elapsed', self.str_to_float(status['elapsed'])])
+        else:
+            if self.__playlist_current_playing_index != -1:
                 self.__playlist_current_playing_index = -1
-                current_seconds = 0
+                self.events.append(['playing_index', -1])
+
+            current_seconds = 0
+            if self.time_current != self.make_time_string(current_seconds):
                 self.time_current = self.make_time_string(current_seconds)  # Playing time current
+                self.events.append(['time_elapsed', 0])
+
 
         current_song = self.mpd_client.currentsong()
 

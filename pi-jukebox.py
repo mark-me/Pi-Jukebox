@@ -53,13 +53,13 @@ def main():
         if mpd.status_get():
             screens.mpd_updates()  # If so update relevant screens
 
-        for event in pygame.event.get():  # Do for all events in pygame's event queue
+        event = pygame.event.wait()  # Do for all events in pygame's event queue
 
-            screens.process_mouse_event(event)  # Handle mouse related events
+        screens.process_mouse_event(event)  # Handle mouse related events
 
-            if event.type == KEYDOWN and event.key == K_ESCAPE:
-                mpd.disconnect()
-                sys.exit()
+        if event.type == KEYDOWN and event.key == K_ESCAPE:
+            mpd.disconnect()
+            sys.exit()
 
     time.sleep(0.2)
     pygame.display.update()
