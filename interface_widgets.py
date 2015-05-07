@@ -706,21 +706,22 @@ class ScreenModal(Screen):
         """ The window's event loop """
         while not self.close_screen:
             self.event_loop_hook()
-            event = pygame.event.wait()
+            for event in pygame.event.get():
+                pygame.time.wait(1)
 
-            gesture = self.gesture_detect.capture_gesture(event)
+                gesture = self.gesture_detect.capture_gesture(event)
 
-            # Relays click to active screen controls
-            if gesture == GESTURE_CLICK:
-                self.action(self.on_click(self.gesture_detect.x_start, self.gesture_detect.y_start))
-            # Relay vertical swiping to active screen controls
-            elif gesture == GESTURE_SWIPE_UP or gesture == GESTURE_SWIPE_DOWN:
-                self.on_swipe(self.gesture_detect.x_start, self.gesture_detect.y_start, gesture)
+                # Relays click to active screen controls
+                if gesture == GESTURE_CLICK:
+                    self.action(self.on_click(self.gesture_detect.x_start, self.gesture_detect.y_start))
+                # Relay vertical swiping to active screen controls
+                elif gesture == GESTURE_SWIPE_UP or gesture == GESTURE_SWIPE_DOWN:
+                    self.on_swipe(self.gesture_detect.x_start, self.gesture_detect.y_start, gesture)
 
-            # Possibility to close modal window with 'Esc' key
-            if event.type == KEYDOWN and event.key == K_ESCAPE:
-                self.return_object = None
-                self.close_screen = True
+                # Possibility to close modal window with 'Esc' key
+                if event.type == KEYDOWN and event.key == K_ESCAPE:
+                    self.return_object = None
+                    self.close_screen = True
 
     def action(self, tag_name):
         """ Virtual function for event-related execution. """
