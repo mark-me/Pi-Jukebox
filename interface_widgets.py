@@ -438,8 +438,9 @@ class ItemList(Widget):
         if x_pos < 0 or x_pos > self.width or y_pos < 0:  # Check whether the click was outside the control
             self.item_selected_index = -1
             return None
-        if y_pos > self.height or self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height >= len(
-                self.list) - 1:  # Check whether no item was clicked
+        if y_pos > self.height or (
+                self.page_showing_index * self.items_per_page + (y_pos + 2)) / self.item_height >= len(
+                self.list):  # Check whether no item was clicked
             self.item_selected_index = -1
             return None
         self.item_selected_index = (self.page_showing_index * self.items_per_page + (y_pos + 2) / self.item_height)
@@ -707,7 +708,7 @@ class ScreenModal(Screen):
         while not self.close_screen:
             self.event_loop_hook()
             for event in pygame.event.get():
-                pygame.time.wait(1)
+                pygame.time.wait(5)
 
                 gesture = self.gesture_detect.capture_gesture(event)
 
