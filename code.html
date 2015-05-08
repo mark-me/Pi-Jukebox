@@ -34,7 +34,7 @@
               href="about.html"/>
     <link rel="top" title="pi-jukebox 0.1a documentation" href="index.html"/>
         <link rel="next" title="Preparing your Raspberry Pi" href="raspberry_pi.html"/>
-        <link rel="prev" title="Screenshots" href="screenshots.html"/> 
+        <link rel="prev" title="Welcome to pi-jukebox’s documentation!" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -74,18 +74,6 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-player-screen">The player screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#searching-an-artist">Searching an artist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#settings-screen">Settings screen</a></li>
-</ul>
-</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
@@ -169,8 +157,8 @@
 </dd></dl>
 
 <dl class="class">
-<dt id="screen_player.ScreenCoverArt">
-<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenCoverArt</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenCoverArt" title="Permalink to this definition">¶</a></dt>
+<dt id="screen_player.ScreenPlaying">
+<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenPlaying</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlaying" title="Permalink to this definition">¶</a></dt>
 <dd><p>Screen cover art</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -180,15 +168,21 @@
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="screen_player.ScreenPlaying.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlaying.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the screen.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
-<dt id="screen_player.ScreenPlayer">
-<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenPlayer</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer" title="Permalink to this definition">¶</a></dt>
+<dt id="screen_player.ScreenPlaylist">
+<em class="property">class </em><tt class="descclassname">screen_player.</tt><tt class="descname">ScreenPlaylist</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlaylist" title="Permalink to this definition">¶</a></dt>
 <dd><p>The screen containing everything to control playback.</p>
 <dl class="method">
-<dt id="screen_player.ScreenPlayer.on_click">
-<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.on_click" title="Permalink to this definition">¶</a></dt>
+<dt id="screen_player.ScreenPlaylist.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#screen_player.ScreenPlaylist.on_click" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -207,15 +201,9 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="screen_player.ScreenPlayer.show">
-<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.show" title="Permalink to this definition">¶</a></dt>
+<dt id="screen_player.ScreenPlaylist.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlaylist.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays the screen.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="screen_player.ScreenPlayer.update">
-<tt class="descname">update</tt><big>(</big><big>)</big><a class="headerlink" href="#screen_player.ScreenPlayer.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update controls that depend on mpd&#8217;s status.</p>
 </dd></dl>
 
 </dd></dl>
@@ -475,50 +463,24 @@ Launching a keyboard so that the user can specify the search string.</p>
 </div>
 <span class="target" id="module-screen_settings"></span><div class="section" id="screen-settings-py-settings-screen">
 <h2><strong>screen_settings.py</strong>: Settings screen<a class="headerlink" href="#screen-settings-py-settings-screen" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="screen_settings.ScreenSettings">
-<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettings</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Screen for settings or quitting/shutting down</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="screen_settings.ScreenSettingsPlayback">
-<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettingsPlayback</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettingsPlayback" title="Permalink to this definition">¶</a></dt>
-<dd><p>Screen for settings playback options</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="screen_settings.ScreenSettingsQuit">
-<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettingsQuit</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettingsQuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Screen for quitting pi-jukebox.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
-<span class="target" id="module-screen_wifi"></span><span class="target" id="module-mpd_client"></span><div class="section" id="mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">members:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-screen_wifi"></span><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">members:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mpd_client"></span><div class="section" id="mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2">
 <h2><strong>mpd_client.py</strong>: controlling and monitoring mpd via python-mpd2.<a class="headerlink" href="#mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="mpd_client.MPDController">
@@ -966,7 +928,7 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </table>
 <dl class="method">
 <dt id="interface_widgets.ButtonIcon.draw">
-<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon.draw" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">draw</tt><big>(</big><em>icon_file=None</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the button</p>
 </dd></dl>
 
@@ -1195,7 +1157,7 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </table>
 <dl class="method">
 <dt id="interface_widgets.LabelText.draw">
-<tt class="descname">draw</tt><big>(</big><em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText.draw" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">draw</tt><big>(</big><em>text=None</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the label.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1219,7 +1181,7 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 
 <dl class="class">
 <dt id="interface_widgets.Picture">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Picture</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.Picture" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Picture</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>image_file=''</em><big>)</big><a class="headerlink" href="#interface_widgets.Picture" title="Permalink to this definition">¶</a></dt>
 <dd><p>Picture on screen</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1553,7 +1515,7 @@ letter or symbol keyboard.</p>
         <a href="raspberry_pi.html" class="btn btn-neutral float-right" title="Preparing your Raspberry Pi" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="screenshots.html" class="btn btn-neutral" title="Screenshots" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Welcome to pi-jukebox’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -76,7 +76,8 @@
 <li class="toctree-l1"><a class="reference internal" href="code.html">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html#mpc-control-py-controlling-and-monitoring-mpd-via-mpc"><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code.html#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code.html#mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2"><strong>mpd_client.py</strong>: controlling and monitoring mpd via python-mpd2.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
 </ul>
@@ -151,14 +152,19 @@
 </div>
 <div class="section" id="configuring-the-raspberry-pi">
 <h2>Configuring the Raspberry Pi<a class="headerlink" href="#configuring-the-raspberry-pi" title="Permalink to this headline">¶</a></h2>
-<p>You can configure some settings on your Raspberry Pi using the command sudo raspi-config Here you can easily do some configurations. Some that I preferred to do:</p>
-<blockquote>
-<div><ul class="simple">
+<p>You can configure some settings on your Raspberry Pi using the command</p>
+<div class="highlight-bash"><div class="highlight"><pre>sudo raspi-config
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Here you can easily do some configurations. Some that I preferred to do:</dt>
+<dd><ul class="first last simple">
 <li>Expand the file-system (1) - The initial installation of the OS does not make full use of your SD card. Why throw away so much space?. This option makes sure you use your whole SD card.</li>
 <li>Internationalization options (4) - Configure your timezone and locale settings</li>
 <li>Advanced options (8) - Host name (A2) - Of course you want your Pi-Jukebox recognizable in the network as such, so change it to &#8216;pi-jukebox&#8217;. This step is not a necessity for following steps.</li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </div>
 <div class="section" id="configuring-the-usb-music-device">
 <h2>Configuring the USB music device<a class="headerlink" href="#configuring-the-usb-music-device" title="Permalink to this headline">¶</a></h2>
@@ -302,6 +308,10 @@ sudo service mpd-sima restart
 </pre></div>
 </div>
 <p>and adding the entries</p>
+<div class="highlight-bash"><div class="highlight"><pre>
+</pre></div>
+</div>
+<p>wins support = yes</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>pihome<span class="o">]</span>
    <span class="nv">comment</span><span class="o">=</span> Pi Home
    <span class="nv">path</span><span class="o">=</span>/home/pi

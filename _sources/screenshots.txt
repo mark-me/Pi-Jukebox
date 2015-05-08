@@ -1,8 +1,11 @@
 Screenshots
 ===========
 
-The player screen
------------------
+The now playing screen
+----------------------
+	.. image:: ./images/screens/0_playing.png
+The playlist screen
+-------------------
     .. image:: ./images/screens/1_player_explained.png
 The library screen
 ------------------

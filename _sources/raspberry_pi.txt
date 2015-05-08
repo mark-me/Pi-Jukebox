@@ -22,8 +22,13 @@ I installed a raspbian pre-configured for the Capacitive touchscreen with an ima
 -----------------------------
 Configuring the Raspberry Pi
 -----------------------------
-You can configure some settings on your Raspberry Pi using the command sudo raspi-config Here you can easily do some configurations. Some that I preferred to do:
+You can configure some settings on your Raspberry Pi using the command 
 
+.. code-block:: bash
+
+   sudo raspi-config 
+
+Here you can easily do some configurations. Some that I preferred to do:
     - Expand the file-system (1) - The initial installation of the OS does not make full use of your SD card. Why throw away so much space?. This option makes sure you use your whole SD card.
     - Internationalization options (4) - Configure your timezone and locale settings
     - Advanced options (8) - Host name (A2) - Of course you want your Pi-Jukebox recognizable in the network as such, so change it to 'pi-jukebox'. This step is not a necessity for following steps.
@@ -230,6 +235,10 @@ Now we create the shares by editing the samba config:
    sudo nano /etc/samba/smb.conf
 
 and adding the entries
+
+.. code-block:: bash
+
+wins support = yes
 
 .. code-block:: bash
 

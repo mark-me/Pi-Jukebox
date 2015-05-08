@@ -73,18 +73,6 @@
           
           
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-player-screen">The player screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#searching-an-artist">Searching an artist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#settings-screen">Settings screen</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
@@ -160,7 +148,6 @@
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
- | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
@@ -466,7 +453,7 @@
   </dt>
 
         
-  <dt><a href="code.html#screen_player.ScreenPlayer.on_click">(screen_player.ScreenPlayer method)</a>
+  <dt><a href="code.html#screen_player.ScreenPlaylist.on_click">(screen_player.ScreenPlaylist method)</a>
   </dt>
 
       </dl></dd>
@@ -595,10 +582,6 @@
   </dt>
 
       
-  <dt><a href="code.html#screen_player.ScreenCoverArt">ScreenCoverArt (class in screen_player)</a>
-  </dt>
-
-      
   <dt><a href="code.html#screen_library.ScreenLibrary">ScreenLibrary (class in screen_library)</a>
   </dt>
 
@@ -607,7 +590,11 @@
   </dt>
 
       
-  <dt><a href="code.html#screen_player.ScreenPlayer">ScreenPlayer (class in screen_player)</a>
+  <dt><a href="code.html#screen_player.ScreenPlaying">ScreenPlaying (class in screen_player)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_player.ScreenPlaylist">ScreenPlaylist (class in screen_player)</a>
   </dt>
 
       
@@ -623,27 +610,15 @@
   </dt>
 
       
-  <dt><a href="code.html#screen_settings.ScreenSettings">ScreenSettings (class in screen_settings)</a>
-  </dt>
-
-      
-  <dt><a href="code.html#screen_settings.ScreenSettingsPlayback">ScreenSettingsPlayback (class in screen_settings)</a>
-  </dt>
-
-      
-  <dt><a href="code.html#screen_settings.ScreenSettingsQuit">ScreenSettingsQuit (class in screen_settings)</a>
-  </dt>
-
-      
   <dt><a href="code.html#screen_player.ScreenVolume">ScreenVolume (class in screen_player)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#interface_widgets.LabelText.set_alignment">set_alignment() (interface_widgets.LabelText method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_library.ScreenLibrary.set_currently_showing">set_currently_showing() (screen_library.ScreenLibrary method)</a>
   </dt>
@@ -682,7 +657,11 @@
   </dt>
 
         
-  <dt><a href="code.html#screen_player.ScreenPlayer.show">(screen_player.ScreenPlayer method)</a>
+  <dt><a href="code.html#screen_player.ScreenPlaying.show">(screen_player.ScreenPlaying method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#screen_player.ScreenPlaylist.show">(screen_player.ScreenPlaylist method)</a>
   </dt>
 
       </dl></dd>
@@ -720,16 +699,6 @@
 
       
   <dt><a href="code.html#mpd_client.MPDController.status_get">status_get() (mpd_client.MPDController method)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="code.html#screen_player.ScreenPlayer.update">update() (screen_player.ScreenPlayer method)</a>
   </dt>
 
   </dl></td>
