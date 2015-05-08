@@ -13,10 +13,18 @@ import os
 import glob
 import mpd
 from collections import deque
+from mutagen import File
 
-MPC_TYPE_ARTIST = 'artist'
-MPC_TYPE_ALBUM = 'album'
-MPC_TYPE_SONGS = 'title'
+
+MPD_TYPE_ARTIST = 'artist'
+MPD_TYPE_ALBUM = 'album'
+MPD_TYPE_SONGS = 'title'
+
+# MPD Music directory
+# MPD_MUSIC_DIR = '/var/lib/mpd/music/'
+MPD_MUSIC_DIR = '/mnt/music_partition/'
+#MPD_MUSIC_DIR = '/home/mark/Music/'
+DEFAULT_COVER = 'default_cover_art.png'
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -31,9 +39,12 @@ class MPDController(object):
         self.track_name = ""        # Currently playing song name
         self.track_artist = ""      # Currently playing artist
         self.track_album = ""       # Album the currently playing song is on
+        self.track_file = ""  # File with path relative to MPD music directory
         self.volume = 0             # Playback volume
-        self.time_current = ""      # Currently playing song time
-        self.time_total = ""        # Currently playing song duration
+        self.__time_current_sec = 0  # Currently playing song time (seconds)
+        self.time_current = ""  # Currently playing song time (string format)
+        self.__time_total_sec = 0  # Currently playing song duration (seconds)
+        self.time_total = ""  # Currently playing song duration (string format)
         self.time_percentage = 0    # Currently playing song time as a percentage of the song duration
         self.playlist_current = []  # Current playlist song title
         self.repeat = False         #
@@ -76,6 +87,36 @@ class MPDController(object):
         """
         current_seconds = 0
         current_total = 0
+        current_song = self.mpd_client.currentsong()
+
+        if self.__current_song != current_song and len(current_song) > 0: # Changed to a new song
+            self.__current_song = current_song
+            self.track_name = current_song['title']      # Song title of current song
+            self.track_artist = current_song['artist']  # Artist of current song
+            self.track_album = current_song['album']     # Album the current song is on
+            self.track_file = current_song['file']
+            current_total = self.str_to_float(current_song['time'])
+            self.__time_total_sec = current_total
+            self.time_total = self.make_time_string(current_total)  # Total time current
+            self.__current_song_changed = True
+        elif len(current_song) == 0:  # Changed to no current song
+            self.__current_song = None
+            self.track_name = ""
+            self.track_artist = ""
+            self.track_album = ""
+            self.track_file = ""
+            self.time_percentage = 0
+            self.__time_total_sec = 0
+            self.time_total = self.make_time_string(0)  # Total time current
+            self.__current_song_changed = True
+
+        if self.__current_song_changed:
+            self.events.append('playing_title')
+            self.events.append('playing_artist')
+            self.events.append('playing_album')
+            self.events.append('playing_time_total')
+            self.events.append('playing_time_percentage')
+
         status = self.mpd_client.status()
         if self.__status == status:
             return False
@@ -88,65 +129,43 @@ class MPDController(object):
 
         if self.repeat != status['repeat'] == '1':
             self.repeat = status['repeat'] == '1'
-            self.events.append(['repeat', self.repeat])
+            self.events.append('repeat')
 
         if self.random != status['random'] == '1':
             self.random = status['random'] == '1'
-            self.events.append(['random', self.random])
+            self.events.append('random')
 
         if self.single != status['single'] == '1':
             self.single = status['single'] == '1'
-            self.events.append(['single', self.single])
+            self.events.append('single')
 
         if self.consume != status['consume'] == '1':
             self.consume = status['consume'] == '1'
-            self.events.append(['consume', self.consume])
+            self.events.append('consume')
 
         if self.__player_control != status['state']:
             self.__player_control = status['state']
-            self.events.append(['player_control', self.__player_control])
+            self.events.append('player_control')
 
         if self.__player_control != 'stop':
             if self.__playlist_current_playing_index != int(status['song']):  # Current playlist index
                 self.__playlist_current_playing_index = int(status['song'])
-                self.events.append(['playing_index', self.__playlist_current_playing_index])
-
+                self.events.append('playing_index')
             current_seconds = self.str_to_float(status['elapsed'])
-            if self.time_current != self.make_time_string(current_seconds):  # Playing time current
+            if self.__time_current_sec != current_seconds:  # Playing time current
+                self.__time_current_sec = current_seconds
+                self.time_percentage = int(self.__time_current_sec / self.__time_total_sec * 100)
                 self.time_current = self.make_time_string(current_seconds)
-                self.events.append(['time_elapsed', self.str_to_float(status['elapsed'])])
+                self.events.append('time_elapsed')
         else:
             if self.__playlist_current_playing_index != -1:
                 self.__playlist_current_playing_index = -1
-                self.events.append(['playing_index', -1])
-
-            current_seconds = 0
-            if self.time_current != self.make_time_string(current_seconds):
-                self.time_current = self.make_time_string(current_seconds)  # Playing time current
-                self.events.append(['time_elapsed', 0])
-
-
-        current_song = self.mpd_client.currentsong()
-
-        if self.__current_song != current_song and len(current_song) > 0: # Changed to a new song
-            self.__current_song = current_song
-            self.current_song = self.mpd_client.currentsong()
-            self.track_artist = current_song['artist']   # Artist of current song
-            self.track_name = current_song['title']      # Song title of current song
-            self.track_album = current_song['album']     # Album the current song is on
-            current_total = self.str_to_float(current_song['time'])
-            self.time_percentage = int(current_seconds / current_total * 100)
-            self.__current_song_changed = True
-            self.time_total = self.make_time_string(current_total)  # Total time current
-        elif len(current_song) == 0:  # Changed to no current song
-            self.current_song = None
-            self.track_artist = ""
-            self.track_name = ""
-            self.track_album = ""
-            current_total = 0
-            self.time_percentage = 0
-            self.__current_song_changed = True
-            self.time_total = self.make_time_string(current_total)  # Total time current
+                self.events.append('playing_index')
+            if self.__time_current_sec != 0:
+                self.__time_current_sec = 0
+                self.time_current = self.make_time_string(0)  # Playing time current
+                self.time_percentage = 0
+                self.events.append('time_elapsed')
 
         return True
 
@@ -169,21 +188,21 @@ class MPDController(object):
         else:
             return False
 
-    def get_cover_art(self, file_name, dest_file_name="covert_art.jpg"):
-        file = File(file_name)
+    def get_cover_art(self, dest_file_name="covert_art.jpg"):
+        if self.track_file == "":
+            return DEFAULT_COVER
+        music_file = File(MPD_MUSIC_DIR + self.track_file)
         cover_art = None
-        try:
-            if file.pictures:
-                pass
-        except Exception:
-            return False
-        if 'covr' in audio:
-            cover_art = file.tags['covr'].data
-        if 'APIC:' in audio:
-            cover_art = file.tags['APIC:'].data
+        if 'covr' in music_file:
+            cover_art = music_file.tags['covr'].data
+        elif 'APIC:' in music_file:
+            cover_art = music_file.tags['APIC:'].data
+        else:
+            return DEFAULT_COVER
+
         with open(dest_file_name, 'wb') as img:
             img.write(cover_art) # write artwork to new image
-        return True
+        return dest_file_name
 
     def player_control_set(self, play_status):
         """ Controls playback

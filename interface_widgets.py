@@ -30,7 +30,6 @@ class Widget(object):
         :param y: The vertical starting position of the widget's rectangle.
         :param width: The width of the widget's rectangle.
         :param height: The height of the widget's rectangle.
-
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         self.tag_name = tag_name
@@ -76,8 +75,9 @@ class Slider(Rectangle):
         self.progress_rect = Rect(x + 1, y + 1, 1, height - 2)
         self.caption_visible = True
 
-    def draw(self):
-        """ Draws the label. """
+    def draw(self, percentage=None):
+        if percentage is not None:
+            self.progress_percentage_set(percentage)
         self.screen.fill(self.background_color, self.rect)  # Background
         pygame.display.update(self.rect)
         if self.progress_percentage > 0:
@@ -103,6 +103,43 @@ class Slider(Rectangle):
         return self.tag_name
 
 
+class Slider2(Widget):
+    def __init__(self, tag_name, screen_rect, x, y, width, height):
+        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+        self.bottom_color = FIFTIES_CHARCOAL
+        self.bottom_rect = (x, y + height, width, 1)
+        self.progress_color = FIFTIES_ORANGE
+        self.progress_percentage = 0
+        self.progress_rect = Rect(x, y, 1, height)
+        self.caption_visible = False
+
+    def draw(self, percentage=None):
+        if percentage is not None:
+            self.progress_percentage_set(percentage)
+        self.screen.fill(self.background_color, self.rect)  # Background
+        self.screen.fill(self.bottom_color, self.bottom_rect)
+        if self.progress_percentage > 0:
+            self.screen.fill(self.progress_color, self.progress_rect)  # Progress bar
+        pygame.display.update(self.rect)
+
+    def progress_percentage_set(self, percentage):
+        if percentage < 0:
+            percentage = 0
+        elif percentage > 100:
+            percentage = 100
+        if percentage == 0:
+            width = 1
+        else:
+            width = (self.width) * (float(percentage) / 100)
+        self.progress_rect = Rect(self.x_pos, self.y_pos, width, self.height)
+        self.progress_percentage = percentage
+        self.draw()
+
+    def on_click(self, x, y):
+        new_percentage = int((float(x - self.x_pos) / float(self.width)) * 100)
+        self.progress_percentage_set(new_percentage)
+        return self.tag_name
+
 class Picture(Widget):
     """ Picture on screen
 
@@ -114,19 +151,24 @@ class Picture(Widget):
         :param height: The height of the picture's rectangle.
     """
 
-    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
+    def __init__(self, tag_name, screen_rect, x, y, width, height, image_file=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
-        self.__image_file = ""
-        self.__image = None
+        self.__image_file = image_file
+        self.__image = pygame.image.load(image_file).convert()
+        self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
 
-    def file_set(self, file_name):
-        self.__image_file = file_name
-        self.__image = pygame.image.load(file_name).convert()
-        self.__image = pygame.transform.scale(self._image, (self.width, self.height))
-
-    def show(self):
+    def draw(self, file_name=""):
+        if file_name != "":
+            self.__image_file = file_name
+        self.__image = pygame.image.load(self.__image_file).convert()
+        # pygame.transform.set_smoothscale_backend('GENERIC')
+        #self.__image = pygame.transform.smoothscale(self.__image, (self.width, self.height))
+        self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
         SCREEN.blit(self.__image, (self.x_pos, self.y_pos))
         pygame.display.update(self.rect)
+
+    def on_click(self, x, y):
+        return self.tag_name
 
 
 class LabelText(Widget):
@@ -148,7 +190,13 @@ class LabelText(Widget):
         self.indent_vertical = 0
         self.outline_show = False
         self.outline_color = FIFTIES_CHARCOAL
-        self.transparent = False
+        self.background_alpha = 255
+
+    def transparent_set(self, value):
+        if value == True:
+            self.background_alpha = 0
+        else:
+            self.background_alpha = 255
 
     def set_alignment(self, horizontal, vertical, hor_indent=0, vert_indent=0):
         """ Sets the label's alignment within the defined rectangle, """
@@ -157,30 +205,32 @@ class LabelText(Widget):
         self.indent_horizontal = hor_indent
         self.indent_vertical = vert_indent
 
-    def draw(self, text=""):
+    def draw(self, text=None):
         """ Draws the label.
 
             :param text: default = "", set's the label's text,
 
             :return: Text that couldn't be fitted inside the label's rectangle,
         """
-        if text == "":
+        if text is None:
             self.caption = self.caption.decode('utf-8')
         else:
             self.caption = text.decode('utf-8')
-        if not self.transparent:
-            self.screen.fill(self.background_color, self.rect) # Background
+        # Draw background
+        background = pygame.Surface((self.width, self.height))
+        background.set_alpha(self.background_alpha)
+        background.fill(self.background_color)
+        SCREEN.blit(background, (self.x_pos, self.y_pos))
+        # Draw outline
         if self.outline_show:
             pygame.draw.rect(self.screen, self.outline_color, self.rect,1)
-        pygame.display.update(self.rect)
-
-        # Determine maximum width of line
+        # Determining caption width and height
         i = 1
-        while self.font.size(self.caption[:i])[0] < self.rect.width and i < len(self.caption):
+        while self.font.size(self.caption[:i])[0] < self.rect.width and i < len(
+                self.caption):  # Determine maximum width of line
             i += 1
         caption_width = self.font.size(self.caption[:i])[0]
         caption_height = self.font.size(self.caption[:i])[1]
-
         # Horizontal alignment
         if self.alignment_horizontal == HOR_LEFT:
             x = self.rect.left + self.indent_horizontal
@@ -195,7 +245,7 @@ class LabelText(Widget):
             y = self.rect.centery + self.indent_vertical - caption_height / 2
         elif self.alignment_vertical == VERT_BOTTOM:
             y = self.rect.bottom - self.indent_vertical - caption_height
-
+        # Draw Caption
         image = FONT.render(self.caption[:i], True, self.font_color)
         self.screen.blit(image, (x, y))
         pygame.display.update(self.rect)
@@ -220,8 +270,10 @@ class ButtonIcon(Widget):
         Widget.__init__(self, tag_name, screen_rect, x, y, self.__icon.get_width(), self.__icon.get_height())
         self.caption = ""
 
-    def draw(self):
+    def draw(self, icon_file=None):
         """ Draws the button """
+        if icon_file is not None:
+            self.__icon = icon_file
         rect = self.screen.blit(self.__icon, (self.x_pos, self.y_pos))
         pygame.display.update(rect)
 
@@ -254,6 +306,7 @@ class ButtonText(LabelText):
     """
     def __init__(self, tag_name, screen_rect, x, y, width, text=""):
         LabelText.__init__(self, tag_name, screen_rect, x, y, width, 32, text)
+        self.transparent_set(True)
         self.__background_left = None
         self.__background_middle = None
         self.__background_right = None
@@ -594,7 +647,6 @@ class Screen(object):
 
     def show(self):
         """ Displays the screen. """
-        print ("class Screen, function show()")
         self.screen.fill(self.color)
         for key, value in self.components.items():
             if value.visible:
@@ -610,8 +662,9 @@ class Screen(object):
             :return: The tag_name of the clicked component.
         """
         for key, value in self.components.items():
-            if (isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or \
-                        isinstance(value, Switch)) or isinstance(value, Slider) and value.visible:
+            if isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or \
+                    isinstance(value, Switch) or isinstance(value, Slider) and value.visible or \
+                    isinstance(value, Picture):
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
                     value.on_click(x, y)
                     return key
@@ -702,13 +755,12 @@ class ScreenModal(Screen):
         image = FONT.render(self.title, True, BLACK)
         self.screen.blit(image, (title_rect.centerx-font_width /2, title_rect.centery-font_height/2))
 
-
     def event_loop(self):
         """ The window's event loop """
         while not self.close_screen:
             self.event_loop_hook()
+            pygame.time.wait(PYGAME_EVENT_DELAY)
             for event in pygame.event.get():
-                pygame.time.wait(5)
 
                 gesture = self.gesture_detect.capture_gesture(event)
 

@@ -25,9 +25,10 @@ if RUN_ON_RASPBERRY_PI:
 pygame.init() 	# Pygame initialization
 #: The display dimensions, change this if you have a bigger touch screen.
 DISPLAY_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 320, 240
+PYGAME_EVENT_DELAY = 25
 
 if RUN_ON_RASPBERRY_PI:  # If started on Raspberry Pi
-    display_flags = FULLSCREEN | DOUBLEBUF                          # Turn on video acceleration
+    display_flags = FULLSCREEN | DOUBLEBUF | ANYFORMAT  # Turn on video acceleration
     #: Points to the display.
     SCREEN = pygame.display.set_mode(DISPLAY_SIZE, display_flags)
     pygame.mouse.set_visible(False)                                 # Hide mouse cursor
@@ -40,6 +41,7 @@ RESOURCES = os.path.dirname(__file__) + '/resources/'
 
 #: Standard font type
 FONT = pygame.font.Font(RESOURCES + 'DroidSans.ttf', 14)
+
 
 """ Color definitions """
 BLUE = 0, 148, 255
@@ -85,6 +87,8 @@ ICO_SWITCH_OFF = RESOURCES + 'switch_off_48x32.png'
 # General icons
 ICO_PLAYER = RESOURCES + 'home_48x32.png'
 ICO_PLAYER_ACTIVE = RESOURCES + 'home_active_48x32.png'
+ICO_PLAYLIST = RESOURCES + 'playlist_48x32.png'
+ICO_PLAYLIST_ACTIVE = RESOURCES + 'playlist_active_48x32.png'
 ICO_LIBRARY = RESOURCES + 'library_48x32.png'
 ICO_LIBRARY_ACTIVE = RESOURCES + 'library_active_48x32.png'
 ICO_SETTINGS = RESOURCES + 'settings_48x32.png'
@@ -112,6 +116,6 @@ ICO_SEARCH_ALBUM = RESOURCES + 'albums_48x32.png'
 ICO_SEARCH_ALBUM_ACTIVE = RESOURCES + 'albums_active_48x32.png'
 ICO_SEARCH_SONG = RESOURCES + 'songs_48x32.png'
 ICO_SEARCH_SONG_ACTIVE = RESOURCES + 'songs_active_48x32.png'
-ICO_PLAYLISTS = RESOURCES + 'playlist_48x32.png'
-ICO_PLAYLISTS_ACTIVE = RESOURCES + 'playlist_active_48x32.png'
+ICO_PLAYLISTS = RESOURCES + 'playlists_48x32.png'
+ICO_PLAYLISTS_ACTIVE = RESOURCES + 'playlists_active_48x32.png'
 

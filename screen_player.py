@@ -15,7 +15,6 @@ from mpd_client import *
 from settings import *
 from screen_settings import *
 
-
 class Playlist(ItemList):
     """ Displays playlist information.
 
@@ -43,30 +42,28 @@ class Playlist(ItemList):
             self.draw()
 
 
-class ScreenPlayer(Screen):
+class ScreenPlaylist(Screen):
     """ The screen containing everything to control playback.
     """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_home', self.screen, ICO_PLAYER_ACTIVE, 3, 5))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 45))
+        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
+        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST_ACTIVE, 3, 45))
+        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
         self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
-
         # Player specific buttons
-        self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 52, 45))
-        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 52, 85))
-        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 52, 125))
-        self.add_component(ButtonIcon('btn_volume', self.screen, ICO_VOLUME, SCREEN_WIDTH - 52, 165))
-
+        self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 51, 45))
+        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 51, 85))
+        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 51, 125))
+        self.add_component(ButtonIcon('btn_volume', self.screen, ICO_VOLUME, SCREEN_WIDTH - 51, 165))
         # Player specific labels
         self.add_component(LabelText('lbl_track_title', self.screen, 55, 5, SCREEN_WIDTH - 130, 18))
-        self.add_component(LabelText('lbl_track_artist', self.screen, 55, 23, 213, 18))
+        self.add_component(LabelText('lbl_track_artist', self.screen, 55, 23, SCREEN_WIDTH - 130, 18))
         self.add_component(LabelText('lbl_time', self.screen, SCREEN_WIDTH - 67, 5, 67, 18))
         self.add_component(LabelText('lbl_volume', self.screen, SCREEN_WIDTH - 70, 23, 70, 18))
-
+        # Splits labels from playlist
         self.add_component(Rectangle('rct_split', self.screen, 55, 43, 208, 1))
-
         # Playlist
         self.add_component(Playlist(self.screen))
         self.components['list_playing'].active_item_index = mpd.get_playlist_current_playing_index()
@@ -82,27 +79,31 @@ class ScreenPlayer(Screen):
         self.components['btn_play'].draw()
         self.components['lbl_track_title'].draw(mpd.track_name)
         self.components['lbl_track_artist'].draw(mpd.track_artist)
-        super(ScreenPlayer, self).show()  # Draw screen
+        super(ScreenPlaylist, self).show()  # Draw screen
         self.components['list_playing'].show_playlist()
         self.components['list_playing'].show_item_active()  # Makes sure currently playing playlist item is on screen
 
     def update(self):
-        """ Update controls that depend on mpd's status. """
-
-        if self.components['list_playing'].active_item_index != mpd.get_playlist_current_playing_index():
-            self.components['list_playing'].show_playlist()
-        self.components['lbl_time'].draw(mpd.time_current + '/' + mpd.time_total)
-        self.components['lbl_volume'].draw('Vol: ' + str(mpd.volume) + '%')
-        if self.components['btn_play'].image_file != ICO_PAUSE and mpd.player_control_get() == 'play':
-            self.components['btn_play'].set_image_file(ICO_PAUSE)
-            self.components['btn_play'].draw()
-        elif self.components['btn_play'].image_file == ICO_PAUSE and mpd.player_control_get() != 'play':
-            self.components['btn_play'].set_image_file(ICO_PLAY)
-            self.components['btn_play'].draw()
-
-        if mpd.current_song_changed():
-            self.components['lbl_track_title'].draw(mpd.track_name)
-            self.components['lbl_track_artist'].draw(mpd.track_artist)
+        while True:
+            try:
+                event = mpd.events.popleft()
+                if event == 'volume':
+                    self.components['lbl_volume'].draw('Vol: ' + str(mpd.volume) + '%')
+                elif event == 'playing_index':
+                    self.components['list_playing'].show_playlist()
+                elif event == 'time_elapsed' or event == 'playing_time_total':
+                    self.components['lbl_time'].draw(mpd.time_current + '/' + mpd.time_total)
+                elif event == 'playing_title':
+                    self.components['lbl_track_title'].draw(mpd.track_name)
+                elif event == 'playing_artist':
+                    self.components['lbl_track_artist'].draw(mpd.track_artist)
+                elif event == 'state':
+                    if self.components['btn_play'].image_file != ICO_PAUSE and mpd.player_control_get() == 'play':
+                        self.components['btn_play'].draw(ICO_PAUSE)
+                    elif self.components['btn_play'].image_file == ICO_PAUSE and mpd.player_control_get() != 'play':
+                        self.components['btn_play'].draw(ICO_PLAY)
+            except IndexError:
+                break
 
     def on_click(self, x, y):
         """
@@ -111,17 +112,18 @@ class ScreenPlayer(Screen):
 
         :return: Possibly returns a screen index number to switch to.
         """
-        tag_name = super(ScreenPlayer, self).on_click(x, y)
-        if tag_name == 'btn_home':
+        tag_name = super(ScreenPlaylist, self).on_click(x, y)
+        if tag_name == 'btn_player':
             return 0
-        elif tag_name == 'btn_library':
+        elif tag_name == 'btn_playlist':
             return 1
+        elif tag_name == 'btn_library':
+            return 2
         elif tag_name == 'btn_settings':
             setting_screen = ScreenSettings(self.screen)
             setting_screen.show()
             self.show()
         elif tag_name == 'btn_play':
-            yeys = mpd.player_control_get()
             if mpd.player_control_get() == 'play':
                 mpd.player_control_set('pause')
                 self.components['btn_play'].set_image_file(ICO_PLAY)
@@ -143,6 +145,119 @@ class ScreenPlayer(Screen):
                 mpd.play_playlist_item(selected_index + 1)
                 self.components['list_playing'].active_item_index = selected_index
                 self.components['list_playing'].draw()
+
+
+class ScreenPlaying(Screen):
+    """ Screen cover art
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+    """
+
+    def __init__(self, screen_rect):
+        Screen.__init__(self, screen_rect)
+        # Screen navigation buttons
+        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER_ACTIVE, 3, 5))
+        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
+        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
+        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
+        # Player specific buttons
+        self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 51, 5))
+        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 51, 45))
+        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 51, 85))
+        self.add_component(ButtonIcon('btn_volume_up', self.screen, ICO_VOLUME_UP, SCREEN_WIDTH - 51, 125))
+        self.add_component(ButtonIcon('btn_volume_down', self.screen, ICO_VOLUME_DOWN, SCREEN_WIDTH - 51, 165))
+        self.add_component(LabelText('lbl_volume', self.screen, SCREEN_WIDTH - 51, 165, 48, 125))
+        self.components['lbl_volume'].transparent_set(True)
+        self.components['lbl_volume'].set_alignment(HOR_MID, VERT_MID)
+        # Cover art
+        self.add_component(Picture('pic_cover_art', self.screen, 79, 40, 162, 162, mpd.get_cover_art()))
+        # Player specific labels
+        self.add_component(LabelText('lbl_track_artist', self.screen, 54, 3, 215, 18))
+        self.components['lbl_track_artist'].set_alignment(HOR_MID, VERT_MID)
+        self.add_component(LabelText('lbl_track_album', self.screen, 54, 19, 215, 18))
+        self.components['lbl_track_album'].set_alignment(HOR_MID, VERT_MID)
+        self.add_component(LabelText('lbl_track_title', self.screen, 55, SCREEN_HEIGHT - 27, 212, 18))
+        self.components['lbl_track_title'].set_alignment(HOR_MID, VERT_MID)
+        self.add_component(LabelText('lbl_time_current', self.screen, SCREEN_WIDTH - 51, 205, 48, 18))
+        self.components['lbl_time_current'].set_alignment(HOR_MID, VERT_MID)
+        self.add_component(LabelText('lbl_time_total', self.screen, SCREEN_WIDTH - 51, 221, 48, 18))
+        self.components['lbl_time_total'].set_alignment(HOR_MID, VERT_MID)
+        self.add_component(Slider2('slide_time', self.screen, 55, SCREEN_HEIGHT - 35, 212, 3))
+
+    def show(self):
+        """ Displays the screen. """
+        self.components['lbl_time_current'].draw(mpd.time_current)
+        self.components['lbl_time_total'].draw(mpd.time_total)
+        self.components['lbl_volume'].draw(str(mpd.volume) + '%')
+        if mpd.player_control_get() == 'play':
+            self.components['btn_play'].set_image_file(ICO_PAUSE)
+        else:
+            self.components['btn_play'].set_image_file(ICO_PLAY)
+        self.components['btn_play'].draw()
+        self.components['pic_cover_art'].draw(mpd.get_cover_art())
+        self.components['lbl_track_title'].draw(mpd.track_name)
+        self.components['lbl_track_artist'].draw(mpd.track_artist)
+        self.components['lbl_track_album'].draw(mpd.track_album)
+        super(ScreenPlaying, self).show()  # Draw screen
+
+    def update(self):
+        while True:
+            try:
+                event = mpd.events.popleft()
+                if event == 'volume':
+                    self.components['btn_volume'].draw()
+                    self.components['lbl_volume'].draw(str(mpd.volume) + '%')
+                elif event == 'playing_index':
+                    self.components['pic_cover_art'].draw(mpd.get_cover_art())
+                elif event == 'time_elapsed':
+                    self.components['lbl_time_current'].draw(mpd.time_current)
+                    self.components['slide_time'].draw(mpd.time_percentage)
+                elif event == 'playing_time_total':
+                    self.components['lbl_time_total'].draw(mpd.time_total)
+                elif event == 'playing_title':
+                    self.components['lbl_track_title'].draw(mpd.track_name)
+                elif event == 'playing_artist':
+                    self.components['lbl_track_artist'].draw(mpd.track_artist)
+                elif event == 'playing_album':
+                    self.components['lbl_track_album'].draw(mpd.track_album)
+                elif event == 'state':
+                    if self.components['btn_play'].image_file != ICO_PAUSE and mpd.player_control_get() == 'play':
+                        self.components['btn_play'].draw(ICO_PAUSE)
+                    elif self.components['btn_play'].image_file == ICO_PAUSE and mpd.player_control_get() != 'play':
+                        self.components['btn_play'].draw(ICO_PLAY)
+            except IndexError:
+                break
+
+    def on_click(self, x, y):
+        tag_name = super(ScreenPlaying, self).on_click(x, y)
+        if tag_name == 'btn_player':
+            return 0
+        elif tag_name == 'btn_playlist':
+            return 1
+        elif tag_name == 'btn_library':
+            return 2
+        elif tag_name == 'btn_settings':
+            setting_screen = ScreenSettings(self.screen)
+            setting_screen.show()
+            self.show()
+        elif tag_name == 'btn_play':
+            if mpd.player_control_get() == 'play':
+                mpd.player_control_set('pause')
+                self.components['btn_play'].set_image_file(ICO_PLAY)
+            else:
+                mpd.player_control_set('play')
+                self.components['btn_play'].set_image_file(ICO_PAUSE)
+            self.components['btn_play'].draw()
+        elif tag_name == 'btn_prev':
+            mpd.player_control_set('previous')
+        elif tag_name == 'btn_next':
+            mpd.player_control_set('next')
+        elif tag_name == 'btn_volume_up':
+            mpd.volume_set_relative(10)
+        elif tag_name == 'btn_volume_down':
+            mpd.volume_set_relative(-10)
+        elif tag_name == 'pic_cover_art':
+            self.close()
 
 
 class ScreenVolume(ScreenModal):
@@ -195,42 +310,3 @@ class ScreenVolume(ScreenModal):
         else:
             self.components['btn_mute'].set_image_file(ICO_VOLUME_MUTE)
         self.components['btn_mute'].draw()
-
-
-class ScreenCoverArt(ScreenModal):
-    """ Screen cover art
-
-        :param screen_rect: The display's rectangle where the screen is drawn on.
-    """
-    def __init__(self, screen_rect):
-        ScreenModal.__init__(self, screen_rect, "Now playing")
-        self.title_color = FIFTIES_GREEN
-        self.outline_color = FIFTIES_GREEN
-
-        # Player specific buttons
-        self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, 32, SCREEN_HEIGHT - 37))
-        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, 84, SCREEN_HEIGHT - 37))
-        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, 136, SCREEN_HEIGHT - 37))
-        self.add_component(ButtonIcon('btn_volume', self.screen, ICO_VOLUME, 188, SCREEN_HEIGHT - 37))
-        self.add_component(ButtonIcon('btn_back', self.screen, ICO_BACK, 240, SCREEN_HEIGHT - 37))
-
-        # Player specific labels
-        self.add_component(LabelText('lbl_track_title', self.screen, 55, 5, SCREEN_WIDTH - 130, 18))
-        self.add_component(LabelText('lbl_track_artist', self.screen, 55, 23, 213, 18))
-        self.add_component(LabelText('lbl_time', self.screen, SCREEN_WIDTH - 67, 5, 67, 18))
-        self.add_component(LabelText('lbl_volume', self.screen, SCREEN_WIDTH - 70, 23, 70, 18))
-
-    def event_loop_hook(self):
-        if mpd.mpd_control.status_get():
-            self.components['lbl_time'].draw(mpd.time_current + '/' + mpd.time_total)
-            self.components['lbl_volume'].draw('Vol: ' + str(mpd.volume) + '%')
-            if self.components['btn_play'].image_file != ICO_PAUSE and mpd.player_control == 'play':
-                self.components['btn_play'].set_image_file(ICO_PAUSE)
-                self.components['btn_play'].draw()
-            elif self.components['btn_play'].image_file == ICO_PAUSE and mpd.player_control != 'play':
-                self.components['btn_play'].set_image_file(ICO_PLAY)
-                self.components['btn_play'].draw()
-
-        if mpd.current_song_changed():
-            self.components['lbl_track_title'].draw(mpd.track_name)
-            self.components['lbl_track_artist'].draw(mpd.track_artist)

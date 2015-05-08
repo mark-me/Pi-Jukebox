@@ -119,16 +119,18 @@ class ScreenLibrary(Screen):
     """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
-        self.add_component(ButtonIcon('btn_home', self.screen, ICO_PLAYER, 3, 5))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY_ACTIVE, 3, 45))
+        # Screen navigation buttons
+        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
+        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
+        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY_ACTIVE, 3, 85))
         self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
-
+        # Library buttons
         self.add_component(ButtonIcon('btn_artists', self.screen, ICO_SEARCH_ARTIST, 55, 5))
         self.add_component(ButtonIcon('btn_albums', self.screen, ICO_SEARCH_ALBUM, 107, 5))
         self.add_component(ButtonIcon('btn_songs', self.screen, ICO_SEARCH_SONG, 159, 5))
         self.add_component(ButtonIcon('btn_playlists', self.screen, ICO_PLAYLISTS, 211, 5))
         self.add_component(ButtonIcon('btn_search', self.screen, ICO_SEARCH, 263, 5))
-
+        # Lists
         self.add_component(LibraryBrowser(self.screen))
         self.add_component(LetterBrowser(self.screen))
 
@@ -215,10 +217,12 @@ class ScreenLibrary(Screen):
     def on_click(self, x, y):
         """ Handles click event. """
         tag_name = super(ScreenLibrary, self).on_click(x, y)
-        if tag_name == 'btn_home':
+        if tag_name == 'btn_player':
             return 0
-        elif tag_name == 'btn_library':
+        elif tag_name == 'btn_playlist':
             return 1
+        elif tag_name == 'btn_library':
+            return 2
         elif tag_name == 'btn_settings':
             setting_screen = ScreenSettings(self.screen)
             setting_screen.show()

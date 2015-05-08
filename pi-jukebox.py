@@ -25,12 +25,14 @@ class PiJukeboxScreens(Screens):
     """
     def __init__(self):
         Screens.__init__(self)
-        self.screen_list.append(ScreenPlayer(SCREEN))  # Create player (home) screen
+        self.screen_list.append(ScreenPlaying(SCREEN))  # Screen with now playing and cover art
+        self.screen_list.append(ScreenPlaylist(SCREEN))  # Create player with playlist screen
         self.screen_list.append(ScreenLibrary(SCREEN))  # Create library browsing screen
 
     def mpd_updates(self):
         """ Updates a current screen if it shows mpd relevant content. """
-        if isinstance(self.screen_list[self.current_index], ScreenPlayer):
+        if isinstance(self.screen_list[self.current_index], ScreenPlaylist) or \
+                isinstance(self.screen_list[self.current_index], ScreenPlaying):
             self.screen_list[self.current_index].update()
 
 
@@ -50,12 +52,13 @@ def main():
     while 1:
 
         # Check whether mpd's status changed
+        pygame.time.wait(PYGAME_EVENT_DELAY)
         if mpd.status_get():
             screens.mpd_updates()  # If so update relevant screens
 
         for event in pygame.event.get():  # Do for all events in pygame's event queue
 
-            pygame.time.wait(5)
+
             screens.process_mouse_event(event)  # Handle mouse related events
 
             if event.type == KEYDOWN and event.key == K_ESCAPE:
