@@ -44,7 +44,9 @@ def main():
     #    print("mpd is not running... Start the mpd daemon service with 'sudo service mpd start'.")
     #    sys.exit()
 
-    mpd.connect()
+    if not mpd.connect():
+        print("Couldn't connect to the local mpd server on port 6600!")
+        sys.exit()
     mpd.status_get()  # Get mpd status
     screens = PiJukeboxScreens()  # Screens
     screens.show()  # Display the screen
@@ -57,7 +59,6 @@ def main():
             screens.mpd_updates()  # If so update relevant screens
 
         for event in pygame.event.get():  # Do for all events in pygame's event queue
-
 
             screens.process_mouse_event(event)  # Handle mouse related events
 

@@ -52,6 +52,7 @@ class MPDController(object):
         self.updating_library = False
         self.events = deque([])  # Queue of mpd events
         # Database search results
+        self.search_path = []  # Search path user goes through
         self.list_albums = []
         self.list_artists = []
         self.list_songs = []
@@ -70,7 +71,10 @@ class MPDController(object):
 
             :return: Boolean indicating if succesfully connected to mpd server.
         """
-        self.mpd_client.connect('localhost', 6600)
+        try:
+            self.mpd_client.connect('localhost', 6600)
+        except Exception:
+            return False
         return True
 
     def disconnect(self):

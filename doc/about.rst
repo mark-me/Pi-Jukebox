@@ -26,7 +26,7 @@ Future plans include:
 Running pi-jukebox on your Raspberry Pi
 ---------------------------------------
 
-Be sure to check the value of **__RUN_ON_RASPBERRY_PI** in the **settings.py** when you are trying to run pi-jukebox on your Raspberry Pi. Run with:
+Be sure to check the value of **MPD_MUSIC_DIR** in the **mpd_client.py**, this should point to your music library (found in the **music_directory** entry of **mpd.conf**. Run pi-jukebox with:
     .. code-block:: bash
 
        sudo python pi-jukebox.py
