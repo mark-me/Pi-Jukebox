@@ -79,7 +79,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-player-screen">The player screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-now-playing-screen">The now playing screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-playlist-screen">The playlist screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="screenshots.html#searching-an-artist">Searching an artist</a></li>
@@ -89,7 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="code.html">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html#mpc-control-py-controlling-and-monitoring-mpd-via-mpc"><strong>mpc_control.py</strong>: controlling and monitoring mpd via mpc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code.html#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code.html#mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2"><strong>mpd_client.py</strong>: controlling and monitoring mpd via python-mpd2.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
 </ul>
@@ -172,7 +174,7 @@ screens (in later versions I&#8217;m planning to do some scaling).</li>
 <div class="section" id="running-pi-jukebox-on-your-raspberry-pi">
 <h2>Running pi-jukebox on your Raspberry Pi<a class="headerlink" href="#running-pi-jukebox-on-your-raspberry-pi" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt>Be sure to check the value of <strong>__RUN_ON_RASPBERRY_PI</strong> in the <strong>settings.py</strong> when you are trying to run pi-jukebox on your Raspberry Pi. Run with:</dt>
+<dt>Be sure to check the value of <strong>MPD_MUSIC_DIR</strong> in the <strong>mpd_client.py</strong>, this should point to your music library (found in the <strong>music_directory</strong> entry of <strong>mpd.conf*</strong>. Run pi-jukebox with:</dt>
 <dd><div class="first last highlight-bash"><div class="highlight"><pre>sudo python pi-jukebox.py
 </pre></div>
 </div>
