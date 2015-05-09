@@ -3,8 +3,6 @@
 **mpd_client.py**: controlling and monitoring mpd via python-mpd2.
 ==================================================================
 """
-__author__ = 'Mark Zwart'
-
 
 import sys, pygame
 import time
@@ -22,8 +20,8 @@ MPD_TYPE_SONGS = 'title'
 
 # MPD Music directory
 # MPD_MUSIC_DIR = '/var/lib/mpd/music/'
-MPD_MUSIC_DIR = '/mnt/music_partition/'
-#MPD_MUSIC_DIR = '/home/mark/Music/'
+# MPD_MUSIC_DIR = '/mnt/music_partition/'
+MPD_MUSIC_DIR = '/home/mark/Music/'
 DEFAULT_COVER = 'default_cover_art.png'
 
 reload(sys)
