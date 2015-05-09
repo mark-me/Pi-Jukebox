@@ -52,7 +52,8 @@ class MPDController(object):
         self.updating_library = False
         self.events = deque([])  # Queue of mpd events
         # Database search results
-        self.search_path = []  # Search path user goes through
+        self.searching_artist = ""  # Search path user goes through
+        self.searching_album = ""
         self.list_albums = []
         self.list_artists = []
         self.list_songs = []
@@ -371,8 +372,8 @@ class MPDController(object):
         :param tag_type: ["artist"s, "album"s, song"title"s]
         :return: A list with search results.
         """
-        result_list = self.mpd_client.list(tag_type)
-        return result_list
+        self.list_query_results = self.mpd_client.list(tag_type)
+        return self.list_query_results
 
     def __search_first_letter(self, tag_type, first_letter):
         """ Searches all entries of a certain type matching a first letter
@@ -381,12 +382,12 @@ class MPDController(object):
         :param first_letter: The first letter
         :return: A list with search results.
         """
-        all_results = self.mpd_client.list(tag_type)
-        end_result = []
-        for i in all_results:
+        temp_results = []
+        for i in self.list_query_results:
             if i[:1].upper() == first_letter.upper():
-                end_result.append(i)
-        return end_result
+                temp_results.append(i)
+        self.list_query_results = temp_results
+        return self.list_query_results
 
     def __search_partial(self, tag_type, part):
         """ Searches all entries of a certain type partially matching search string.
@@ -396,12 +397,12 @@ class MPDController(object):
         :return: A list with search results.
         """
         all_results = self.mpd_client.list(tag_type)
-        end_result = []
+        self.list_query_results = []
         for i in all_results:
-            result_upper = i.upper()
+            self.list_query_results = i.upper()
             if result_upper.find(part.upper()) > -1:
-                end_result.append(i)
-        return end_result
+                self.list_query_results.append(i)
+        return self.list_query_results
 
     def __search_of_type(self, type_result, type_filter, name_filter):
         """ Searching one type depending on another type (very clear description isn't it?)
@@ -411,8 +412,18 @@ class MPDController(object):
         :param name_filter: The name used to filter
         :return:
         """
-        result = self.mpd_client.list(type_result, type_filter, name_filter)
-        return result
+        if self.searching_artist == "" and self.searching_album == "":
+            self.list_query_results = self.mpd_client.list(type_result, type_filter, name_filter)
+        elif self.searching_artist != "" and self.searching_album == "":
+            self.list_query_results = self.mpd_client.list(type_result, 'artist', self.searching_artist, type_filter,
+                                                           name_filter)
+        elif self.searching_artist == "" and self.searching_album != "":
+            self.list_query_results = self.mpd_client.list(type_result, 'album', self.searching_album, type_filter,
+                                                           name_filter)
+        elif self.searching_artist != "" and self.searching_album != "":
+            self.list_query_results = self.mpd_client.list(type_result, 'artist', self.searching_artist, 'album',
+                                                           self.searching_album, type_filter, name_filter)
+        return self.list_query_results
 
     def artists_get(self, part=None, only_start=True):
         """ Retrieves all artist names or matching by first letter(s) or partial search string.
@@ -421,6 +432,8 @@ class MPDController(object):
         :param only_start: Only search as first letter(s).
         :return: A list of matching artist names.
         """
+        self.searching_artist = ""
+        self.searching_album = ""
         if part is None:
             if len(self.list_artists) == 0:
                 self.list_artists = self.__search('artist')
@@ -438,6 +451,8 @@ class MPDController(object):
         :param only_start: Only search as first letter(s).
         :return: A list of matching album titles.
         """
+        self.searching_artist = ""
+        self.searching_album = ""
         if part is None:
             if len(self.list_albums) == 0:
                 self.list_albums = self.__search('album')
@@ -455,6 +470,8 @@ class MPDController(object):
         :param only_start: Only search as first letter(s)
         :return: A list of matching song titles
         """
+        self.searching_artist = ""
+        self.searching_album = ""
         if part is None:
             if len(self.list_songs) == 0:
                 self.list_songs = self.__search('title')
@@ -471,6 +488,7 @@ class MPDController(object):
         :param artist_name: The name of the artist to retrieve the albums of.
         :return: A list of album titles.
         """
+        self.searching_artist = artist_name
         return self.__search_of_type('album', 'artist', artist_name)
 
     def artist_songs_get(self, artist_name):
@@ -479,6 +497,7 @@ class MPDController(object):
         :param artist_name: The name of the artist to retrieve the songs of.
         :return: A list of song titles
         """
+        self.searching_artist = artist_name
         return self.__search_of_type('title', 'artist', artist_name)
 
     def album_songs_get(self, album_name):
@@ -487,6 +506,7 @@ class MPDController(object):
         :param album_name: The name of the album
         :return: A list of song titles
         """
+        self.searching_album = album_name
         return self.__search_of_type('title', 'album', album_name)
 
     def playlists_get(self, first_letter=None):
@@ -516,7 +536,14 @@ class MPDController(object):
         if clear_playlist:
             self.playlist_current_clear()
         i = self.playlist_current_count()
-        self.mpd_client.findadd(tag_type, tag_name)
+        if self.searching_artist == "" and self.searching_album == "":
+            self.mpd_client.findadd(tag_type, tag_name)
+        elif self.searching_artist != "" and self.searching_album == "":
+            self.mpd_client.findadd('artist', self.searching_artist, tag_type, tag_name)
+        elif self.searching_artist == "" and self.searching_album != "":
+            self.mpd_client.findadd('album', self.searching_album, tag_type, tag_name)
+        elif self.searching_artist != "" and self.searching_album != "":
+            self.mpd_client.findadd('artist', self.searching_artist, 'album', self.searching_album, tag_type, tag_name)
         if play:
             self.play_playlist_item(i + 1)
 

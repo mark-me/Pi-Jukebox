@@ -72,7 +72,8 @@ class LibraryBrowser(ItemList):
         if self.list != mpd.albums_get(search, only_start):
             self.list = mpd.albums_get(search, only_start)
             updated = True
-        if updated: self.draw()
+        if updated:
+            self.draw()
 
     def show_songs(self, search=None, only_start=True):
         """ Displays all songs or based on the first letter or partial string match.
@@ -84,7 +85,8 @@ class LibraryBrowser(ItemList):
         if self.list != mpd.songs_get(search, only_start):
             self.list = mpd.songs_get(search, only_start)
             updated = True
-        if updated: self.draw()
+        if updated:
+            self.draw()
 
     def show_playlists(self, first_letter=None):
         """ Displays all playlists or based on the first letter.
@@ -177,11 +179,11 @@ class ScreenLibrary(Screen):
             self.components['list_library'].show_artists(letter)
         elif self.currently_showing == 'albums':
             self.components['list_library'].show_albums(letter)
-
         elif self.currently_showing == 'songs':
             self.components['list_library'].show_songs(letter)
         elif self.currently_showing == 'playlists':
             self.components['list_library'].show_playlists(letter)
+        self.letter_list_update()
 
     def find_text(self):
         """ Find results according to part of the text.
@@ -212,6 +214,7 @@ class ScreenLibrary(Screen):
             self.components['list_library'].list = select_screen.return_object
             self.components['list_library'].draw()
             self.set_currently_showing(select_screen.return_type)
+        self.letter_list_update()
         self.show()
 
     def on_click(self, x, y):
