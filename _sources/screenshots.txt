@@ -4,7 +4,7 @@ Screenshots
 The now playing screen
 ----------------------
 	.. image:: ./images/screens/0_playing.png
-	.. image:: ./images/screens0_playing_explained.png
+	.. image:: ./images/screens/0_playing_explained.png
 The playlist screen
 -------------------
     .. image:: ./images/screens/1_player_explained.png
@@ -18,7 +18,6 @@ Searching an artist
 -------------------
     .. image:: ./images/screens/4_searching_1.png
     .. image:: ./images/screens/5_searching_2.png
-    
 Settings screen
 ---------------
     .. image:: ./images/screens/6_settings.png
