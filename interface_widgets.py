@@ -11,6 +11,7 @@ from pygame.locals import *
 import time
 import math
 from settings import *
+import Image
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -163,10 +164,11 @@ class Picture(Widget):
     def draw(self, file_name=""):
         if file_name != "":
             self.__image_file = file_name
+        img = Image.open(self.__image_file)
+        img_scaled = img.resize((self.width, self.height), Image.ANTIALIAS)
+        img_scaled.save(self.__image_file)
         self.__image = pygame.image.load(self.__image_file).convert()
-        # pygame.transform.set_smoothscale_backend('GENERIC')
-        #self.__image = pygame.transform.smoothscale(self.__image, (self.width, self.height))
-        self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
+        # self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
         SCREEN.blit(self.__image, (self.x_pos, self.y_pos))
         pygame.display.update(self.rect)
 
