@@ -79,6 +79,7 @@ class ScreenSettingsQuit(ScreenModal):
             sys.exit()
         elif tag_name == 'btn_shutdown':
             if RUN_ON_RASPBERRY_PI:
+                pygame.display.quit()
                 os.system("sudo shutdown -h now")
             else:
                 sys.exit()
