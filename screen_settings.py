@@ -113,27 +113,27 @@ class ScreenSettingsPlayback(ScreenModal):
         """
         for key, value in self.components.items():
             if key == 'switch_shuffle':
-                value.set_on(mpd.mpd_control.random)
+                value.set_on(mpd.random)
             elif key == 'switch_repeat':
-                value.set_on(mpd.mpd_control.repeat)
+                value.set_on(mpd.repeat)
             elif key == 'switch_single':
-                value.set_on(mpd.mpd_control.single)
+                value.set_on(mpd.single)
             elif key == 'switch_consume':
-                value.set_on(mpd.mpd_control.consume)
+                value.set_on(mpd.consume)
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
         if tag_name == 'switch_shuffle':
-            mpd.mpd_control.random_switch()
+            mpd.random_switch()
         elif tag_name == 'switch_repeat':
-            mpd.mpd_control.repeat_switch()
+            mpd.repeat_switch()
         elif tag_name == 'switch_single':
-            mpd.mpd_control.single_switch()
+            mpd.single_switch()
         elif tag_name == 'switch_consume':
-            mpd.mpd_control.consume_switch()
+            mpd.consume_switch()
         elif tag_name == 'btn_rescan':
-            mpd.mpd_controller.library_rescan()
+            mpd.library_rescan()
         elif tag_name == 'btn_update':
-            mpd.mpd_controller.library_update()
+            mpd.library_update()
         elif tag_name == 'btn_return':
             self.close()
