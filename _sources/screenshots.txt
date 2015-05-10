@@ -3,7 +3,6 @@ Screenshots
 
 The now playing screen
 ----------------------
-	.. image:: ./images/screens/0_playing.png
 	.. image:: ./images/screens/0_playing_explained.png
 	
 The playlist screen
