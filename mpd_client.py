@@ -76,6 +76,9 @@ class MPDController(object):
             self.mpd_client.connect('localhost', 6600)
         except Exception:
             return False
+        self.artists_get()
+        self.albums_get()
+        self.songs_get()
         return True
 
     def disconnect(self):

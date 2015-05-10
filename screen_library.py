@@ -121,6 +121,7 @@ class ScreenLibrary(Screen):
     """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
+        self.first_time_showing = True
         # Screen navigation buttons
         self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
         self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
@@ -137,9 +138,14 @@ class ScreenLibrary(Screen):
         self.add_component(LetterBrowser(self.screen))
 
         self.currently_showing = 'artists'
-        self.set_currently_showing('artists')
-        self.components['list_library'].show_artists()
-        self.letter_list_update()
+
+    def show(self):
+        if self.first_time_showing:
+            self.set_currently_showing('artists')
+            self.components['list_library'].show_artists()
+            self.letter_list_update()
+            self.first_time_showing = False
+        super(ScreenLibrary, self).show()
 
     def set_currently_showing(self, type_showing):
         """ Switch icons to active dependent on which kind of searching is active.
