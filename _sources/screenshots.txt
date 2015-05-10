@@ -4,6 +4,7 @@ Screenshots
 The now playing screen
 ----------------------
 	.. image:: ./images/screens/0_playing.png
+	.. image:: ./images/screens0_playing_explained.png
 The playlist screen
 -------------------
     .. image:: ./images/screens/1_player_explained.png
@@ -21,5 +22,8 @@ Searching an artist
 Settings screen
 ---------------
     .. image:: ./images/screens/6_settings.png
-Wifi configuration is a work in progress.... ;-)
+    .. image:: ./images/screens/7_settings_2.png
+    .. image:: ./images/screens/7_settings_3.png
+    
+
 
