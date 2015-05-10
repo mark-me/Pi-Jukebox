@@ -194,7 +194,10 @@ class MPDController(object):
     def get_cover_art(self, dest_file_name="covert_art.jpg"):
         if self.track_file == "":
             return DEFAULT_COVER
-        music_file = File(MPD_MUSIC_DIR + self.track_file)
+        try:
+            music_file = File(MPD_MUSIC_DIR + self.track_file)
+        except IOError:
+            return DEFAULT_COVER
         cover_art = None
         if 'covr' in music_file:
             cover_art = music_file.tags['covr'].data
@@ -400,7 +403,7 @@ class MPDController(object):
         self.list_query_results = []
         for i in all_results:
             self.list_query_results = i.upper()
-            if result_upper.find(part.upper()) > -1:
+            if all_results.find(part.upper()) > -1:
                 self.list_query_results.append(i)
         return self.list_query_results
 

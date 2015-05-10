@@ -290,6 +290,7 @@ class ScreenSearch(ScreenModal):
         search_label = tag_name
         if tag_name == 'btn_cancel':
             self.close()
+            return
         elif tag_name == 'btn_artists':
             self.search_type = 'artist'
             search_label = "Search artists"
