@@ -165,8 +165,9 @@ class Picture(Widget):
         if file_name != "":
             self.__image_file = file_name
         img = Image.open(self.__image_file)
-        img_scaled = img.resize((self.width, self.height), Image.ANTIALIAS)
-        img_scaled.save(self.__image_file)
+        if img.size != (self.width, self.height):
+            img_scaled = img.resize((self.width, self.height), Image.ANTIALIAS)
+            img_scaled.save(self.__image_file)
         self.__image = pygame.image.load(self.__image_file).convert()
         # self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
         SCREEN.blit(self.__image, (self.x_pos, self.y_pos))

@@ -60,6 +60,7 @@ class LibraryBrowser(ItemList):
             self.list = mpd.artists_get(search, only_start)
             updated = True
         if updated:
+            self.page_showing_index = 0
             self.draw()
 
     def show_albums(self, search=None, only_start=True):
@@ -73,6 +74,7 @@ class LibraryBrowser(ItemList):
             self.list = mpd.albums_get(search, only_start)
             updated = True
         if updated:
+            self.page_showing_index = 0
             self.draw()
 
     def show_songs(self, search=None, only_start=True):
@@ -86,6 +88,7 @@ class LibraryBrowser(ItemList):
             self.list = mpd.songs_get(search, only_start)
             updated = True
         if updated:
+            self.page_showing_index = 0
             self.draw()
 
     def show_playlists(self, first_letter=None):
@@ -97,7 +100,9 @@ class LibraryBrowser(ItemList):
         if self.list != mpd.playlists_get(first_letter):
             self.list = mpd.playlists_get(first_letter)
             updated = True
-        if updated: self.draw()
+        if updated:
+            self.page_showing_index = 0
+            self.draw()
 
     def first_letters_in_result_get(self):
         """ Get's the symbols that are first letters of the items in the result list.
