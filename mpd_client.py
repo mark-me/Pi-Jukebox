@@ -90,7 +90,10 @@ class MPDController(object):
         """
         current_seconds = 0
         current_total = 0
-        current_song = self.mpd_client.currentsong()
+        try:
+            current_song = self.mpd_client.currentsong()
+        except Exception:
+            return False
 
         if self.__current_song != current_song and len(current_song) > 0: # Changed to a new song
             self.__current_song = current_song
@@ -120,7 +123,10 @@ class MPDController(object):
             self.events.append('playing_time_total')
             self.events.append('playing_time_percentage')
 
-        status = self.mpd_client.status()
+        try:
+            status = self.mpd_client.status()
+        except Exception:
+            return False
         if self.__status == status:
             return False
 
@@ -402,8 +408,8 @@ class MPDController(object):
         all_results = self.mpd_client.list(tag_type)
         self.list_query_results = []
         for i in all_results:
-            self.list_query_results = i.upper()
-            if all_results.find(part.upper()) > -1:
+            result = i.upper()
+            if result.find(part.upper()) > -1:
                 self.list_query_results.append(i)
         return self.list_query_results
 

@@ -287,8 +287,9 @@ class ScreenVolume(ScreenModal):
             Slider('slide_volume', self.screen, self.window_x + 8, self.window_y + 63, self.window_width - 18, 30))
         self.components['slide_volume'].progress_percentage_set(mpd.volume)
         self.add_component(
-            ButtonText('btn_back', self.screen, self.window_x + self.window_width / 2 - 23, self.window_y + 98, 46,
+            ButtonText('btn_back', self.screen, self.window_x + self.window_width / 2 - 23, self.window_y + 98, 46, 32,
                        "Back"))
+        self.components['btn_back'].button_color = FIFTIES_TEAL
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)

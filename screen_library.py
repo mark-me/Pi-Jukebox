@@ -274,13 +274,13 @@ class ScreenSearch(ScreenModal):
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
         label = "Artists"
-        self.add_component(ButtonText('btn_artists', self.screen, button_left, 50, button_width, label))
+        self.add_component(ButtonText('btn_artists', self.screen, button_left, 50, button_width, 32, label))
         label = "Albums"
-        self.add_component(ButtonText('btn_albums', self.screen, button_left, 92, button_width, label))
+        self.add_component(ButtonText('btn_albums', self.screen, button_left, 92, button_width, 32, label))
         label = "Songs"
-        self.add_component(ButtonText('btn_songs', self.screen, button_left, 134, button_width, label))
+        self.add_component(ButtonText('btn_songs', self.screen, button_left, 134, button_width, 32, label))
         label = "Cancel"
-        self.add_component(ButtonText('btn_cancel', self.screen, button_left, 176, button_width, label))
+        self.add_component(ButtonText('btn_cancel', self.screen, button_left, 176, button_width, 32, label))
 
     def action(self, tag_name):
         """ Action that should be performed on a click.
@@ -302,6 +302,7 @@ class ScreenSearch(ScreenModal):
             search_label = "Search songs"
         # Open on-screen keyboard for entering search string
         keyboard = Keyboard(self.screen, search_label)
+        keyboard.title_color = FIFTIES_YELLOW
         self.search_text = keyboard.show()  # Get entered search text
         self.close()
 
@@ -327,19 +328,25 @@ class ScreenSelected(ScreenModal):
         button_width = self.window_width - 2 * button_left
 
         label = "Add to playlist"
-        self.add_component(ButtonText('btn_add', self.screen, button_left, 30, button_width, label))
+        self.add_component(ButtonText('btn_add', self.screen, button_left, 30, button_width, 32, label))
+        self.components['btn_add'].button_color = FIFTIES_TEAL
         label = "Add to playlist and play"
-        self.add_component(ButtonText('btn_add_play', self.screen, button_left, 72, button_width, label))
+        self.add_component(ButtonText('btn_add_play', self.screen, button_left, 72, button_width, 32, label))
+        self.components['btn_add_play'].button_color = FIFTIES_TEAL
         label = "Replace playlist and play"
-        self.add_component(ButtonText('btn_replace', self.screen, button_left, 114, button_width, label))
+        self.add_component(ButtonText('btn_replace', self.screen, button_left, 114, button_width, 32, label))
+        self.components['btn_replace'].button_color = FIFTIES_TEAL
         if self.type == 'artists':
             label = "Albums of " + self.title
-            self.add_component(ButtonText('btn_artist_get_albums', self.screen, button_left, 156, button_width, label))
+            self.add_component(
+                ButtonText('btn_artist_get_albums', self.screen, button_left, 156, button_width, 32, label))
             label = "Songs of " + self.title
-            self.add_component(ButtonText('btn_artist_get_songs', self.screen, button_left, 198, button_width, label))
+            self.add_component(
+                ButtonText('btn_artist_get_songs', self.screen, button_left, 198, button_width, 32, label))
         elif self.type == 'albums':
             label = "Songs of " + self.title
-            self.add_component(ButtonText('btn_album_get_songs', self.screen, button_left, 156, button_width, label))
+            self.add_component(
+                ButtonText('btn_album_get_songs', self.screen, button_left, 156, button_width, 32, label))
         #label = "Cancel"
         #self.add_component(ButtonText("btn_cancel", self.screen, button_left, 134, button_width, label))
 

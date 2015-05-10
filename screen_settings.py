@@ -28,15 +28,15 @@ class ScreenSettings(ScreenModal):
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
         label = "Quit Pi-Jukebox"
-        self.add_component(ButtonText('btn_quit', self.screen, button_left, 30, button_width, label))
+        self.add_component(ButtonText('btn_quit', self.screen, button_left, 30, button_width, 32, label))
         label = "Playback options"
-        self.add_component(ButtonText('btn_playback', self.screen, button_left, 72, button_width, label))
+        self.add_component(ButtonText('btn_playback', self.screen, button_left, 72, button_width, 32, label))
         # label = "Entry"
         #self.add_component(ButtonText("entry_1", self.screen, button_left, 114, button_width, label))
         #label = "Entry"
         #self.add_component(ButtonText("entry_2", self.screen, button_left, 156, button_width, label))
         label = "Back"
-        self.add_component(ButtonText('btn_return', self.screen, button_left, 198, button_width, label))
+        self.add_component(ButtonText('btn_return', self.screen, button_left, 198, button_width, 32, label))
 
     def on_click(self, x, y):
         tag_name = super(ScreenSettings, self).on_click(x, y)
@@ -65,11 +65,11 @@ class ScreenSettingsQuit(ScreenModal):
         self.window_height -= 2 * self.window_y
         self.outline_shown = True
 
-        self.add_component(ButtonText('btn_quit', screen_rect, self.window_x + 10, self.window_y + 30, 120, "Quit"))
+        self.add_component(ButtonText('btn_quit', screen_rect, self.window_x + 10, self.window_y + 30, 120, 32, "Quit"))
         self.add_component(
-            ButtonText('btn_shutdown', screen_rect, self.window_x + 10, self.window_y + 70, 120, "Shutdown Pi"))
+            ButtonText('btn_shutdown', screen_rect, self.window_x + 10, self.window_y + 70, 120, 32, "Shutdown Pi"))
         self.add_component(
-            ButtonText('btn_cancel', screen_rect, self.window_x + 10, self.window_y + 110, 120, "Cancel"))
+            ButtonText('btn_cancel', screen_rect, self.window_x + 10, self.window_y + 110, 120, 32, "Cancel"))
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
@@ -102,9 +102,10 @@ class ScreenSettingsPlayback(ScreenModal):
         self.add_component(Switch('switch_single', screen_rect, 280, 23))
         self.add_component(LabelText('lbl_consume', screen_rect, 10, 65, 110, 20, "Consume playlist"))
         self.add_component(Switch('switch_consume', screen_rect, 125, 58))
-        self.add_component(ButtonText('btn_rescan', self.screen, 10, 108, self.window_width - 20, "Re-scan library"))
-        self.add_component(ButtonText('btn_update', self.screen, 10, 150, self.window_width - 20, "Update library"))
-        self.add_component(ButtonText('btn_return', screen_rect, 10, 192, self.window_width - 20, "Back"))
+        self.add_component(
+            ButtonText('btn_rescan', self.screen, 10, 108, self.window_width - 20, 32, "Re-scan library"))
+        self.add_component(ButtonText('btn_update', self.screen, 10, 150, self.window_width - 20, 32, "Update library"))
+        self.add_component(ButtonText('btn_return', screen_rect, 10, 192, self.window_width - 20, 32, "Back"))
 
         self.__initialize()
 

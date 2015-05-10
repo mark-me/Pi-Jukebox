@@ -12,6 +12,9 @@ import time
 import math
 from settings import *
 
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 # Alignment variables
 HOR_LEFT = 0
 HOR_MID = 1
@@ -304,9 +307,12 @@ class ButtonText(LabelText):
         :ivar alignment_horizontal: The button's text horizontal alignment, default = :py:const:HOR_MID.
         :ivar alignment_vertical: The button's text vertical alignment, default = :py:const:VERT_MID,
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, text=""):
-        LabelText.__init__(self, tag_name, screen_rect, x, y, width, 32, text)
+
+    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
+        LabelText.__init__(self, tag_name, screen_rect, x, y, width, height, text)
         self.transparent_set(True)
+        self.button_rect = (x + 1, y + 1, width - 2, height - 2)
+        self.button_color = FIFTIES_YELLOW
         self.__background_left = None
         self.__background_middle = None
         self.__background_right = None
@@ -314,36 +320,12 @@ class ButtonText(LabelText):
         self.font_color = BLACK
         self.alignment_vertical = VERT_MID
         self.alignment_horizontal = HOR_MID
-        self.__initialize_background()
 
-    def draw(self):
-        """ Draws the button on the screen. """
-        # Left
-        rect_left = self.screen.blit(self.__background_left, (self.x_pos, self.y_pos))
-        pygame.display.update(rect_left)
-        # Middle
-        x = self.x_pos + self.__background_left.get_width()
-        rect_middle = self.screen.blit(self.__background_middle, (x, self.y_pos))
-        pygame.display.update(rect_middle)
-        # Right
-        x += self.__background_middle.get_width()
-        rect_right = self.screen.blit(self.__background_right, (x, self.y_pos))
-        pygame.display.update(rect_right)
-        # Text
+    def draw(self, text=None):
+        self.screen.fill(self.button_color, self.button_rect)  # Background
         super(ButtonText,self).draw()
+        pygame.display.update(self.rect)
 
-    def __initialize_background(self):
-        """ Sets up the button's background. """
-        # Left side
-        background_left_file = RESOURCES + 'button_bg_left_32.png'
-        self.__background_left = pygame.image.load(background_left_file).convert()
-        # Middle
-        background_middle_file = RESOURCES + 'button_bg_middle_32.png'
-        self.__background_middle = pygame.image.load(background_middle_file).convert()
-        width = self.width - (2 * self.__background_left.get_width())
-        self.__background_middle = pygame.transform.scale(self.__background_middle, (width, self.height))
-        # Right
-        self.__background_right = pygame.transform.flip(self.__background_left, True, False)
 
 
 class Switch(Widget):

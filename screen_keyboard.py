@@ -41,7 +41,7 @@ class KeyboardBase(ScreenModal):
         button_width = 32
         for letter in list_symbols:
             btn_name = 'btn_symbol_' + letter
-            btn = ButtonText(btn_name, self.screen, x, y, button_width, letter)
+            btn = ButtonText(btn_name, self.screen, x, y, button_width, 32, letter)
             self.add_component(btn)
             x += button_width
 
@@ -76,9 +76,9 @@ class KeyboardLetters(KeyboardBase):
         self.add_component(ButtonIcon('btn_backspace', screen_rect, ICO_BACKSPACE, 271, y_row))
 
         y_row += y_row_increment
-        self.add_component(ButtonText('btn_symbol_comma', screen_rect, 50, y_row, 32, ','))
-        self.add_component(ButtonText('btn_symbol_space', screen_rect, 82, y_row, 159, ' '))
-        self.add_component(ButtonText('btn_symbol_point', screen_rect, 241, y_row, 32, '.'))
+        self.add_component(ButtonText('btn_symbol_comma', screen_rect, 50, y_row, 32, 32, ','))
+        self.add_component(ButtonText('btn_symbol_space', screen_rect, 82, y_row, 159, 32, ' '))
+        self.add_component(ButtonText('btn_symbol_point', screen_rect, 241, y_row, 32, 32, '.'))
         self.add_component(ButtonIcon('btn_enter', screen_rect, ICO_ENTER, 271, y_row))
         self.add_component(ButtonIcon('btn_symbols', screen_rect, ICO_SYMBOLS, 4, y_row))
 
@@ -145,9 +145,9 @@ class KeyboardSymbols(KeyboardBase):
         y_row += y_row_increment
         self.add_component(ButtonIcon('btn_enter', screen_rect, ICO_ENTER, 271, y_row))
         self.add_component(ButtonIcon('btn_symbol_letters', screen_rect, ICO_LETTERS, 0, y_row))
-        self.add_component(ButtonText('btn_symbol_ampersand', screen_rect, 50, y_row, 32, '&'))
-        self.add_component(ButtonText('btn_symbol_space', screen_rect, 82, y_row, 159, ' '))
-        self.add_component(ButtonText('btn_symbol_at', screen_rect, 241, y_row, 32, '@'))
+        self.add_component(ButtonText('btn_symbol_ampersand', screen_rect, 50, y_row, 32, 32, '&'))
+        self.add_component(ButtonText('btn_symbol_space', screen_rect, 82, y_row, 159, 32, ' '))
+        self.add_component(ButtonText('btn_symbol_at', screen_rect, 241, y_row, 32, 32, '@'))
 
     def on_click(self, x, y):
         tag_name = super(KeyboardSymbols, self).on_click(x, y)
