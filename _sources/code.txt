@@ -16,7 +16,10 @@ Documentation pi-jukebox code
 .. automodule:: mpd_client
    :members:
 
-.. automodule:: interface_widgets
+.. automodule:: gui_widgets
+   :members:
+   
+.. automodule:: gui_screens
    :members:
    
 .. automodule:: screen_keyboard

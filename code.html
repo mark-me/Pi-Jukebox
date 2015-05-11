@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2"><strong>mpd_client.py</strong>: controlling and monitoring mpd via python-mpd2.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gui-screens-py-building-blocks-for-creating-screens-and-dialogues"><strong>gui_screens.py</strong>: Building blocks for creating screens and dialogues</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
 </ul>
 </li>
@@ -491,6 +492,20 @@ Launching a keyboard so that the user can specify the search string.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="screen_settings.ScreenSettingsMPD">
+<em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettingsMPD</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettingsMPD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Screen for settings playback options</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_rect</strong> &#8211; The display&#8217;s rectangle where the screen is drawn on.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="screen_settings.ScreenSettingsPlayback">
 <em class="property">class </em><tt class="descclassname">screen_settings.</tt><tt class="descname">ScreenSettingsPlayback</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#screen_settings.ScreenSettingsPlayback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Screen for settings playback options</p>
@@ -623,7 +638,7 @@ Launching a keyboard so that the user can specify the search string.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Boolean indicating if succesfully connected to mpd server.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Boolean indicating if successfully connected to mpd server.</td>
 </tr>
 </tbody>
 </table>
@@ -939,11 +954,11 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 </div>
-<span class="target" id="module-interface_widgets"></span><div class="section" id="interface-widgets-py-graphical-widgets-for-the-gui">
+<span class="target" id="module-gui_widgets"></span><div class="section" id="interface-widgets-py-graphical-widgets-for-the-gui">
 <h2><strong>interface_widgets.py</strong>: graphical widgets for the GUI<a class="headerlink" href="#interface-widgets-py-graphical-widgets-for-the-gui" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="interface_widgets.ButtonIcon">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ButtonIcon</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>image</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ButtonIcon">
+<em class="property">class </em><tt class="descclassname">gui_widgets.</tt><tt class="descname">ButtonIcon</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>image</em>, <em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#gui_widgets.ButtonIcon" title="Permalink to this definition">¶</a></dt>
 <dd><p>ButtonIcon class is a button that only displays an icon.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -966,14 +981,14 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </tbody>
 </table>
 <dl class="method">
-<dt id="interface_widgets.ButtonIcon.draw">
-<tt class="descname">draw</tt><big>(</big><em>icon_file=None</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon.draw" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ButtonIcon.draw">
+<tt class="descname">draw</tt><big>(</big><em>icon_file=None</em><big>)</big><a class="headerlink" href="#gui_widgets.ButtonIcon.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the button</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ButtonIcon.set_image_file">
-<tt class="descname">set_image_file</tt><big>(</big><em>file_name</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonIcon.set_image_file" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ButtonIcon.set_image_file">
+<tt class="descname">set_image_file</tt><big>(</big><em>file_name</em><big>)</big><a class="headerlink" href="#gui_widgets.ButtonIcon.set_image_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the buttons icon.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -988,8 +1003,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.ButtonText">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ButtonText</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.ButtonText" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ButtonText">
+<em class="property">class </em><tt class="descclassname">gui_widgets.</tt><tt class="descname">ButtonText</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#gui_widgets.ButtonText" title="Permalink to this definition">¶</a></dt>
 <dd><p>ButtonText class is a button with text that uses two images for button rendering.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1015,17 +1030,11 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </tr>
 </tbody>
 </table>
-<dl class="method">
-<dt id="interface_widgets.ButtonText.draw">
-<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ButtonText.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws the button on the screen.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.ItemList">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ItemList</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList">
+<em class="property">class </em><tt class="descclassname">gui_widgets.</tt><tt class="descname">ItemList</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#gui_widgets.ItemList" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of text items that can be clicked.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1061,8 +1070,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </tbody>
 </table>
 <dl class="method">
-<dt id="interface_widgets.ItemList.clicked_item">
-<tt class="descname">clicked_item</tt><big>(</big><em>x_pos</em>, <em>y_pos</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.clicked_item" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.clicked_item">
+<tt class="descname">clicked_item</tt><big>(</big><em>x_pos</em>, <em>y_pos</em><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.clicked_item" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines which item, if any, was clicked.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1082,26 +1091,26 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.draw">
-<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the item list on screen.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.draw_items">
-<tt class="descname">draw_items</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw_items" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.draw_items">
+<tt class="descname">draw_items</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.draw_items" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the list items.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.draw_page_indicator">
-<tt class="descname">draw_page_indicator</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.draw_page_indicator" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.draw_page_indicator">
+<tt class="descname">draw_page_indicator</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.draw_page_indicator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws a &#8216;progress&#8217; indicator on the list.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.item_active_get">
-<tt class="descname">item_active_get</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.item_active_get" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.item_active_get">
+<tt class="descname">item_active_get</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.item_active_get" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1113,8 +1122,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.item_selected_get">
-<tt class="descname">item_selected_get</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.item_selected_get" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.item_selected_get">
+<tt class="descname">item_selected_get</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.item_selected_get" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1126,8 +1135,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.on_click">
-<tt class="descname">on_click</tt><big>(</big><em>x_pos</em>, <em>y_pos</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.on_click" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x_pos</em>, <em>y_pos</em><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.on_click" title="Permalink to this definition">¶</a></dt>
 <dd><p>Relays click action to a list item.
 :param x_pos: The horizontal click position.
 :param y_pos: The vertical click position.</p>
@@ -1142,8 +1151,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.pages_count">
-<tt class="descname">pages_count</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.pages_count" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.pages_count">
+<tt class="descname">pages_count</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.pages_count" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1155,28 +1164,28 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.set_item_alignment">
-<tt class="descname">set_item_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.set_item_alignment" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.set_item_alignment">
+<tt class="descname">set_item_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.set_item_alignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the alignment of the text of an item within the item&#8217;s rectangle.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.show_next_items">
-<tt class="descname">show_next_items</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.show_next_items" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.show_next_items">
+<tt class="descname">show_next_items</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.show_next_items" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shows next page of items.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ItemList.show_prev_items">
-<tt class="descname">show_prev_items</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ItemList.show_prev_items" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.ItemList.show_prev_items">
+<tt class="descname">show_prev_items</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_widgets.ItemList.show_prev_items" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shows previous page of items.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.LabelText">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">LabelText</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.LabelText">
+<em class="property">class </em><tt class="descclassname">gui_widgets.</tt><tt class="descname">LabelText</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>text=''</em><big>)</big><a class="headerlink" href="#gui_widgets.LabelText" title="Permalink to this definition">¶</a></dt>
 <dd><p>LabelText is used to write text that needs to fit in a pre-defined rectangle.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1195,8 +1204,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </tbody>
 </table>
 <dl class="method">
-<dt id="interface_widgets.LabelText.draw">
-<tt class="descname">draw</tt><big>(</big><em>text=None</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText.draw" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.LabelText.draw">
+<tt class="descname">draw</tt><big>(</big><em>text=None</em><big>)</big><a class="headerlink" href="#gui_widgets.LabelText.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the label.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1211,16 +1220,16 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.LabelText.set_alignment">
-<tt class="descname">set_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em>, <em>hor_indent=0</em>, <em>vert_indent=0</em><big>)</big><a class="headerlink" href="#interface_widgets.LabelText.set_alignment" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.LabelText.set_alignment">
+<tt class="descname">set_alignment</tt><big>(</big><em>horizontal</em>, <em>vertical</em>, <em>hor_indent=0</em>, <em>vert_indent=0</em><big>)</big><a class="headerlink" href="#gui_widgets.LabelText.set_alignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the label&#8217;s alignment within the defined rectangle,</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.Picture">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Picture</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>image_file=''</em><big>)</big><a class="headerlink" href="#interface_widgets.Picture" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.Picture">
+<em class="property">class </em><tt class="descclassname">gui_widgets.</tt><tt class="descname">Picture</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em>, <em>image_file=''</em><big>)</big><a class="headerlink" href="#gui_widgets.Picture" title="Permalink to this definition">¶</a></dt>
 <dd><p>Picture on screen</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1241,8 +1250,39 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.Screen">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Screen</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_widgets.Widget">
+<em class="property">class </em><tt class="descclassname">gui_widgets.</tt><tt class="descname">Widget</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#gui_widgets.Widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Widget is the base class of screen widgets and should not be instantiated by itself.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tag_name</strong> &#8211; Text identifying the widget.</li>
+<li><strong>screen_rect</strong> &#8211; The screen&#8217;s rectangle where the widget is drawn on.</li>
+<li><strong>x</strong> &#8211; The horizontal starting position of the widget&#8217;s rectangle.</li>
+<li><strong>y</strong> &#8211; The vertical starting position of the widget&#8217;s rectangle.</li>
+<li><strong>width</strong> &#8211; The width of the widget&#8217;s rectangle.</li>
+<li><strong>height</strong> &#8211; The height of the widget&#8217;s rectangle.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="gui_widgets.Widget.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#gui_widgets.Widget.on_click" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function called when a widget is clicked</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-gui_screens"></span><div class="section" id="gui-screens-py-building-blocks-for-creating-screens-and-dialogues">
+<h2><strong>gui_screens.py</strong>: Building blocks for creating screens and dialogues<a class="headerlink" href="#gui-screens-py-building-blocks-for-creating-screens-and-dialogues" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui_screens.Screen">
+<em class="property">class </em><tt class="descclassname">gui_screens.</tt><tt class="descname">Screen</tt><big>(</big><em>screen_rect</em><big>)</big><a class="headerlink" href="#gui_screens.Screen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Basic screen used for displaying widgets. This type of screen should be used for the entire program.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1260,8 +1300,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </tbody>
 </table>
 <dl class="method">
-<dt id="interface_widgets.Screen.add_component">
-<tt class="descname">add_component</tt><big>(</big><em>widget</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen.add_component" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screen.add_component">
+<tt class="descname">add_component</tt><big>(</big><em>widget</em><big>)</big><a class="headerlink" href="#gui_screens.Screen.add_component" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds components to component list, thus ensuring a component is found on a mouse event.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1274,8 +1314,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.Screen.on_click">
-<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen.on_click" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screen.on_click">
+<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#gui_screens.Screen.on_click" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines which component was clicked and fires it&#8217;s click function in turn.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1295,8 +1335,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.Screen.on_swipe">
-<tt class="descname">on_swipe</tt><big>(</big><em>x</em>, <em>y</em>, <em>swipe_type</em><big>)</big><a class="headerlink" href="#interface_widgets.Screen.on_swipe" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screen.on_swipe">
+<tt class="descname">on_swipe</tt><big>(</big><em>x</em>, <em>y</em>, <em>swipe_type</em><big>)</big><a class="headerlink" href="#gui_screens.Screen.on_swipe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Relays swipe to ItemList components for next(up)/previous(down) swipes for ItemLists.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1314,16 +1354,16 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.Screen.show">
-<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.Screen.show" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screen.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_screens.Screen.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays the screen.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.ScreenModal">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">ScreenModal</tt><big>(</big><em>screen_rect</em>, <em>title</em><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.ScreenModal">
+<em class="property">class </em><tt class="descclassname">gui_screens.</tt><tt class="descname">ScreenModal</tt><big>(</big><em>screen_rect</em>, <em>title</em><big>)</big><a class="headerlink" href="#gui_screens.ScreenModal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Screen with its own event capture loop.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1341,14 +1381,14 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </tbody>
 </table>
 <dl class="method">
-<dt id="interface_widgets.ScreenModal.action">
-<tt class="descname">action</tt><big>(</big><em>tag_name</em><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.action" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.ScreenModal.action">
+<tt class="descname">action</tt><big>(</big><em>tag_name</em><big>)</big><a class="headerlink" href="#gui_screens.ScreenModal.action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Virtual function for event-related execution.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ScreenModal.close">
-<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.close" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.ScreenModal.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_screens.ScreenModal.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Closes event loop.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1361,20 +1401,20 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ScreenModal.event_loop">
-<tt class="descname">event_loop</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.event_loop" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.ScreenModal.event_loop">
+<tt class="descname">event_loop</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_screens.ScreenModal.event_loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>The window&#8217;s event loop</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ScreenModal.event_loop_hook">
-<tt class="descname">event_loop_hook</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.event_loop_hook" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.ScreenModal.event_loop_hook">
+<tt class="descname">event_loop_hook</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_screens.ScreenModal.event_loop_hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Virtual function where you can add functions you want to execute during the event loop</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.ScreenModal.show">
-<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.ScreenModal.show" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.ScreenModal.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_screens.ScreenModal.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays screen and starts own event capture loop.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1389,8 +1429,8 @@ least &#8216;update_interval&#8217; milliseconds before updating mpc status data
 </dd></dl>
 
 <dl class="class">
-<dt id="interface_widgets.Screens">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Screens</tt><a class="headerlink" href="#interface_widgets.Screens" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screens">
+<em class="property">class </em><tt class="descclassname">gui_screens.</tt><tt class="descname">Screens</tt><a class="headerlink" href="#gui_screens.Screens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manages screens of type Screen.
 Handles screen switching, clicking and swiping and mpd status updating.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1407,49 +1447,21 @@ Handles screen switching, clicking and swiping and mpd status updating.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="interface_widgets.Screens.add_screen">
-<tt class="descname">add_screen</tt><big>(</big><em>screen</em><big>)</big><a class="headerlink" href="#interface_widgets.Screens.add_screen" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screens.add_screen">
+<tt class="descname">add_screen</tt><big>(</big><em>screen</em><big>)</big><a class="headerlink" href="#gui_screens.Screens.add_screen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds screen to list</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.Screens.process_mouse_event">
-<tt class="descname">process_mouse_event</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#interface_widgets.Screens.process_mouse_event" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screens.process_mouse_event">
+<tt class="descname">process_mouse_event</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#gui_screens.Screens.process_mouse_event" title="Permalink to this definition">¶</a></dt>
 <dd><p>Processes mouse events.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="interface_widgets.Screens.show">
-<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#interface_widgets.Screens.show" title="Permalink to this definition">¶</a></dt>
+<dt id="gui_screens.Screens.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#gui_screens.Screens.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show the current screen</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="interface_widgets.Widget">
-<em class="property">class </em><tt class="descclassname">interface_widgets.</tt><tt class="descname">Widget</tt><big>(</big><em>tag_name</em>, <em>screen_rect</em>, <em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#interface_widgets.Widget" title="Permalink to this definition">¶</a></dt>
-<dd><p>Widget is the base class of screen widgets and should not be instantiated by itself.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tag_name</strong> &#8211; Text identifying the widget.</li>
-<li><strong>screen_rect</strong> &#8211; The screen&#8217;s rectangle where the widget is drawn on.</li>
-<li><strong>x</strong> &#8211; The horizontal starting position of the widget&#8217;s rectangle.</li>
-<li><strong>y</strong> &#8211; The vertical starting position of the widget&#8217;s rectangle.</li>
-<li><strong>width</strong> &#8211; The width of the widget&#8217;s rectangle.</li>
-<li><strong>height</strong> &#8211; The height of the widget&#8217;s rectangle.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="interface_widgets.Widget.on_click">
-<tt class="descname">on_click</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#interface_widgets.Widget.on_click" title="Permalink to this definition">¶</a></dt>
-<dd><p>The function called when a widget is clicked</p>
 </dd></dl>
 
 </dd></dl>

@@ -92,6 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-settings-py-settings-screen"><strong>screen_settings.py</strong>: Settings screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#mpd-client-py-controlling-and-monitoring-mpd-via-python-mpd2"><strong>mpd_client.py</strong>: controlling and monitoring mpd via python-mpd2.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#interface-widgets-py-graphical-widgets-for-the-gui"><strong>interface_widgets.py</strong>: graphical widgets for the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code.html#gui-screens-py-building-blocks-for-creating-screens-and-dialogues"><strong>gui_screens.py</strong>: Building blocks for creating screens and dialogues</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-keyboard-py-on-screen-keyboard"><strong>screen_keyboard.py</strong>: On-screen keyboard</a></li>
 </ul>
 </li>
@@ -169,7 +170,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ScreenModal.action">action() (interface_widgets.ScreenModal method)</a>
+  <dt><a href="code.html#gui_screens.ScreenModal.action">action() (gui_screens.ScreenModal method)</a>
   </dt>
 
       <dd><dl>
@@ -183,7 +184,7 @@
 
       </dl></dd>
       
-  <dt><a href="code.html#interface_widgets.Screen.add_component">add_component() (interface_widgets.Screen method)</a>
+  <dt><a href="code.html#gui_screens.Screen.add_component">add_component() (gui_screens.Screen method)</a>
   </dt>
 
       
@@ -191,7 +192,7 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.Screens.add_screen">add_screen() (interface_widgets.Screens method)</a>
+  <dt><a href="code.html#gui_screens.Screens.add_screen">add_screen() (gui_screens.Screens method)</a>
   </dt>
 
       
@@ -223,13 +224,13 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ButtonIcon">ButtonIcon (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_widgets.ButtonIcon">ButtonIcon (class in gui_widgets)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ButtonText">ButtonText (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_widgets.ButtonText">ButtonText (class in gui_widgets)</a>
   </dt>
 
   </dl></td>
@@ -239,11 +240,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ItemList.clicked_item">clicked_item() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.clicked_item">clicked_item() (gui_widgets.ItemList method)</a>
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ScreenModal.close">close() (interface_widgets.ScreenModal method)</a>
+  <dt><a href="code.html#gui_screens.ScreenModal.close">close() (gui_screens.ScreenModal method)</a>
   </dt>
 
   </dl></td>
@@ -267,31 +268,27 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ButtonIcon.draw">draw() (interface_widgets.ButtonIcon method)</a>
+  <dt><a href="code.html#gui_widgets.ButtonIcon.draw">draw() (gui_widgets.ButtonIcon method)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="code.html#interface_widgets.ButtonText.draw">(interface_widgets.ButtonText method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.draw">(gui_widgets.ItemList method)</a>
   </dt>
 
         
-  <dt><a href="code.html#interface_widgets.ItemList.draw">(interface_widgets.ItemList method)</a>
-  </dt>
-
-        
-  <dt><a href="code.html#interface_widgets.LabelText.draw">(interface_widgets.LabelText method)</a>
+  <dt><a href="code.html#gui_widgets.LabelText.draw">(gui_widgets.LabelText method)</a>
   </dt>
 
       </dl></dd>
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ItemList.draw_items">draw_items() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.draw_items">draw_items() (gui_widgets.ItemList method)</a>
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ItemList.draw_page_indicator">draw_page_indicator() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.draw_page_indicator">draw_page_indicator() (gui_widgets.ItemList method)</a>
   </dt>
 
   </dl></td>
@@ -301,13 +298,13 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ScreenModal.event_loop">event_loop() (interface_widgets.ScreenModal method)</a>
+  <dt><a href="code.html#gui_screens.ScreenModal.event_loop">event_loop() (gui_screens.ScreenModal method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ScreenModal.event_loop_hook">event_loop_hook() (interface_widgets.ScreenModal method)</a>
+  <dt><a href="code.html#gui_screens.ScreenModal.event_loop_hook">event_loop_hook() (gui_screens.ScreenModal method)</a>
   </dt>
 
   </dl></td>
@@ -340,6 +337,16 @@
   <dt><a href="code.html#mpd_client.MPDController.get_playlist_current_playing_index">get_playlist_current_playing_index() (mpd_client.MPDController method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#module-gui_screens">gui_screens (module)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#module-gui_widgets">gui_widgets (module)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -357,21 +364,17 @@
 
       </dl></dd>
       
-  <dt><a href="code.html#module-interface_widgets">interface_widgets (module)</a>
-  </dt>
-
-      
-  <dt><a href="code.html#interface_widgets.ItemList.item_active_get">item_active_get() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.item_active_get">item_active_get() (gui_widgets.ItemList method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ItemList.item_selected_get">item_selected_get() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.item_selected_get">item_selected_get() (gui_widgets.ItemList method)</a>
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ItemList">ItemList (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_widgets.ItemList">ItemList (class in gui_widgets)</a>
   </dt>
 
   </dl></td>
@@ -405,7 +408,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.LabelText">LabelText (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_widgets.LabelText">LabelText (class in gui_widgets)</a>
   </dt>
 
       
@@ -449,16 +452,16 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ItemList.on_click">on_click() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_screens.Screen.on_click">on_click() (gui_screens.Screen method)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="code.html#interface_widgets.Screen.on_click">(interface_widgets.Screen method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.on_click">(gui_widgets.ItemList method)</a>
   </dt>
 
         
-  <dt><a href="code.html#interface_widgets.Widget.on_click">(interface_widgets.Widget method)</a>
+  <dt><a href="code.html#gui_widgets.Widget.on_click">(gui_widgets.Widget method)</a>
   </dt>
 
         
@@ -473,7 +476,7 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.Screen.on_swipe">on_swipe() (interface_widgets.Screen method)</a>
+  <dt><a href="code.html#gui_screens.Screen.on_swipe">on_swipe() (gui_screens.Screen method)</a>
   </dt>
 
   </dl></td>
@@ -483,11 +486,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.ItemList.pages_count">pages_count() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.pages_count">pages_count() (gui_widgets.ItemList method)</a>
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.Picture">Picture (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_widgets.Picture">Picture (class in gui_widgets)</a>
   </dt>
 
       
@@ -545,7 +548,7 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.Screens.process_mouse_event">process_mouse_event() (interface_widgets.Screens method)</a>
+  <dt><a href="code.html#gui_screens.Screens.process_mouse_event">process_mouse_event() (gui_screens.Screens method)</a>
   </dt>
 
   </dl></td>
@@ -571,7 +574,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.Screen">Screen (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_screens.Screen">Screen (class in gui_screens)</a>
   </dt>
 
       
@@ -599,7 +602,7 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ScreenModal">ScreenModal (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_screens.ScreenModal">ScreenModal (class in gui_screens)</a>
   </dt>
 
       
@@ -611,7 +614,7 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.Screens">Screens (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_screens.Screens">Screens (class in gui_screens)</a>
   </dt>
 
       
@@ -627,6 +630,10 @@
   </dt>
 
       
+  <dt><a href="code.html#screen_settings.ScreenSettingsMPD">ScreenSettingsMPD (class in screen_settings)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_settings.ScreenSettingsPlayback">ScreenSettingsPlayback (class in screen_settings)</a>
   </dt>
 
@@ -634,14 +641,14 @@
   <dt><a href="code.html#screen_settings.ScreenSettingsQuit">ScreenSettingsQuit (class in screen_settings)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_player.ScreenVolume">ScreenVolume (class in screen_player)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.LabelText.set_alignment">set_alignment() (interface_widgets.LabelText method)</a>
+  <dt><a href="code.html#gui_widgets.LabelText.set_alignment">set_alignment() (gui_widgets.LabelText method)</a>
   </dt>
 
       
@@ -649,11 +656,11 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ButtonIcon.set_image_file">set_image_file() (interface_widgets.ButtonIcon method)</a>
+  <dt><a href="code.html#gui_widgets.ButtonIcon.set_image_file">set_image_file() (gui_widgets.ButtonIcon method)</a>
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ItemList.set_item_alignment">set_item_alignment() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.set_item_alignment">set_item_alignment() (gui_widgets.ItemList method)</a>
   </dt>
 
       
@@ -665,16 +672,16 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.Screen.show">show() (interface_widgets.Screen method)</a>
+  <dt><a href="code.html#gui_screens.Screen.show">show() (gui_screens.Screen method)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="code.html#interface_widgets.ScreenModal.show">(interface_widgets.ScreenModal method)</a>
+  <dt><a href="code.html#gui_screens.ScreenModal.show">(gui_screens.ScreenModal method)</a>
   </dt>
 
         
-  <dt><a href="code.html#interface_widgets.Screens.show">(interface_widgets.Screens method)</a>
+  <dt><a href="code.html#gui_screens.Screens.show">(gui_screens.Screens method)</a>
   </dt>
 
         
@@ -699,7 +706,7 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ItemList.show_next_items">show_next_items() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.show_next_items">show_next_items() (gui_widgets.ItemList method)</a>
   </dt>
 
       
@@ -711,7 +718,7 @@
   </dt>
 
       
-  <dt><a href="code.html#interface_widgets.ItemList.show_prev_items">show_prev_items() (interface_widgets.ItemList method)</a>
+  <dt><a href="code.html#gui_widgets.ItemList.show_prev_items">show_prev_items() (gui_widgets.ItemList method)</a>
   </dt>
 
       
@@ -753,7 +760,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#interface_widgets.Widget">Widget (class in interface_widgets)</a>
+  <dt><a href="code.html#gui_widgets.Widget">Widget (class in gui_widgets)</a>
   </dt>
 
   </dl></td>
