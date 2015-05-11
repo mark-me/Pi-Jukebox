@@ -176,6 +176,9 @@ class Picture(Widget):
     def on_click(self, x, y):
         return self.tag_name
 
+    def picture_set(self, file_name):
+        self.__image_file = file_name
+
 
 class LabelText(Widget):
     """ LabelText is used to write text that needs to fit in a pre-defined rectangle.
@@ -257,6 +260,80 @@ class LabelText(Widget):
         pygame.display.update(self.rect)
 
         return self.caption[i:]
+
+
+class Memo(Widget):
+    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
+        LabelText.__init__(self, tag_name, screen_rect, x, y, width, height)
+        self.__caption = text.decode('utf-8')
+        self.__caption_lines = []
+        self.alignment_horizontal = HOR_LEFT
+        self.indent_horizontal = 0
+        self.outline_show = False
+        self.outline_color = FIFTIES_CHARCOAL
+        self.background_alpha = 255
+
+    def draw(self, text=None):
+        if text is not None:
+            self.__caption = self.text.decode('utf-8')
+        # Draw background
+        background = pygame.Surface((self.width, self.height))
+        background.set_alpha(self.background_alpha)
+        background.fill(self.background_color)
+        SCREEN.blit(background, (self.x_pos, self.y_pos))
+        # Draw outline
+        if self.outline_show:
+            pygame.draw.rect(self.screen, self.outline_color, self.rect,1)
+        # Draw text lines
+        self.__wrap_caption()
+        line_height = self.font.size("jP")[1]
+        max_lines = self.height / (self.__text_height + 2)
+        line_no = 0
+        while line in self.caption_lines or line_no < max_lines:
+            image = FONT.render(line, True, self.font_color)
+            self.screen.blit(image, (0, line_no * line_height))
+            line_no += 1
+        pygame.display.update(self.rect)
+
+    def transparent_set(self, value):
+        if value == True:
+            self.background_alpha = 0
+        else:
+            self.background_alpha = 255
+
+    def set_alignment(self, horizontal, hor_indent=0):
+        """ Sets the label's alignment within the defined rectangle, """
+        self.alignment_horizontal = horizontal
+        self.indent_horizontal = hor_indent
+
+    def __truncate_line(self):
+        number_of_chars = len(self.__caption)
+        split_text = self.__caption
+        label_width = self.font.size(self.__caption)[0]
+        cut = 0
+        a = 0
+        done = True
+        while label_width > self.width:
+            a += 1
+            n = self.__caption.rsplit(None, a)[0]
+            if split_text == n:
+                cut += 1
+                split_text = n[:-cut]
+            else:
+                split_text = n
+            label_width = self.font.size(split_text)[0]
+            number_of_chars = len(split_text)
+            done = False
+        return real, done, split_text
+
+    def __wrap_caption(self):
+        done = False
+        self.caption_lines = []
+        while not done:
+            nl, done, split_text = self.__truncate_line()
+            self.__caption_lines.append(split_text.strip())
+            self.__caption = self.__caption[nl:]
+        return wrapped
 
 
 class ButtonIcon(Widget):
