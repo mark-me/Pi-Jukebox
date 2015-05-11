@@ -264,8 +264,10 @@ class MPDController(object):
             :param percentage: Percentage point volume increase.
         """
         if self.volume + percentage < 0:
+            self.volume = 0
             self.mpd_client.setvol(0)
         elif self.volume + percentage > 100:
+            self.volume = 100
             self.mpd_client.setvol(100)
         else:
             self.volume += percentage
