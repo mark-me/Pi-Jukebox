@@ -6,7 +6,8 @@
 __author__ = 'Mark Zwart'
 
 from settings import *
-from interface_widgets import *
+from gui_widgets import *
+from gui_screens import *
 
 
 """ Special button icons
@@ -107,6 +108,7 @@ class KeyboardLetters(KeyboardBase):
             self.components['lbl_edit_box'].draw()
             if self.shift_state:
                 self.shift_state = False
+                self.__letters_shift()
         elif tag_name == 'btn_backspace':  # Remove last character of the text
             current_value = self.components['lbl_edit_box'].caption
             self.components['lbl_edit_box'].caption = current_value[:len(current_value) - 1]
@@ -134,12 +136,12 @@ class KeyboardSymbols(KeyboardBase):
         self.add_row_buttons(first_row, 0, y_row)
 
         y_row += y_row_increment
-        second_row = ['-', '+', '=' '/', '(', ')', '%', '$', '#', '\'']
+        second_row = ['-', '+', '=', '/', '(', ')', '%', '$', '#', '_']
         self.add_row_buttons(second_row, 0, y_row)
 
         y_row += y_row_increment
-        third_row = [':', ';', '.', ',', '?', '!', '\'', '*', '_']
-        self.add_row_buttons(third_row, 0, y_row)
+        third_row = [':', ';', '.', ',', '?', '!', '\'', '*']
+        self.add_row_buttons(third_row, 5, y_row)
         self.add_component(ButtonIcon('btn_backspace', screen_rect, ICO_BACKSPACE, 271, y_row))
 
         y_row += y_row_increment
@@ -165,7 +167,7 @@ class KeyboardSymbols(KeyboardBase):
         self.return_object = self.components['lbl_edit_box'].caption
         self.text = self.components['lbl_edit_box'].caption  # Ensure text = to the edit box
 
-        if tag_name == 'btn_letters':
+        if tag_name == 'btn_symbol_letters':
             self.return_object = 'letters'  # Switch to letters keyboard
             self.close()
         if tag_name == 'btn_enter':

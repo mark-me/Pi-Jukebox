@@ -18,10 +18,6 @@ MPD_TYPE_ARTIST = 'artist'
 MPD_TYPE_ALBUM = 'album'
 MPD_TYPE_SONGS = 'title'
 
-# MPD Music directory
-# MPD_MUSIC_DIR = '/var/lib/mpd/music/'
-# MPD_MUSIC_DIR = '/mnt/music_partition/'
-MPD_MUSIC_DIR = '/home/mark/Music/'
 DEFAULT_COVER = 'default_cover_art.png'
 
 reload(sys)
@@ -33,6 +29,8 @@ class MPDController(object):
     """
     def __init__(self):
         self.mpd_client = mpd.MPDClient()
+        self.host = 'localhost'
+        self.port = 6600
         self.update_interval = 1000 # Interval between mpc status update calls (milliseconds)
         self.track_name = ""        # Currently playing song name
         self.track_artist = ""      # Currently playing artist
@@ -50,6 +48,7 @@ class MPDController(object):
         self.single = False
         self.consume = False
         self.updating_library = False
+        self.music_directory = ""
         self.events = deque([])  # Queue of mpd events
         # Database search results
         self.searching_artist = ""  # Search path user goes through
@@ -61,19 +60,19 @@ class MPDController(object):
 
         self.__current_song = None  # Dictionary containing currently playing song info
         self.__current_song_changed = False
-        self.__player_control = ""    # Indicates whether mpd is playing, pausing or has stopped playing music
+        self.__player_control = ''  # Indicates whether mpd is playing, pausing or has stopped playing music
         self.__muted = False          # Indicates whether muted
         self.__playlist_current_playing_index = 0
         self.__last_update_time = 0   # For checking last update time (milliseconds)
-        self.__status = None            # mpc's current status output
+        self.__status = None  # mps's current status output
 
     def connect(self):
         """ Connects to mpd server.
 
-            :return: Boolean indicating if succesfully connected to mpd server.
+            :return: Boolean indicating if successfully connected to mpd server.
         """
         try:
-            self.mpd_client.connect('localhost', 6600)
+            self.mpd_client.connect(self.host, self.port)
         except Exception:
             return False
         self.artists_get()
@@ -204,7 +203,7 @@ class MPDController(object):
         if self.track_file == "":
             return DEFAULT_COVER
         try:
-            music_file = File(MPD_MUSIC_DIR + self.track_file)
+            music_file = File(self.music_directory + self.track_file)
         except IOError:
             return DEFAULT_COVER
         cover_art = None

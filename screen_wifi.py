@@ -15,7 +15,7 @@ import time
 import subprocess
 import os
 import glob
-from interface_widgets import *
+from gui_widgets import *
 from settings import *
 from screen_keyboard import *
 
