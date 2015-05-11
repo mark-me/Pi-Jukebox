@@ -99,6 +99,7 @@ ICO_BACK = RESOURCES + 'back_48x32.png'
 # Player icons
 ICO_PLAY = RESOURCES + 'play_48x32.png'
 ICO_PAUSE = RESOURCES + 'pause_48x32.png'
+ICO_STOP = RESOURCES + 'stop_48x32.png'
 ICO_NEXT = RESOURCES + 'next_48x32.png'
 ICO_PREVIOUS = RESOURCES + 'prev_48x32.png'
 ICO_VOLUME = RESOURCES + 'vol_48x32.png'

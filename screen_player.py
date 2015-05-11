@@ -54,9 +54,10 @@ class ScreenPlaylist(Screen):
         self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
         # Player specific buttons
         self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 51, 45))
-        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 51, 85))
-        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 51, 125))
-        self.add_component(ButtonIcon('btn_volume', self.screen, ICO_VOLUME, SCREEN_WIDTH - 51, 165))
+        self.add_component(ButtonIcon('btn_stop', self.screen, ICO_STOP, SCREEN_WIDTH - 51, 85))
+        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 51, 125))
+        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 51, 165))
+        self.add_component(ButtonIcon('btn_volume', self.screen, ICO_VOLUME, SCREEN_WIDTH - 51, 205))
         # Player specific labels
         self.add_component(LabelText('lbl_track_title', self.screen, 55, 5, SCREEN_WIDTH - 130, 18))
         self.add_component(LabelText('lbl_track_artist', self.screen, 55, 23, SCREEN_WIDTH - 130, 18))
@@ -98,9 +99,10 @@ class ScreenPlaylist(Screen):
                 elif event == 'playing_artist':
                     self.components['lbl_track_artist'].draw(mpd.track_artist)
                 elif event == 'state':
-                    if self.components['btn_play'].image_file != ICO_PAUSE and mpd.player_control_get() == 'play':
+                    state = mpd.player_control_get()
+                    if self.components['btn_play'].image_file != ICO_PAUSE and state == 'play':
                         self.components['btn_play'].draw(ICO_PAUSE)
-                    elif self.components['btn_play'].image_file == ICO_PAUSE and mpd.player_control_get() != 'play':
+                    elif self.components['btn_play'].image_file == ICO_PAUSE and state != 'play':
                         self.components['btn_play'].draw(ICO_PLAY)
             except IndexError:
                 break
@@ -131,6 +133,9 @@ class ScreenPlaylist(Screen):
                 mpd.player_control_set('play')
                 self.components['btn_play'].set_image_file(ICO_PAUSE)
             self.components['btn_play'].draw()
+        elif tag_name == 'btn_stop':
+            self.components['btn_play'].set_image_file(ICO_PLAY)
+            mpd.player_control_set('stop')
         elif tag_name == 'btn_prev':
             mpd.player_control_set('previous')
         elif tag_name == 'btn_next':
@@ -162,13 +167,10 @@ class ScreenPlaying(Screen):
         self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
         # Player specific buttons
         self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 51, 5))
-        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 51, 45))
-        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 51, 85))
-        self.add_component(ButtonIcon('btn_volume_up', self.screen, ICO_VOLUME_UP, SCREEN_WIDTH - 51, 125))
-        self.add_component(ButtonIcon('btn_volume_down', self.screen, ICO_VOLUME_DOWN, SCREEN_WIDTH - 51, 165))
-        self.add_component(LabelText('lbl_volume', self.screen, SCREEN_WIDTH - 51, 165, 48, 125))
-        self.components['lbl_volume'].transparent_set(True)
-        self.components['lbl_volume'].set_alignment(HOR_MID, VERT_MID)
+        self.add_component(ButtonIcon('btn_stop', self.screen, ICO_STOP, SCREEN_WIDTH - 51, 45))
+        self.add_component(ButtonIcon('btn_prev', self.screen, ICO_PREVIOUS, SCREEN_WIDTH - 51, 85))
+        self.add_component(ButtonIcon('btn_next', self.screen, ICO_NEXT, SCREEN_WIDTH - 51, 125))
+        self.add_component(ButtonIcon('btn_volume', self.screen, ICO_VOLUME, SCREEN_WIDTH - 51, 165))
         # Cover art
         self.add_component(Picture('pic_cover_art', self.screen, 79, 40, 162, 162, mpd.get_cover_art()))
         # Player specific labels
@@ -188,7 +190,6 @@ class ScreenPlaying(Screen):
         """ Displays the screen. """
         self.components['lbl_time_current'].draw(mpd.time_current)
         self.components['lbl_time_total'].draw(mpd.time_total)
-        self.components['lbl_volume'].draw(str(mpd.volume) + '%')
         if mpd.player_control_get() == 'play':
             self.components['btn_play'].set_image_file(ICO_PAUSE)
         else:
@@ -204,10 +205,7 @@ class ScreenPlaying(Screen):
         while True:
             try:
                 event = mpd.events.popleft()
-                if event == 'volume':
-                    self.components['btn_volume'].draw()
-                    self.components['lbl_volume'].draw(str(mpd.volume) + '%')
-                elif event == 'playing_index':
+                if event == 'playing_index':
                     self.components['pic_cover_art'].draw(mpd.get_cover_art())
                 elif event == 'time_elapsed':
                     self.components['lbl_time_current'].draw(mpd.time_current)
@@ -248,16 +246,17 @@ class ScreenPlaying(Screen):
                 mpd.player_control_set('play')
                 self.components['btn_play'].set_image_file(ICO_PAUSE)
             self.components['btn_play'].draw()
+        elif tag_name == 'btn_stop':
+            self.components['btn_play'].set_image_file(ICO_PLAY)
+            mpd.player_control_set('stop')
         elif tag_name == 'btn_prev':
             mpd.player_control_set('previous')
         elif tag_name == 'btn_next':
             mpd.player_control_set('next')
-        elif tag_name == 'btn_volume_up':
-            mpd.volume_set_relative(10)
-        elif tag_name == 'btn_volume_down':
-            mpd.volume_set_relative(-10)
-        elif tag_name == 'pic_cover_art':
-            self.close()
+        elif tag_name == 'btn_volume':
+            screen_volume = ScreenVolume(self.screen)
+            screen_volume.show()
+            self.show()
 
 
 class ScreenVolume(ScreenModal):

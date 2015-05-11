@@ -8,7 +8,7 @@ The now playing screen
 The playlist screen
 -------------------
     .. image:: ./images/screens/1_player_explained.png
-.. image:: ./images/screens/1_player_2.png
+	.. image:: ./images/screens/1_player_2.png
 
 The library screen
 ------------------
@@ -28,6 +28,7 @@ Settings screen
     .. image:: ./images/screens/6_settings.png
 .. image:: ./images/screens/7_settings_2.png
 .. image:: ./images/screens/7_settings_3.png
+.. image:: ./images/screens/7_settings_4.png
     
 
 
