@@ -11,7 +11,7 @@ from pygame.locals import *
 import time
 import math
 from settings import *
-import Image
+# import Image
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -61,6 +61,15 @@ class Widget(object):
 
 
 class Rectangle(Widget):
+    """ Drawing a rectangle on screen
+
+        :param tag_name: Text identifying the rectangle.
+        :param screen_rect: The screen's rectangle where the rectangle is drawn on.
+        :param x: The horizontal starting position of the rectangle's rectangle.
+        :param y: The vertical starting position of the rectangle's rectangle.
+        :param width: The width of the rectangle's rectangle.
+        :param height: The height of the rectangle's rectangle.
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.background_color = FIFTIES_CHARCOAL
@@ -72,6 +81,15 @@ class Rectangle(Widget):
 
 
 class Slider(Rectangle):
+    """ A slider control
+
+        :param tag_name: Text identifying the slider.
+        :param screen_rect: The screen's rectangle where the slider is drawn on.
+        :param x: The horizontal starting position of the slider's rectangle.
+        :param y: The vertical starting position of the slider's rectangle.
+        :param width: The width of the slider's rectangle.
+        :param height: The height of the slider's rectangle.
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Rectangle.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.progress_color = FIFTIES_GREEN
@@ -89,6 +107,10 @@ class Slider(Rectangle):
             pygame.display.update(self.progress_rect)
 
     def progress_percentage_set(self, percentage):
+        """ Sets the slider's percentage 'full'.
+
+            :param percentage: No need to explain. Right?
+        """
         if percentage < 0:
             percentage = 0
         elif percentage > 100:
@@ -102,12 +124,23 @@ class Slider(Rectangle):
         self.draw()
 
     def on_click(self, x, y):
+        """ Sets the percentage of the slide by clicking.
+        """
         new_percentage = int((float(x - self.x_pos) / float(self.width)) * 100)
         self.progress_percentage_set(new_percentage)
         return self.tag_name
 
 
 class Slider2(Widget):
+    """ A slider control with a different lay-out.
+
+        :param tag_name: Text identifying the slider.
+        :param screen_rect: The screen's rectangle where the slider is drawn on.
+        :param x: The horizontal starting position of the slider's rectangle.
+        :param y: The vertical starting position of the slider's rectangle.
+        :param width: The width of the slider's rectangle.
+        :param height: The height of the slider's rectangle.
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.bottom_color = FIFTIES_CHARCOAL
@@ -127,6 +160,10 @@ class Slider2(Widget):
         pygame.display.update(self.rect)
 
     def progress_percentage_set(self, percentage):
+        """ Sets the slider's percentage 'full'.
+
+            :param percentage: No need to explain. Right?
+        """
         if percentage < 0:
             percentage = 0
         elif percentage > 100:
@@ -140,9 +177,12 @@ class Slider2(Widget):
         self.draw()
 
     def on_click(self, x, y):
+        """ Sets the percentage of the slide by clicking.
+        """
         new_percentage = int((float(x - self.x_pos) / float(self.width)) * 100)
         self.progress_percentage_set(new_percentage)
         return self.tag_name
+
 
 class Picture(Widget):
     """ Picture on screen
@@ -164,12 +204,12 @@ class Picture(Widget):
     def draw(self, file_name=""):
         if file_name != "":
             self.__image_file = file_name
-        img = Image.open(self.__image_file)
-        if img.size != (self.width, self.height):
-            img_scaled = img.resize((self.width, self.height), Image.ANTIALIAS)
-            img_scaled.save(self.__image_file)
+        # img = Image.open(self.__image_file)
+        #if img.size != (self.width, self.height):
+        #    img_scaled = img.resize((self.width, self.height), Image.ANTIALIAS)
+        #    img_scaled.save(self.__image_file)
         self.__image = pygame.image.load(self.__image_file).convert()
-        # self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
+        self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
         SCREEN.blit(self.__image, (self.x_pos, self.y_pos))
         pygame.display.update(self.rect)
 
@@ -177,6 +217,7 @@ class Picture(Widget):
         return self.tag_name
 
     def picture_set(self, file_name):
+        """ Sets the filename of the picture. """
         self.__image_file = file_name
 
 
@@ -189,6 +230,7 @@ class LabelText(Widget):
         :param y: The vertical starting position of the label's rectangle.
         :param width: The width of the label's rectangle.
         :param height: The height of the label's rectangle.
+        :param text: The text to be displayed in the label, default= ""
     """
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
@@ -202,13 +244,19 @@ class LabelText(Widget):
         self.background_alpha = 255
 
     def transparent_set(self, value):
+        """ Turns background transparent or opaque. """
         if value == True:
             self.background_alpha = 0
         else:
             self.background_alpha = 255
 
     def set_alignment(self, horizontal, vertical, hor_indent=0, vert_indent=0):
-        """ Sets the label's alignment within the defined rectangle, """
+        """ Sets the label's horizontal and vertical alignment within the defined
+            rectangle and/or the text horizontal/vertical indent.
+
+            :param horizontal: Horizontal alignment [
+
+        """
         self.alignment_horizontal = horizontal
         self.alignment_vertical = vertical
         self.indent_horizontal = hor_indent
@@ -263,6 +311,16 @@ class LabelText(Widget):
 
 
 class Memo(Widget):
+    """ LabelText is used to write text that needs to fit in a pre-defined rectangle.
+
+        :param tag_name: Text identifying the memo field.
+        :param screen_rect: The screen's rectangle where the memo field is drawn on.
+        :param x: The horizontal starting position of the memo field's rectangle.
+        :param y: The vertical starting position of the memo field's rectangle.
+        :param width: The width of the memo field's rectangle.
+        :param height: The height of the memo field's rectangle.
+        :param text: The text to be displayed in the memo, default= ""
+    """
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.__caption = text.decode('utf-8')
@@ -298,13 +356,14 @@ class Memo(Widget):
         pygame.display.update(self.rect)
 
     def transparent_set(self, value):
+        """ Turns background transparent or opaque. """
         if value == True:
             self.background_alpha = 0
         else:
             self.background_alpha = 255
 
     def set_alignment(self, horizontal, hor_indent=0):
-        """ Sets the label's alignment within the defined rectangle, """
+        """ Sets the horizontal alignment of the lines. """
         self.alignment_horizontal = horizontal
         self.indent_horizontal = hor_indent
 
@@ -411,6 +470,13 @@ class ButtonText(LabelText):
 
 
 class Switch(Widget):
+    """ An on/off control for settings
+
+        :param tag_name: Text identifying the widget,
+        :param screen_rect: The screen's rectangle where the button should be drawn,
+        :param x: The horizontal position of the button,
+        :param y: The vertical position of the button,
+    """
     def __init__(self, tag_name, screen_rect, x, y):
         self.__icon_on = pygame.image.load(ICO_SWITCH_ON)
         self.__icon_off = pygame.image.load(ICO_SWITCH_OFF)
@@ -420,10 +486,18 @@ class Switch(Widget):
         self.__is_on = False
 
     def set_on(self, boolean):
+        """ Turns the control status to on or off.
+
+            :param boolean: Boolean determining whether the control is in the 'on' state.
+        """
         self.__is_on = boolean
         self.draw()
 
     def get_on(self):
+        """ Retrieved the on status of the control.
+
+            :return: Boolean indicating whether control has 'on' status
+        """
         return self.__is_on
 
     def on_click(self, x, y):

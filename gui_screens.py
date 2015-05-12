@@ -35,6 +35,8 @@ ICO_ERROR = RESOURCES + 'icon_warning.png'
 
 
 class GestureDetector(object):
+    """ Class for detecint mouse gestures
+    """
     def __init__(self):
         self.gesture = GESTURE_NONE
         self.x_start = 0
@@ -46,7 +48,10 @@ class GestureDetector(object):
         self.x_start, self.y_start = pygame.mouse.get_pos()
 
     def capture_gesture(self, event):
-        """ Mouse event loop """
+        """ Mouse event loop, runs from mouse down to mouse up event.
+
+            :param event: pygame event.
+        """
 
         if event.type != pygame.MOUSEBUTTONDOWN:
             return GESTURE_NONE
@@ -322,6 +327,13 @@ class ScreenModal(Screen):
 
 
 class ScreenMessage(ScreenModal):
+    """ A screen that displays a message.
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+        :param caption: The title displayed at the top of the screen.
+        :param text: Text displayed in the screen.
+        :param message_type: Determines the lay-out of the screen [information, warning, error]
+    """
     def __init__(self, screen_rect, caption, text, message_type=None):
         ScreenModal.__init__(self, screen_rect, caption)
         if message_type == 'information':
