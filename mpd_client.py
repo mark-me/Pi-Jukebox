@@ -362,8 +362,6 @@ class MPDController(object):
     def make_time_string(self, seconds):
         minutes = int(seconds / 60)
         seconds_left = int(round(seconds - (minutes * 60), 0))
-        if seconds_left > 59:
-            seconds_left = 59
         time_string = str(minutes) + ':'
         seconds_string = ''
         if seconds_left < 10:
