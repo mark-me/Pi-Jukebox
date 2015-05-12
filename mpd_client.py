@@ -100,8 +100,14 @@ class MPDController(object):
         if self.__current_song != current_song and len(current_song) > 0: # Changed to a new song
             self.__current_song = current_song
             self.track_name = current_song['title']      # Song title of current song
-            self.track_artist = current_song['artist']  # Artist of current song
-            self.track_album = current_song['album']     # Album the current song is on
+            if 'artist' in current_song:
+                self.track_artist = current_song['artist']  # Artist of current song
+            else:
+                self.track_artist = "Unknown"
+            if 'album' in current_song:
+                self.track_album = current_song['album']  # Album the current song is on
+            else:
+                self.track_album = "Unknown"
             self.track_file = current_song['file']
             current_total = self.str_to_float(current_song['time'])
             self.__time_total_sec = current_total
@@ -355,7 +361,9 @@ class MPDController(object):
 
     def make_time_string(self, seconds):
         minutes = int(seconds / 60)
-        seconds_left = int(round(seconds - minutes * 60, 0))
+        seconds_left = int(round(seconds - (minutes * 60), 0))
+        if seconds_left > 59:
+            seconds_left = 59
         time_string = str(minutes) + ':'
         seconds_string = ''
         if seconds_left < 10:
