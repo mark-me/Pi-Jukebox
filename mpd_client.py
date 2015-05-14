@@ -333,7 +333,10 @@ class MPDController(object):
         track_no = 0
         for i in self.mpd_client.playlistinfo():
             track_no += 1
-            self.playlist_current.append(str(track_no) + '. ' + i['title'])
+            if 'title' in i:
+                self.playlist_current.append(str(track_no) + '. ' + i['title'])
+            else:
+                self.playlist_current.append(str(track_no) + '. ' + os.path.splitext(os.path.basename(i['file']))[0])
         return self.playlist_current
 
     def get_playlist_current_playing_index(self):
