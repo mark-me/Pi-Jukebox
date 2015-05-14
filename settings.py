@@ -91,6 +91,8 @@ ICO_PLAYLIST = RESOURCES + 'playlist_48x32.png'
 ICO_PLAYLIST_ACTIVE = RESOURCES + 'playlist_active_48x32.png'
 ICO_LIBRARY = RESOURCES + 'library_48x32.png'
 ICO_LIBRARY_ACTIVE = RESOURCES + 'library_active_48x32.png'
+ICO_DIRECTORY = RESOURCES + 'directory_48x32.png'
+ICO_DIRECTORY_ACTIVE = RESOURCES + 'directory_active_48x32.png'
 ICO_SETTINGS = RESOURCES + 'settings_48x32.png'
 ICO_SETTINGS_ACTIVE = RESOURCES + 'settings_active_48x32.png'
 ICO_EXIT = RESOURCES + 'exit_48x32.png'
@@ -119,4 +121,8 @@ ICO_SEARCH_SONG = RESOURCES + 'songs_48x32.png'
 ICO_SEARCH_SONG_ACTIVE = RESOURCES + 'songs_active_48x32.png'
 ICO_PLAYLISTS = RESOURCES + 'playlists_48x32.png'
 ICO_PLAYLISTS_ACTIVE = RESOURCES + 'playlists_active_48x32.png'
+
+# Directory icons
+ICO_FOLDER_ROOT = RESOURCES + 'folder_root_48x32.png'
+ICO_FOLDER_UP = RESOURCES + 'folder_up_48x32.png'
 

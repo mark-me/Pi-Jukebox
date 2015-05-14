@@ -131,6 +131,7 @@ class ScreenLibrary(Screen):
         self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
         self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
         self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY_ACTIVE, 3, 85))
+        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
         self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
         # Library buttons
         self.add_component(ButtonIcon('btn_artists', self.screen, ICO_SEARCH_ARTIST, 55, 5))
@@ -237,6 +238,8 @@ class ScreenLibrary(Screen):
             return 1
         elif tag_name == 'btn_library':
             return 2
+        elif tag_name == 'btn_directory':
+            return 3
         elif tag_name == 'btn_settings':
             setting_screen = ScreenSettings(self.screen)
             setting_screen.show()

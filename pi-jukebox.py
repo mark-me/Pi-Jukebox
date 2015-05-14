@@ -14,6 +14,7 @@ from settings import *
 from mpd_client import *
 from screen_player import *
 from screen_library import *
+from screen_directory import *
 from screen_settings import *
 
 
@@ -29,6 +30,7 @@ class PiJukeboxScreens(Screens):
         self.screen_list.append(ScreenPlaying(SCREEN))  # Screen with now playing and cover art
         self.screen_list.append(ScreenPlaylist(SCREEN))  # Create player with playlist screen
         self.screen_list.append(ScreenLibrary(SCREEN))  # Create library browsing screen
+        self.screen_list.append(ScreenDirectory(SCREEN))  # Create directory browsing screen
 
     def mpd_updates(self):
         """ Updates a current screen if it shows mpd relevant content. """

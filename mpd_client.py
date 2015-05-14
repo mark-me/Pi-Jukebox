@@ -77,7 +77,10 @@ class MPDController(object):
             return False
         self.artists_get()
         self.albums_get()
-        self.songs_get()
+        try:
+            self.songs_get()
+        except Exception:
+            pass
         return True
 
     def disconnect(self):
@@ -99,7 +102,10 @@ class MPDController(object):
 
         if self.__current_song != current_song and len(current_song) > 0: # Changed to a new song
             self.__current_song = current_song
-            self.track_name = current_song['title']      # Song title of current song
+            if 'title' in current_song:
+                self.track_name = current_song['title']  # Song title of current song
+            else:
+                self.track_name = os.path.splitext(os.path.basename(current_song['file']))[0]
             if 'artist' in current_song:
                 self.track_artist = current_song['artist']  # Artist of current song
             else:
@@ -544,6 +550,57 @@ class MPDController(object):
                     result_list.append(playlist['playlist'])
         return result_list
 
+    def directory_list(self, path="", first_letter=None):
+        """ Retrieves the contents of a directory
+        :param path: Subpath
+        :param first_letter: Retrieve all directories starting with letter
+        """
+        result_list = []
+        directory_list = []
+        for entry in self.mpd_client.lsinfo(path):
+            if 'directory' in entry:
+                directory_list.append(('directory', entry['directory']))
+            elif 'file' in entry:
+                directory_list.append(('file', entry['file']))
+
+        if first_letter is None:
+            result_list = directory_list
+        else:
+            for entry in directory_list:
+                if 'directory' in entry:
+                    if entry['directory'][:1].upper() == first_letter.upper():
+                        result_list.append(('directory', entry['directory']))
+                elif 'file' in entry:
+                    if entry['file'][:1].upper() == first_letter.upper():
+                        result_list.append(('file', os.path.basename(entry['file'])))
+        return result_list
+
+    def directory_songs_get(self, path=""):
+        """ Gets all files in the directory and from the directories below
+        :param path: Directory which is searched recursively for files
+        :return: list with files
+        """
+        contents_list = self.__directory_recurse_get(path)
+        songs_list = []
+        for entry in contents_list:
+            if 'file' in entry:
+                songs_list.append(entry)
+        return songs_list
+
+    def __directory_recurse_get(self, path=""):
+        """
+        :param path: Recurses through directories
+        :return:
+        """
+        content_list = self.mpd_client.lsinfo(path)
+        for entry in content_list:
+            if 'directory' in entry:
+                content_list += self.__directory_recurse_get(entry['directory'])
+                # elif 'file' in entry:
+            #                content_list.append(('file', os.path.basename(entry['file'])))
+        return content_list
+
+
     def playlist_add(self, tag_type, tag_name, play=False, clear_playlist=False):
         """ Adds songs to the current playlist
 
@@ -607,12 +664,34 @@ class MPDController(object):
         if play:
             self.play_playlist_item(i + 1)
 
+    def playlist_add_file(self, uri, play=False, clear_playlist=False):
+        """ Adds file to the playlist
+        :param uri: The file including path
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
+        if clear_playlist:
+            self.playlist_current_clear()
+        i = self.playlist_current_count()
+        songs = self.directory_songs_get(uri)
+        self.mpd_client.addid(uri)
+        if play:
+            self.play_playlist_item(i + 1)
 
-"""            # If updating is finished reload artist, album and song lists
-            if self.updating_library and status_line[:14] != "Updating DB (#":
-                self.list_artists = self.get_artists()
-                self.list_albums = self.get_albums()
-                self.list_songs = self.songs_get()
-"""
+    def playlist_add_directory(self, path, play=False, clear_playlist=False):
+        """ Adds all songs from the directory recursively to the playlist
+        :param path: Directory
+        :param play: Boolean indicating whether you want to start playing what was just added.
+        :param clear_playlist: Boolean indicating whether to remove all previous entries from the current playlist.
+        """
+        if clear_playlist:
+            self.playlist_current_clear()
+        i = self.playlist_current_count()
+        songs = self.directory_songs_get(path)
+        for song in songs:
+            self.mpd_client.addid(song['file'])
+        if play:
+            self.play_playlist_item(i + 1)
+
 
 mpd = MPDController()
