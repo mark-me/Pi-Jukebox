@@ -24,7 +24,6 @@ class LetterBrowser(ItemList):
 
         :param screen_rect: The screen rect where the library browser is drawn on.
     """
-
     def __init__(self, screen_rect):
         ItemList.__init__(self, 'list_letters', screen_rect, 268, 40, 52, 195)
         self.item_outline_visible = True
@@ -32,9 +31,6 @@ class LetterBrowser(ItemList):
         self.font_color = FIFTIES_GREEN
         self.set_item_alignment(HOR_MID, VERT_MID)
         self.list = []
-        # self.list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"\
-        #                , "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" \
-        #                , "0", "1", "2", "3", "4", "5", "7", "8", "9"]
 
 
 class LibraryBrowser(ItemList):
@@ -132,7 +128,8 @@ class ScreenLibrary(Screen):
         self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
         self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY_ACTIVE, 3, 85))
         self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
+        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
+        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
         # Library buttons
         self.add_component(ButtonIcon('btn_artists', self.screen, ICO_SEARCH_ARTIST, 55, 5))
         self.add_component(ButtonIcon('btn_albums', self.screen, ICO_SEARCH_ALBUM, 107, 5))
@@ -240,6 +237,8 @@ class ScreenLibrary(Screen):
             return 2
         elif tag_name == 'btn_directory':
             return 3
+        elif tag_name == 'btn_radio':
+            return 4
         elif tag_name == 'btn_settings':
             setting_screen = ScreenSettings(self.screen)
             setting_screen.show()

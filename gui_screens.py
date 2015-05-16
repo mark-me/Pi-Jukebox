@@ -365,3 +365,38 @@ class ScreenMessage(ScreenModal):
             self.close()
 
 
+class ScreenYesNo(ScreenModal):
+    """ A screen that displays a message.
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+        :param caption: The title displayed at the top of the screen.
+        :param text: Text displayed in the screen.
+    """
+
+    def __init__(self, screen_rect, caption, text):
+        ScreenModal.__init__(self, screen_rect, caption)
+        self.window_x = 70
+        self.window_y = 60
+        self.window_width -= 2 * self.window_x
+        self.window_height -= 2 * self.window_y
+        self.outline_shown = True
+        self.add_component(Picture('pic_icon', self.screen, self.window_x + 5, self.window_y + 30, 48, 48, ICO_WARNING))
+        self.title_color = FIFTIES_ORANGE
+        width = self.window_width - 58
+        height = self.window_height - self.window_y - 32
+        self.add_component(Memo('memo_text', self.screen, self.window_x + 55, self.window_y + 32, width, height, text))
+        self.add_component(ButtonText('btn_yes', self.screen, self.window_x + self.window_width - 60,
+                                      self.window_y + self.window_height - 37, 55, 32, "Yes"))
+        self.components['btn_yes'].button_color = FIFTIES_ORANGE
+        self.add_component(
+            ButtonText('btn_no', self.screen, self.window_x + 5, self.window_y + self.window_height - 37, 55, 32, "No"))
+        self.components['btn_no'].button_color = FIFTIES_ORANGE
+
+    def on_click(self, x, y):
+        tag_name = super(ScreenModal, self).on_click(x, y)
+        if tag_name == 'btn_yes':
+            self.return_object = 'yes'
+            self.close()
+        elif tag_name == 'btn_no':
+            self.return_object = 'no'
+            self.close()

@@ -38,7 +38,6 @@ else:
 #: The directory where resources like button icons or the font file is stored.
 RESOURCES = os.path.dirname(__file__) + '/resources/'
 
-
 #: Standard font type
 FONT = pygame.font.Font(RESOURCES + 'DroidSans.ttf', 14)
 
@@ -93,9 +92,10 @@ ICO_LIBRARY = RESOURCES + 'library_48x32.png'
 ICO_LIBRARY_ACTIVE = RESOURCES + 'library_active_48x32.png'
 ICO_DIRECTORY = RESOURCES + 'directory_48x32.png'
 ICO_DIRECTORY_ACTIVE = RESOURCES + 'directory_active_48x32.png'
+ICO_RADIO = RESOURCES + 'radio_48x32.png'
+ICO_RADIO_ACTIVE = RESOURCES + 'radio_active_48x32.png'
 ICO_SETTINGS = RESOURCES + 'settings_48x32.png'
 ICO_SETTINGS_ACTIVE = RESOURCES + 'settings_active_48x32.png'
-ICO_EXIT = RESOURCES + 'exit_48x32.png'
 ICO_BACK = RESOURCES + 'back_48x32.png'
 
 # Player icons
@@ -126,3 +126,5 @@ ICO_PLAYLISTS_ACTIVE = RESOURCES + 'playlists_active_48x32.png'
 ICO_FOLDER_ROOT = RESOURCES + 'folder_root_48x32.png'
 ICO_FOLDER_UP = RESOURCES + 'folder_up_48x32.png'
 
+# Radio icons
+ICO_STATION_ADD = RESOURCES + 'station_add_48x32.png'

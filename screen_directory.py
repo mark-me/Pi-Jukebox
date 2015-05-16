@@ -1,6 +1,6 @@
 """
 =======================================================
-**screen_library.py**: MPD Library browsing screen
+**screen_directory.py**: MPD Directory browsing screen
 =======================================================
 
 """
@@ -114,7 +114,8 @@ class ScreenDirectory(Screen):
         self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
         self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
         self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY_ACTIVE, 3, 125))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, SCREEN_HEIGHT - 37))
+        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
+        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
         # Directory buttons
         self.add_component(ButtonIcon('btn_root', self.screen, ICO_FOLDER_ROOT, 55, 5))
         self.add_component(ButtonIcon('btn_up', self.screen, ICO_FOLDER_UP, 107, 5))
@@ -150,6 +151,8 @@ class ScreenDirectory(Screen):
             return 2
         elif tag_name == 'btn_directory':
             return 3
+        elif tag_name == 'btn_radio':
+            return 4
         elif tag_name == 'btn_settings':
             setting_screen = ScreenSettings(self.screen)
             setting_screen.show()
@@ -157,13 +160,13 @@ class ScreenDirectory(Screen):
         elif tag_name == 'list_letters':
             self.find_first_letter()
         elif tag_name == 'list_directory':
-            self.playlist_action()
+            self.list_item_action()
         elif tag_name == 'btn_root':
             self.components['list_directory'].show_directory("")
         elif tag_name == 'btn_up':
             self.components['list_directory'].show_directory_up()
 
-    def playlist_action(self):
+    def list_item_action(self):
         """ Displays screen for follow-up actions when an item was selected from the library. """
         selected = self.components['list_directory'].item_selected_get()
         select_screen = ScreenSelected(self.screen, self.components['list_directory'].directory_current, selected[0],
@@ -176,11 +179,12 @@ class ScreenDirectory(Screen):
 
 
 class ScreenSelected(ScreenModal):
-    """ Screen for selecting playback actions with an item selected from the library.
+    """ Screen for selecting playback actions with an item selected from the directory.
 
         :param screen_rect: The directory's rect where the library browser is drawn on.
-        :param selected_type: The selected library item [artists, albums, songs].
-        :param selected_title: The title of the selected library item.
+        :param directory: The directory who's content iss currently being listed.
+        :param selected_type: The selected directory item ['file', 'directory'].
+        :param selected_item: The name of the selected directory item.
     """
 
     def __init__(self, screen_rect, directory, selected_type, selected_item):
