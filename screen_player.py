@@ -11,6 +11,8 @@ import subprocess
 import os
 import glob
 from gui_widgets import *
+from gui_screens import *
+from pij_screen_navigation import *
 from mpd_client import *
 from settings import *
 from screen_settings import *
@@ -31,12 +33,12 @@ class Playlist(ItemList):
     def show_playlist(self):
         """ Display the playlist. """
         updated = False
-        playing_nr = mpd.get_playlist_current_playing_index()
-        if self.list != mpd.get_playlist_current():
-            self.list = mpd.get_playlist_current()
+        playing_nr = mpd.playlist_current_playing_index_get()
+        if self.list != mpd.playlist_current_get():
+            self.list = mpd.playlist_current_get()
             updated = True
-        if self.active_item_index != mpd.get_playlist_current_playing_index():
-            self.active_item_index = mpd.get_playlist_current_playing_index()
+        if self.active_item_index != mpd.playlist_current_playing_index_get():
+            self.active_item_index = mpd.playlist_current_playing_index_get()
             updated = True
         if updated:
             self.draw()
@@ -48,12 +50,7 @@ class ScreenPlaylist(Screen):
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
-        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST_ACTIVE, 3, 45))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
-        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
-        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
+        self.add_component(ScreenNavigation('screen_nav', self.screen, 'btn_playlist'))
         # Player specific buttons
         self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 51, 45))
         self.add_component(ButtonIcon('btn_stop', self.screen, ICO_STOP, SCREEN_WIDTH - 51, 85))
@@ -69,10 +66,11 @@ class ScreenPlaylist(Screen):
         self.add_component(Rectangle('rct_split', self.screen, 55, 43, 208, 1))
         # Playlist
         self.add_component(Playlist(self.screen))
-        self.components['list_playing'].active_item_index = mpd.get_playlist_current_playing_index()
+        self.components['list_playing'].active_item_index = mpd.playlist_current_playing_index_get()
 
     def show(self):
         """ Displays the screen. """
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
         now_playing = mpd.now_playing
         self.components['lbl_time'].draw(now_playing.time_current + '/' + now_playing.time_total)
         self.components['lbl_volume'].draw('Vol: ' + str(mpd.volume) + '%')
@@ -89,6 +87,7 @@ class ScreenPlaylist(Screen):
 
     def update(self):
         now_playing = mpd.now_playing
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
         while True:
             try:
                 event = mpd.events.popleft()
@@ -165,16 +164,10 @@ class ScreenPlaying(Screen):
 
         :param screen_rect: The display's rectangle where the screen is drawn on.
     """
-
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER_ACTIVE, 3, 5))
-        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
-        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
-        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
+        self.add_component(ScreenNavigation('screen_nav', self.screen, 'btn_player'))
         # Player specific buttons
         self.add_component(ButtonIcon('btn_play', self.screen, ICO_PLAY, SCREEN_WIDTH - 51, 5))
         self.add_component(ButtonIcon('btn_stop', self.screen, ICO_STOP, SCREEN_WIDTH - 51, 45))
@@ -198,6 +191,7 @@ class ScreenPlaying(Screen):
 
     def show(self):
         """ Displays the screen. """
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
         self.components['lbl_time_current'].draw(mpd.now_playing.time_current)
         self.components['lbl_time_total'].draw(mpd.now_playing.time_total)
         if mpd.player_control_get() == 'play':
@@ -215,6 +209,7 @@ class ScreenPlaying(Screen):
         while True:
             try:
                 event = mpd.events.popleft()
+                self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
                 playing = mpd.now_playing
                 if event == 'playing_index':
                     self.components['pic_cover_art'].draw(playing.cover_art_get())

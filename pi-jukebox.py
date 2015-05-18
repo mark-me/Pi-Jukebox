@@ -18,43 +18,6 @@ from screen_directory import *
 from screen_radio import *
 from screen_settings import *
 
-
-class PiJukeboxScreen(Screen):
-    def __init__(self, screen_rect):
-        Screen.__init__(self, screen_rect)
-        # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
-        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST_ACTIVE, 3, 45))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
-        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
-        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
-
-    def on_click(self, x, y):
-        """
-        :param x: The horizontal click position.
-        :param y: The vertical click position.
-
-        :return: Possibly returns a screen index number to switch to.
-        """
-        tag_name = super(ScreenPlaylist, self).on_click(x, y)
-        if tag_name == 'btn_player':
-            return 0
-        elif tag_name == 'btn_playlist':
-            return 1
-        elif tag_name == 'btn_library':
-            return 2
-        elif tag_name == 'btn_directory':
-            return 3
-        elif tag_name == 'btn_radio':
-            return 4
-        elif tag_name == 'btn_settings':
-            setting_screen = ScreenSettings(self.screen)
-            setting_screen.show()
-            self.show()
-
-
-
 class PiJukeboxScreens(Screens):
     """ Manages Pi Jukebox's main screens.
             - Player screen
@@ -72,9 +35,7 @@ class PiJukeboxScreens(Screens):
 
     def mpd_updates(self):
         """ Updates a current screen if it shows mpd relevant content. """
-        if isinstance(self.screen_list[self.current_index], ScreenPlaylist) or \
-                isinstance(self.screen_list[self.current_index], ScreenPlaying):
-            self.screen_list[self.current_index].update()
+        self.screen_list[self.current_index].update()
 
 
 def apply_settings():

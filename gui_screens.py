@@ -162,6 +162,10 @@ class Screen(object):
                 if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
                     value.clicked_item(x, y)
                     return key
+            if isinstance(value, WidgetContainer):
+                if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
+                    return value.on_click(x, y)
+
 
     def on_swipe(self, x, y, swipe_type):
         """ Relays swipe to ItemList components for next(up)/previous(down) swipes for ItemLists.

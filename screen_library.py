@@ -13,6 +13,7 @@ import subprocess
 import os
 import glob
 from gui_widgets import *
+from pij_screen_navigation import *
 from mpd_client import *
 from settings import *
 from screen_keyboard import *
@@ -124,12 +125,7 @@ class ScreenLibrary(Screen):
         Screen.__init__(self, screen_rect)
         self.first_time_showing = True
         # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
-        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY_ACTIVE, 3, 85))
-        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
-        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
+        self.add_component(ScreenNavigation('screen_nav', self.screen, 'btn_library'))
         # Library buttons
         self.add_component(ButtonIcon('btn_artists', self.screen, ICO_SEARCH_ARTIST, 55, 5))
         self.add_component(ButtonIcon('btn_albums', self.screen, ICO_SEARCH_ALBUM, 107, 5))
@@ -143,12 +139,16 @@ class ScreenLibrary(Screen):
         self.currently_showing = 'artists'
 
     def show(self):
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
         if self.first_time_showing:
             self.set_currently_showing('artists')
             self.components['list_library'].show_artists()
             self.letter_list_update()
             self.first_time_showing = False
         super(ScreenLibrary, self).show()
+
+    def update(self):
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
 
     def set_currently_showing(self, type_showing):
         """ Switch icons to active dependent on which kind of searching is active.

@@ -13,6 +13,7 @@ import subprocess
 import os
 import glob
 from gui_widgets import *
+from pij_screen_navigation import *
 from mpd_client import *
 from settings import *
 from screen_keyboard import *
@@ -25,7 +26,6 @@ class RadioBrowser(ItemList):
 
         :param screen_rect: The screen rect where the directory browser is drawn on.
     """
-
     def __init__(self, screen_rect):
         ItemList.__init__(self, 'list_stations', screen_rect, 55, 42, 210, 194)
         self.outline_visible = False
@@ -64,20 +64,19 @@ class ScreenRadio(Screen):
         Screen.__init__(self, screen_rect)
         self.first_time_showing = True
         # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
-        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
-        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY, 3, 125))
-        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO_ACTIVE, 3, 165))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
+        self.add_component(ScreenNavigation('screen_nav', self.screen, 'btn_radio'))
         # Radio station buttons
         self.add_component(ButtonIcon('btn_station_add', self.screen, ICO_STATION_ADD, 55, 5))
         # Lists
         self.add_component(RadioBrowser(self.screen))
 
     def show(self):
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
         self.components['list_stations'].show_stations()
         super(ScreenRadio, self).show()
+
+    def update(self):
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
 
     def station_action(self):
         """ Displays screen for follow-up actions when an item was selected from the library. """
@@ -135,29 +134,16 @@ class ScreenSelected(ScreenModal):
     def initialize(self):
         """ Set-up screen controls. """
         button_left = self.window_x + 10
-        button_width = (self.window_width - 2 * button_left) / 2 - 5
-        button_top = 30
-        label = "Edit"
-        self.add_component(ButtonText('btn_edit', self.screen, button_left, button_top, button_width, 32, label))
-        label = "Remove"
-        self.add_component(
-            ButtonText('btn_remove', self.screen, button_left + button_width + 10, button_top, button_width, 32, label))
         button_width = self.window_width - 2 * button_left
+        button_top = 30
+        self.add_component(ButtonText('btn_tune_in', self.screen, button_left, button_top, button_width, 32, "Tune in"))
+        self.components['btn_tune_in'].button_color = FIFTIES_TEAL
         button_top += 42
-        label = "Add to playlist"
-        self.add_component(ButtonText('btn_add', self.screen, button_left, button_top, button_width, 32, label))
-        self.components['btn_add'].button_color = FIFTIES_TEAL
+        self.add_component(ButtonText('btn_edit', self.screen, button_left, button_top, button_width, 32, "Edit"))
         button_top += 42
-        label = "Add to playlist and play"
-        self.add_component(ButtonText('btn_add_play', self.screen, button_left, button_top, button_width, 32, label))
-        self.components['btn_add_play'].button_color = FIFTIES_TEAL
+        self.add_component(ButtonText('btn_remove', self.screen, button_left, button_top, button_width, 32, "Remove"))
         button_top += 42
-        label = "Replace playlist and play"
-        self.add_component(ButtonText('btn_replace', self.screen, button_left, button_top, button_width, 32, label))
-        self.components['btn_replace'].button_color = FIFTIES_TEAL
-        button_top += 42
-        label = "Cancel"
-        self.add_component(ButtonText('btn_cancel', self.screen, button_left, button_top, button_width, 32, label))
+        self.add_component(ButtonText('btn_cancel', self.screen, button_left, button_top, button_width, 32, "Cancel"))
 
     def action(self, tag_name):
         """ Action that should be performed on a click. """
@@ -173,13 +159,8 @@ class ScreenSelected(ScreenModal):
             if screen_yes_no.show() == 'yes':
                 config_file.setting_remove('Radio stations', self.station_name)
             self.close()
-        elif tag_name == 'btn_add_play':
-            play = True
-        elif tag_name == 'btn_replace':
-            play = True
-            clear_playlist = True
-        if tag_name == 'btn_add' or tag_name == 'btn_add_play' or tag_name == 'btn_replace':
-            mpd.playlist_add_file(self.station_URL, play, clear_playlist)
+        if tag_name == 'btn_tune_in':
+            mpd.radio_station_start(self.station_URL)
         self.close()
 
 

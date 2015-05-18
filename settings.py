@@ -84,8 +84,10 @@ ICO_SWITCH_ON = RESOURCES + 'switch_on_48x32.png'
 ICO_SWITCH_OFF = RESOURCES + 'switch_off_48x32.png'
 
 # General icons
-ICO_PLAYER = RESOURCES + 'home_48x32.png'
-ICO_PLAYER_ACTIVE = RESOURCES + 'home_active_48x32.png'
+ICO_PLAYER_FILE = RESOURCES + 'playing_file_48x32.png'
+ICO_PLAYER_FILE_ACTIVE = RESOURCES + 'playing_file_active_48x32.png'
+ICO_PLAYER_RADIO = RESOURCES + 'playing_radio_48x32.png'
+ICO_PLAYER_RADIO_ACTIVE = RESOURCES + 'playing_radio_active_48x32.png'
 ICO_PLAYLIST = RESOURCES + 'playlist_48x32.png'
 ICO_PLAYLIST_ACTIVE = RESOURCES + 'playlist_active_48x32.png'
 ICO_LIBRARY = RESOURCES + 'library_48x32.png'

@@ -13,6 +13,7 @@ import subprocess
 import os
 import glob
 from gui_widgets import *
+from pij_screen_navigation import *
 from mpd_client import *
 from settings import *
 from screen_keyboard import *
@@ -105,17 +106,11 @@ class ScreenDirectory(Screen):
 
         :param screen_rect: The display's rect where the library browser is drawn on.
     """
-
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         self.first_time_showing = True
         # Screen navigation buttons
-        self.add_component(ButtonIcon('btn_player', self.screen, ICO_PLAYER, 3, 5))
-        self.add_component(ButtonIcon('btn_playlist', self.screen, ICO_PLAYLIST, 3, 45))
-        self.add_component(ButtonIcon('btn_library', self.screen, ICO_LIBRARY, 3, 85))
-        self.add_component(ButtonIcon('btn_directory', self.screen, ICO_DIRECTORY_ACTIVE, 3, 125))
-        self.add_component(ButtonIcon('btn_radio', self.screen, ICO_RADIO, 3, 165))
-        self.add_component(ButtonIcon('btn_settings', self.screen, ICO_SETTINGS, 3, 205))
+        self.add_component(ScreenNavigation('screen_nav', self.screen, 'btn_directory'))
         # Directory buttons
         self.add_component(ButtonIcon('btn_root', self.screen, ICO_FOLDER_ROOT, 55, 5))
         self.add_component(ButtonIcon('btn_up', self.screen, ICO_FOLDER_UP, 107, 5))
@@ -124,11 +119,15 @@ class ScreenDirectory(Screen):
         self.add_component(LetterBrowser(self.screen))
 
     def show(self):
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
         if self.first_time_showing:
             self.components['list_directory'].show_directory()
             self.letter_list_update()
             self.first_time_showing = False
         super(ScreenDirectory, self).show()
+
+    def update(self):
+        self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
 
     def letter_list_update(self):
         self.components['list_letters'].list = self.components['list_directory'].first_letters_in_result_get()

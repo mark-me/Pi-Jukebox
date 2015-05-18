@@ -417,9 +417,14 @@ class ButtonIcon(Widget):
     def draw(self, icon_file=None):
         """ Draws the button """
         if icon_file is not None:
-            self.__icon = icon_file
+            self.image_file = icon_file
+            self.__icon = pygame.image.load(self.image_file)
         rect = self.screen.blit(self.__icon, (self.x_pos, self.y_pos))
         pygame.display.update(rect)
+
+    def icon_file_set(self, icon_file):
+        self.image_file = icon_file
+        self.__icon = pygame.image.load(self.image_file)
 
     def set_image_file(self, file_name):
         """ Sets the buttons icon.
@@ -686,3 +691,67 @@ class ItemList(Widget):
             page_no += 1
         self.page_showing_index = page_no
         self.draw()
+
+
+class WidgetContainer(Widget):
+    """ Basic screen used for displaying widgets. This type of screen should be used for the entire program.
+
+        :param screen_rect: The screen's rectangle where the screen is drawn on
+
+        :ivar components: Dictionary holding the screen's widgets with a tag_name as key and the widget as value
+        :ivar color: The screen's background color, default = :py:const:BLACK
+    """
+
+    def __init__(self, tag_name, screen_rect, x, y, width, height):
+        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+        self.components = {}  # Interface dictionary
+
+    def add_component(self, widget):
+        """ Adds components to component list, thus ensuring a component is found on a mouse event.
+
+            :param widget: The widget that should be added to the dictionary.
+        """
+        self.components[widget.tag_name] = widget
+
+    def draw(self):
+        """ Displays the screen. """
+        self.screen.fill(self.background_color, self.rect)  # Background
+        for key, value in self.components.items():
+            if value.visible:
+                value.draw()
+        pygame.display.update(self.rect)
+
+    def on_click(self, x, y):
+        """ Determines which component was clicked and fires it's click function in turn.
+
+            :param x: The horizontal click position.
+            :param y: The vertical click position.
+
+            :return: The tag_name of the clicked component.
+        """
+        for key, value in self.components.items():
+            if isinstance(value, ButtonIcon) or isinstance(value, ButtonText) or \
+                    isinstance(value, Switch) or isinstance(value, Slider) and value.visible or \
+                    isinstance(value, Picture):
+                if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
+                    value.on_click(x, y)
+                    return key
+            if isinstance(value, ItemList) and value.visible:
+                if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
+                    value.clicked_item(x, y)
+                    return key
+
+    def on_swipe(self, x, y, swipe_type):
+        """ Relays swipe to ItemList components for next(up)/previous(down) swipes for ItemLists.
+
+            :param x: The horizontal start position of the swipe move.
+            :param y: The vertical start position of the swipe move.
+            :param swipe_type: The type of swipe movement done.
+        """
+        for key, value in self.components.items():
+            if isinstance(value, ItemList):
+                if value.x_pos <= x <= value.x_pos + value.width and value.y_pos <= y <= value.y_pos + value.height:
+                    if swipe_type == GESTURE_SWIPE_UP:
+                        value.show_next_items()
+                    if swipe_type == GESTURE_SWIPE_DOWN:
+                        value.show_prev_items()
