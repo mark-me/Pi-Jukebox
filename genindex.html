@@ -73,6 +73,19 @@
           
           
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About pi-jukebox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#running-pi-jukebox-on-your-raspberry-pi">Running pi-jukebox on your Raspberry Pi</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-now-playing-screen">The now playing screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-playlist-screen">The playlist screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#the-library-screen">The library screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#selected-artist-beck-from-the-library">Selected artist Beck from the library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#searching-an-artist">Searching an artist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenshots.html#settings-screen">Settings screen</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="code.html">Documentation pi-jukebox code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-player-py-playback-screen"><strong>screen_player.py</strong>: Playback screen.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code.html#screen-library-py-mpd-library-browsing-screen"><strong>screen_library.py</strong>: MPD Library browsing screen</a></li>
@@ -135,6 +148,7 @@
 
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -148,7 +162,9 @@
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -172,6 +188,12 @@
   <dt><a href="code.html#gui_screens.Screen.add_component">add_component() (gui_screens.Screen method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="code.html#gui_widgets.WidgetContainer.add_component">(gui_widgets.WidgetContainer method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="code.html#screen_keyboard.KeyboardBase.add_row_buttons">add_row_buttons() (screen_keyboard.KeyboardBase method)</a>
   </dt>
@@ -205,11 +227,31 @@
   </dl></td>
 </tr></table>
 
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.ButtonIcon">ButtonIcon (class in gui_widgets)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.ButtonText">ButtonText (class in gui_widgets)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#gui_screens.GestureDetector.capture_gesture">capture_gesture() (gui_screens.GestureDetector method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.ItemList.clicked_item">clicked_item() (gui_widgets.ItemList method)</a>
   </dt>
 
       
@@ -240,10 +282,40 @@
   <dt><a href="code.html#mpd_client.MPDController.directory_songs_get">directory_songs_get() (mpd_client.MPDController method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#mpd_client.MPDController.disconnect">disconnect() (mpd_client.MPDController method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#mpd_client.MPDController.disconnect">disconnect() (mpd_client.MPDController method)</a>
+  <dt><a href="code.html#gui_widgets.ButtonIcon.draw">draw() (gui_widgets.ButtonIcon method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="code.html#gui_widgets.ItemList.draw">(gui_widgets.ItemList method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.LabelText.draw">(gui_widgets.LabelText method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.Rectangle.draw">(gui_widgets.Rectangle method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.WidgetContainer.draw">(gui_widgets.WidgetContainer method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="code.html#gui_widgets.ItemList.draw_items">draw_items() (gui_widgets.ItemList method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.ItemList.draw_page_indicator">draw_page_indicator() (gui_widgets.ItemList method)</a>
   </dt>
 
   </dl></td>
@@ -293,11 +365,15 @@
   </dt>
 
       
-  <dt><a href="code.html#module-gui_screens">gui_screens (module)</a>
+  <dt><a href="code.html#gui_widgets.Switch.get_on">get_on() (gui_widgets.Switch method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#module-gui_screens">gui_screens (module)</a>
+  </dt>
+
       
   <dt><a href="code.html#module-gui_widgets">gui_widgets (module)</a>
   </dt>
@@ -318,6 +394,20 @@
   </dt>
 
       </dl></dd>
+      
+  <dt><a href="code.html#gui_widgets.ItemList.item_active_get">item_active_get() (gui_widgets.ItemList method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.ItemList.item_selected_get">item_selected_get() (gui_widgets.ItemList method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.ItemList">ItemList (class in gui_widgets)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -349,6 +439,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="code.html#gui_widgets.LabelText">LabelText (class in gui_widgets)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_library.LetterBrowser">LetterBrowser (class in screen_library)</a>
   </dt>
 
@@ -373,15 +467,19 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="code.html#module-mpd_client">mpd_client (module)</a>
+  <dt><a href="code.html#gui_widgets.Memo">Memo (class in gui_widgets)</a>
   </dt>
 
       
-  <dt><a href="code.html#mpd_client.MPDController">MPDController (class in mpd_client)</a>
+  <dt><a href="code.html#module-mpd_client">mpd_client (module)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#mpd_client.MPDController">MPDController (class in mpd_client)</a>
+  </dt>
+
       
   <dt><a href="code.html#mpd_client.MPDNowPlaying">MPDNowPlaying (class in mpd_client)</a>
   </dt>
@@ -398,6 +496,26 @@
 
       <dd><dl>
         
+  <dt><a href="code.html#gui_widgets.ItemList.on_click">(gui_widgets.ItemList method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.Slider.on_click">(gui_widgets.Slider method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.Slider2.on_click">(gui_widgets.Slider2 method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.Widget.on_click">(gui_widgets.Widget method)</a>
+  </dt>
+
+        
+  <dt><a href="code.html#gui_widgets.WidgetContainer.on_click">(gui_widgets.WidgetContainer method)</a>
+  </dt>
+
+        
   <dt><a href="code.html#screen_library.ScreenLibrary.on_click">(screen_library.ScreenLibrary method)</a>
   </dt>
 
@@ -412,12 +530,30 @@
   <dt><a href="code.html#gui_screens.Screen.on_swipe">on_swipe() (gui_screens.Screen method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="code.html#gui_widgets.WidgetContainer.on_swipe">(gui_widgets.WidgetContainer method)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.ItemList.pages_count">pages_count() (gui_widgets.ItemList method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.Picture">Picture (class in gui_widgets)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.Picture.picture_set">picture_set() (gui_widgets.Picture method)</a>
+  </dt>
+
       
   <dt><a href="code.html#mpd_client.MPDController.play_playlist_item">play_playlist_item() (mpd_client.MPDController method)</a>
   </dt>
@@ -450,12 +586,12 @@
   <dt><a href="code.html#mpd_client.MPDController.playlist_add_artist">playlist_add_artist() (mpd_client.MPDController method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#mpd_client.MPDController.playlist_add_directory">playlist_add_directory() (mpd_client.MPDController method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#mpd_client.MPDController.playlist_add_file">playlist_add_file() (mpd_client.MPDController method)</a>
   </dt>
@@ -492,6 +628,16 @@
   <dt><a href="code.html#gui_screens.Screens.process_mouse_event">process_mouse_event() (gui_screens.Screens method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#gui_widgets.Slider.progress_percentage_set">progress_percentage_set() (gui_widgets.Slider method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="code.html#gui_widgets.Slider2.progress_percentage_set">(gui_widgets.Slider2 method)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -500,6 +646,10 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#mpd_client.MPDController.random_switch">random_switch() (mpd_client.MPDController method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.Rectangle">Rectangle (class in gui_widgets)</a>
   </dt>
 
   </dl></td>
@@ -566,22 +716,64 @@
   <dt><a href="code.html#screen_library.ScreenSearch">ScreenSearch (class in screen_library)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#screen_library.ScreenSelected">ScreenSelected (class in screen_library)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSettings">ScreenSettings (class in screen_settings)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSettingsMPD">ScreenSettingsMPD (class in screen_settings)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSettingsPlayback">ScreenSettingsPlayback (class in screen_settings)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSettingsQuit">ScreenSettingsQuit (class in screen_settings)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#screen_settings.ScreenSystemInfo">ScreenSystemInfo (class in screen_settings)</a>
   </dt>
 
       
   <dt><a href="code.html#screen_player.ScreenVolume">ScreenVolume (class in screen_player)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#gui_screens.ScreenYesNo">ScreenYesNo (class in gui_screens)</a>
   </dt>
 
       
+  <dt><a href="code.html#gui_widgets.LabelText.set_alignment">set_alignment() (gui_widgets.LabelText method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="code.html#gui_widgets.Memo.set_alignment">(gui_widgets.Memo method)</a>
+  </dt>
+
+      </dl></dd>
+      
   <dt><a href="code.html#screen_library.ScreenLibrary.set_currently_showing">set_currently_showing() (screen_library.ScreenLibrary method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.ButtonIcon.set_image_file">set_image_file() (gui_widgets.ButtonIcon method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.ItemList.set_item_alignment">set_item_alignment() (gui_widgets.ItemList method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.Switch.set_on">set_on() (gui_widgets.Switch method)</a>
   </dt>
 
       
@@ -623,6 +815,10 @@
   </dt>
 
       
+  <dt><a href="code.html#gui_widgets.ItemList.show_next_items">show_next_items() (gui_widgets.ItemList method)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_player.Playlist.show_playlist">show_playlist() (screen_player.Playlist method)</a>
   </dt>
 
@@ -631,7 +827,19 @@
   </dt>
 
       
+  <dt><a href="code.html#gui_widgets.ItemList.show_prev_items">show_prev_items() (gui_widgets.ItemList method)</a>
+  </dt>
+
+      
   <dt><a href="code.html#screen_library.LibraryBrowser.show_songs">show_songs() (screen_library.LibraryBrowser method)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.Slider">Slider (class in gui_widgets)</a>
+  </dt>
+
+      
+  <dt><a href="code.html#gui_widgets.Slider2">Slider2 (class in gui_widgets)</a>
   </dt>
 
       
@@ -642,6 +850,26 @@
   <dt><a href="code.html#mpd_client.MPDController.status_get">status_get() (mpd_client.MPDController method)</a>
   </dt>
 
+      
+  <dt><a href="code.html#gui_widgets.Switch">Switch (class in gui_widgets)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.LabelText.transparent_set">transparent_set() (gui_widgets.LabelText method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="code.html#gui_widgets.Memo.transparent_set">(gui_widgets.Memo method)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -660,6 +888,22 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="code.html#mpd_client.MPDController.volume_set_relative">volume_set_relative() (mpd_client.MPDController method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.Widget">Widget (class in gui_widgets)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="code.html#gui_widgets.WidgetContainer">WidgetContainer (class in gui_widgets)</a>
   </dt>
 
   </dl></td>
