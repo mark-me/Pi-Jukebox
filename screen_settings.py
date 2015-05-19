@@ -247,11 +247,14 @@ class ScreenSystemInfo(ScreenModal):
         self.components['lbl_system'].font_color = FIFTIES_TEAL
         self.add_component(
             LabelText('lbl_host_name', self.screen, button_left, 108, 1500, 18, "Host name: " + socket.gethostname()))
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('google.com', 0))
-        ip_address = s.getsockname()[0]
-        self.add_component(
-            LabelText('lbl_ip_address', self.screen, button_left, 126, 1500, 18, "IP address: " + ip_address))
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(('google.com', 0))
+            ip_address = s.getsockname()[0]
+            self.add_component(
+                LabelText('lbl_ip_address', self.screen, button_left, 126, 1500, 18, "IP address: " + ip_address))
+        except Exception:
+            pass
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
