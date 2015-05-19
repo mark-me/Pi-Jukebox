@@ -11,6 +11,7 @@ import time
 import subprocess
 import os
 import glob
+import socket
 from gui_widgets import *
 from mpd_client import *
 from settings import *
@@ -33,9 +34,9 @@ class ScreenSettings(ScreenModal):
         label = "Playback options"
         self.add_component(ButtonText('btn_playback', self.screen, button_left, 72, button_width, 32, label))
         label = "MPD related settings"
-        self.add_component(ButtonText("btn_mpd", self.screen, button_left, 114, button_width, 32, label))
-        #label = "Entry"
-        #self.add_component(ButtonText("entry_2", self.screen, button_left, 156, button_width, label))
+        self.add_component(ButtonText('btn_mpd', self.screen, button_left, 114, button_width, 32, label))
+        label = "System info"
+        self.add_component(ButtonText('btn_system_info', self.screen, button_left, 156, button_width, 32, label))
         label = "Back"
         self.add_component(ButtonText('btn_return', self.screen, button_left, 198, button_width, 32, label))
 
@@ -52,6 +53,10 @@ class ScreenSettings(ScreenModal):
         elif tag_name == 'btn_mpd':
             screen_mpd = ScreenSettingsMPD(self.screen)
             screen_mpd.show()
+            self.show()
+        elif tag_name == 'btn_system_info':
+            screen_system_info = ScreenSystemInfo(self.screen)
+            screen_system_info.show()
             self.show()
         elif tag_name == 'btn_return':
             self.close()
@@ -157,7 +162,6 @@ class ScreenSettingsMPD(ScreenModal):
 
         :param screen_rect: The display's rectangle where the screen is drawn on.
     """
-
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "MPD settings")
         button_left = self.window_x + 10
@@ -213,3 +217,61 @@ class ScreenSettingsMPD(ScreenModal):
         self.components['btn_host'].draw(label)
         label = "Change port: " + str(config_file.setting_get('MPD Settings', 'port'))
         self.components['btn_port'].draw(label)
+
+
+class ScreenSystemInfo(ScreenModal):
+    """ Screen for settings playback options
+
+        :param screen_rect: The display's rectangle where the screen is drawn on.
+    """
+
+    def __init__(self, screen_rect):
+        ScreenModal.__init__(self, screen_rect, "System info")
+        button_left = self.window_x + 10
+        button_width = self.window_width - 2 * button_left
+        label = "Back"
+        self.add_component(ButtonText('btn_back', self.screen, button_left, 198, button_width, 32, label))
+        info = mpd.mpd_client.stats()
+        self.add_component(LabelText('lbl_database', self.screen, button_left, 30, 100, 18, "Music database"))
+        self.components['lbl_database'].font_color = FIFTIES_TEAL
+        artist_count = "Artists: " + "{:,}".format(int(info['artists']))
+        self.add_component(LabelText('lbl_artist_count', self.screen, button_left, 48, 100, 18, artist_count))
+        album_count = "Albums: " + "{:,}".format(int(info['albums']))
+        self.add_component(LabelText('lbl_album_count', self.screen, button_left + 100, 48, 100, 18, album_count))
+        song_count = "Songs: " + "{:,}".format(int(info['songs']))
+        self.add_component(LabelText('lbl_song_count', self.screen, button_left + 210, 48, 100, 18, song_count))
+        play_time = "Total time: " + self.make_time_string(int(info['db_playtime']))
+        self.add_component(LabelText('lbl_play_time', self.screen, button_left, 66, 300, 18, play_time))
+
+        self.add_component(LabelText('lbl_system', self.screen, button_left, 90, 100, 18, "Server"))
+        self.components['lbl_system'].font_color = FIFTIES_TEAL
+        self.add_component(
+            LabelText('lbl_host_name', self.screen, button_left, 108, 1500, 18, "Host name: " + socket.gethostname()))
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('google.com', 0))
+        ip_address = s.getsockname()[0]
+        self.add_component(
+            LabelText('lbl_ip_address', self.screen, button_left, 126, 1500, 18, "IP address: " + ip_address))
+
+    def on_click(self, x, y):
+        tag_name = super(ScreenModal, self).on_click(x, y)
+        if tag_name == 'btn_back':
+            self.close()
+            return
+
+    def make_time_string(self, seconds):
+        days = int(seconds / 86400)
+        hours = int((seconds - (days * 86400)) / 3600)
+        minutes = int((seconds - (days * 86400) - (hours * 3600)) / 60)
+        seconds_left = int(round(seconds - (days * 86400) - (hours * 3600) - (minutes * 60), 0))
+        time_string = ""
+        if days > 0:
+            time_string += str(days) + " days "
+        if hours > 0:
+            time_string += str(hours) + " hrs "
+        if minutes > 0:
+            time_string += str(minutes) + " mins "
+        if seconds_left > 0:
+            time_string += str(seconds_left) + " secs "
+
+        return time_string
