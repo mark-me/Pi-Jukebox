@@ -31,11 +31,22 @@ class RadioBrowser(ItemList):
         self.outline_visible = False
         self.item_outline_visible = True
         self.font_color = FIFTIES_YELLOW
+        self.item_active_color = FIFTIES_ORANGE
         self.set_item_alignment(HOR_LEFT, VERT_MID)
         self.radio_stations = []
 
     def item_selected_get(self):
         return self.radio_stations[self.item_selected_index]
+
+    def station_active_set(self):
+        if mpd.radio_mode_get():
+            i = 0
+            for station in self.radio_stations:
+                if station[1] == mpd.now_playing.file:
+                    break
+                i += 1
+            self.active_item_index = i
+            self.draw_items()
 
     def show_stations(self):
         """ Displays all songs or based on the first letter or partial string match.
@@ -59,7 +70,6 @@ class ScreenRadio(Screen):
 
         :param screen_rect: The display's rect where the library browser is drawn on.
     """
-
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
         self.first_time_showing = True
@@ -77,6 +87,7 @@ class ScreenRadio(Screen):
 
     def update(self):
         self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
+        self.components['list_stations'].station_active_set()
 
     def station_action(self):
         """ Displays screen for follow-up actions when an item was selected from the library. """
@@ -122,7 +133,6 @@ class ScreenSelected(ScreenModal):
         :param station_name: The name of the selected radio station.
         :param station_URL: The URL of the selected radio station.
     """
-
     def __init__(self, screen_rect, station_name, station_URL):
         ScreenModal.__init__(self, screen_rect, station_name)
         self.station_name = station_name
@@ -171,7 +181,6 @@ class ScreenStation(ScreenModal):
         :param station_name: The name of the selected radio station.
         :param station_URL: The URL of the selected radio station.
     """
-
     def __init__(self, screen_rect, station_name=""):
         ScreenModal.__init__(self, screen_rect, station_name)
         self.title_color = FIFTIES_YELLOW

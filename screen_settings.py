@@ -64,16 +64,18 @@ class ScreenSettingsQuit(ScreenModal):
     """
     def __init__(self, screen_rect):
         ScreenModal.__init__(self, screen_rect, "Quit")
-        self.window_x = 90
-        self.window_y = 45
+        self.window_x = 70
+        self.window_y = 25
         self.window_width -= 2 * self.window_x
         self.window_height -= 2 * self.window_y
         self.outline_shown = True
-        self.add_component(ButtonText('btn_quit', screen_rect, self.window_x + 10, self.window_y + 30, 120, 32, "Quit"))
+        self.add_component(ButtonText('btn_quit', screen_rect, self.window_x + 10, self.window_y + 30, 160, 32, "Quit"))
         self.add_component(
-            ButtonText('btn_shutdown', screen_rect, self.window_x + 10, self.window_y + 70, 120, 32, "Shutdown Pi"))
+            ButtonText('btn_shutdown', screen_rect, self.window_x + 10, self.window_y + 70, 160, 32, "Shutdown Pi"))
         self.add_component(
-            ButtonText('btn_cancel', screen_rect, self.window_x + 10, self.window_y + 110, 120, 32, "Cancel"))
+            ButtonText('btn_reboot', screen_rect, self.window_x + 10, self.window_y + 110, 160, 32, "Reboot Pi"))
+        self.add_component(
+            ButtonText('btn_cancel', screen_rect, self.window_x + 10, self.window_y + 150, 160, 32, "Cancel"))
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
@@ -85,6 +87,12 @@ class ScreenSettingsQuit(ScreenModal):
             if RUN_ON_RASPBERRY_PI:
                 pygame.display.quit()
                 os.system("sudo shutdown -h now")
+            else:
+                sys.exit()
+        elif tag_name == 'btn_reboot':
+            if RUN_ON_RASPBERRY_PI:
+                pygame.display.quit()
+                os.system("sudo shutdown -r now")
             else:
                 sys.exit()
         elif tag_name == 'btn_cancel':

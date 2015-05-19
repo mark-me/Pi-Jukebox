@@ -59,6 +59,13 @@ class Widget(object):
         self.font = pygame.font.Font(font_name, font_size)
         self.font_color = font_color
 
+    def position_set(self, x, y, width, height):
+        self.x_pos = x
+        self.y_pos = y
+        self.width = width
+        self.height = height
+        self.rect = Rect(x, y, width, height)
+
 
 class Rectangle(Widget):
     """ Drawing a rectangle on screen
@@ -201,9 +208,7 @@ class Picture(Widget):
         self.__image = pygame.image.load(image_file).convert()
         self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
 
-    def draw(self, file_name=""):
-        if file_name != "":
-            self.__image_file = file_name
+    def draw(self):
         # img = Image.open(self.__image_file)
         #if img.size != (self.width, self.height):
         #    img_scaled = img.resize((self.width, self.height), Image.ANTIALIAS)
@@ -219,6 +224,7 @@ class Picture(Widget):
     def picture_set(self, file_name):
         """ Sets the filename of the picture. """
         self.__image_file = file_name
+        self.draw()
 
 
 class LabelText(Widget):
@@ -245,7 +251,7 @@ class LabelText(Widget):
 
     def transparent_set(self, value):
         """ Turns background transparent or opaque. """
-        if value == True:
+        if value:
             self.background_alpha = 0
         else:
             self.background_alpha = 255
@@ -255,24 +261,25 @@ class LabelText(Widget):
             rectangle and/or the text horizontal/vertical indent.
 
             :param horizontal: Horizontal alignment [
-
         """
         self.alignment_horizontal = horizontal
         self.alignment_vertical = vertical
         self.indent_horizontal = hor_indent
         self.indent_vertical = vert_indent
 
-    def draw(self, text=None):
+    def text_set(self, text):
+        if self.caption != text.decode('utf-8'):
+            self.caption = text.decode('utf-8')
+            self.draw()
+
+    def draw(self):
         """ Draws the label.
 
             :param text: default = "", set's the label's text,
 
             :return: Text that couldn't be fitted inside the label's rectangle,
         """
-        if text is None:
-            self.caption = self.caption.decode('utf-8')
-        else:
-            self.caption = text.decode('utf-8')
+        self.caption = self.caption.decode('utf-8')
         # Draw background
         background = pygame.Surface((self.width, self.height))
         background.set_alpha(self.background_alpha)
@@ -453,7 +460,6 @@ class ButtonText(LabelText):
         :ivar alignment_horizontal: The button's text horizontal alignment, default = :py:const:HOR_MID.
         :ivar alignment_vertical: The button's text vertical alignment, default = :py:const:VERT_MID,
     """
-
     def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
         LabelText.__init__(self, tag_name, screen_rect, x, y, width, height, text)
         self.transparent_set(True)
@@ -471,7 +477,6 @@ class ButtonText(LabelText):
         self.screen.fill(self.button_color, self.button_rect)  # Background
         super(ButtonText,self).draw()
         pygame.display.update(self.rect)
-
 
 
 class Switch(Widget):
@@ -701,7 +706,6 @@ class WidgetContainer(Widget):
         :ivar components: Dictionary holding the screen's widgets with a tag_name as key and the widget as value
         :ivar color: The screen's background color, default = :py:const:BLACK
     """
-
     def __init__(self, tag_name, screen_rect, x, y, width, height):
         Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
         self.components = {}  # Interface dictionary

@@ -4,6 +4,7 @@ import subprocess
 class ConfigFile(object):
     def __init__(self):
         self.parser = ConfigParser.ConfigParser()
+        self.parser.optionxform = str
         self.parser.read("pi-jukebox.conf")
         # MPD configuration settings
         self.settings = []

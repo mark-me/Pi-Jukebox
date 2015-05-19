@@ -31,10 +31,10 @@ class MPDNowPlaying(object):
     def __init__(self):
         self.playing_type = ''
         self.__now_playing = None
-        self.track_name = ""        # Currently playing song name
-        self.track_artist = ""      # Currently playing artist
-        self.track_album = ""       # Album the currently playing song is on
-        self.track_file = ""  # File with path relative to MPD music directory
+        self.title = ""  # Currently playing song name
+        self.artist = ""  # Currently playing artist
+        self.album = ""  # Album the currently playing song is on
+        self.file = ""  # File with path relative to MPD music directory
         self.__time_current_sec = 0  # Currently playing song time (seconds)
         self.time_current = ""  # Currently playing song time (string format)
         self.__time_total_sec = 0  # Currently playing song duration (seconds)
@@ -44,40 +44,43 @@ class MPDNowPlaying(object):
 
     def now_playing_set(self, now_playing=None):
         if now_playing is not None:
-            self.track_file = now_playing['file']
-            if self.track_file[:7] == "http://":
+            try:
+                self.file = now_playing['file']
+            except KeyError:
+                return
+            if self.file[:7] == "http://":
                 self.playing_type = 'radio'
             else:
                 self.playing_type = 'file'
 
             if 'title' in now_playing:
-                self.track_name = now_playing['title']  # Song title of current song
+                self.title = now_playing['title']  # Song title of current song
             else:
-                self.track_name = os.path.splitext(os.path.basename(now_playing['file']))[0]
+                self.title = os.path.splitext(os.path.basename(now_playing['file']))[0]
             if self.playing_type == 'file':
                 if 'artist' in now_playing:
-                    self.track_artist = now_playing['artist']  # Artist of current song
+                    self.artist = now_playing['artist']  # Artist of current song
                 else:
-                    self.track_artist = "Unknown"
+                    self.artist = "Unknown"
                 if 'album' in now_playing:
-                    self.track_album = now_playing['album']  # Album the current song is on
+                    self.album = now_playing['album']  # Album the current song is on
                 else:
-                    self.track_album = "Unknown"
+                    self.album = "Unknown"
                 current_total = self.str_to_float(now_playing['time'])
                 self.__time_total_sec = current_total
                 self.time_total = self.make_time_string(current_total)  # Total time current
             elif self.playing_type == 'radio':
                 if 'name' in now_playing:
-                    self.track_album = now_playing['name']  # Album the current song is on
+                    self.album = now_playing['name']  # The radio station name
                 else:
-                    self.track_album = "Unknown"
-                self.track_artist = ""
+                    self.album = "Unknown"
+                self.artist = ""
         elif now_playing is None:  # Changed to no current song
             self.__now_playing = None
-            self.track_name = ""
-            self.track_artist = ""
-            self.track_album = ""
-            self.track_file = ""
+            self.title = ""
+            self.artist = ""
+            self.album = ""
+            self.file = ""
             self.time_percentage = 0
             self.__time_total_sec = 0
             self.time_total = self.make_time_string(0)  # Total time current
@@ -95,10 +98,10 @@ class MPDNowPlaying(object):
             return False
 
     def cover_art_get(self, dest_file_name="covert_art.jpg"):
-        if self.track_file == "":
+        if self.file == "" or self.playing_type == 'radio':
             return DEFAULT_COVER
         try:
-            music_file = File(self.music_directory + self.track_file)
+            music_file = File(self.music_directory + self.file)
         except IOError:
             return DEFAULT_COVER
         cover_art = None
@@ -195,14 +198,14 @@ class MPDController(object):
         if self.player_control_get() == 'play':
             was_playing = True
         if now_playing.playing_type == 'radio':
-            station_URL = now_playing.track_file  # If now playing is radio station temporarily store
+            station_URL = now_playing.file  # If now playing is radio station temporarily store
             self.playlist_current_clear()  # Clear playlist
-            # try:
-            self.__radio_mode = False
-            self.mpd_client.load(TEMP_PLAYLIST_NAME)  # Try to load previously temporarily stored playlist
-            self.playlist_current_get()  # Set playlist
-            # except Exception:
-            #    pass
+            try:
+                self.__radio_mode = False
+                self.mpd_client.load(TEMP_PLAYLIST_NAME)  # Try to load previously temporarily stored playlist
+                self.playlist_current_get()  # Set playlist
+            except Exception:
+                pass
             self.__radio_mode = True  # Turn on radio mode
             self.mpd_client.clear()  # Clear playlist
             self.mpd_client.addid(station_URL)  # Reload station
@@ -236,10 +239,8 @@ class MPDController(object):
             else:
                 self.__radio_mode = False
             self.__now_playing_changed = True
-            self.events.append('playing_title')
-            self.events.append('playing_artist')
-            self.events.append('playing_album')
-            self.events.append('playing_time_total')
+            if self.__now_playing is None or self.__now_playing.track_file != now_playing.track_file:
+                self.events.append('playing_file')
             self.events.append('playing_time_percentage')
 
         try:
@@ -479,6 +480,7 @@ class MPDController(object):
         :return: A list with search results.
         """
         self.list_query_results = self.mpd_client.list(tag_type)
+        self.list_query_results.sort()
         return self.list_query_results
 
     def __search_first_letter(self, tag_type, first_letter):
@@ -504,6 +506,7 @@ class MPDController(object):
         """
         all_results = self.mpd_client.list(tag_type)
         self.list_query_results = []
+        all_results.sort()
         for i in all_results:
             result = i.upper()
             if result.find(part.upper()) > -1:
@@ -529,6 +532,7 @@ class MPDController(object):
         elif self.searching_artist != "" and self.searching_album != "":
             self.list_query_results = self.mpd_client.list(type_result, 'artist', self.searching_artist, 'album',
                                                            self.searching_album, type_filter, name_filter)
+        self.list_query_results.sort()
         return self.list_query_results
 
     def artists_get(self, part=None, only_start=True):

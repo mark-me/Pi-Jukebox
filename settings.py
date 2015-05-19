@@ -130,3 +130,4 @@ ICO_FOLDER_UP = RESOURCES + 'folder_up_48x32.png'
 
 # Radio icons
 ICO_STATION_ADD = RESOURCES + 'station_add_48x32.png'
+COVER_ART_RADIO = RESOURCES + 'radio_cover_art.png'
