@@ -82,6 +82,7 @@ GESTURE_DRAG_HORIZONTAL = 7
 # Switch icons
 ICO_SWITCH_ON = RESOURCES + 'switch_on_48x32.png'
 ICO_SWITCH_OFF = RESOURCES + 'switch_off_48x32.png'
+ICO_MODAL_CANCEL = RESOURCES + 'back_22x18.png'
 
 # General icons
 ICO_PLAYER_FILE = RESOURCES + 'playing_file_48x32.png'
