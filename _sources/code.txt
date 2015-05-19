@@ -8,17 +8,17 @@ Documentation pi-jukebox code
    :members:   
 
 .. automodule:: screen_settings
-   :members:
+:members:
 
 .. automodule:: screen_wifi
-   :members:
+:members:
 
 .. automodule:: mpd_client
    :members:
 
 .. automodule:: gui_widgets
-   :members:
-   
+:members:
+
 .. automodule:: gui_screens
    :members:
    

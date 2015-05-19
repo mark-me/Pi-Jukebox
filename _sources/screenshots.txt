@@ -26,9 +26,9 @@ Searching an artist
 Settings screen
 ---------------
     .. image:: ./images/screens/6_settings.png
-    .. image:: ./images/screens/7_settings_2.png
-    .. image:: ./images/screens/7_settings_3.png
-    .. image:: ./images/screens/7_settings_4.png
+.. image:: ./images/screens/7_settings_2.png
+.. image:: ./images/screens/7_settings_3.png
+.. image:: ./images/screens/7_settings_4.png
     
 
 
