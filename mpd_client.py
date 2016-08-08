@@ -25,7 +25,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 
-class MPDPlayingItem(object):
+class MPDNowPlaying(object):
     """ Song information
     """
     def __init__(self):
@@ -135,97 +135,25 @@ class MPDPlayingItem(object):
             return float(0)
 
 
-class MPDPlaybackState(object):
-    def __init__(self):
-        self.playing_item = MPDPlayingItem()
-        self.volume = 0  # Playback volume
-        self.playlist_current = []  # Current playlist song title
-        self.repeat = False  #
-        self.random = False
-        self.single = False
-        self.consume = False
-        self.player_control = ''  # Indicates whether mpd is playing, pausing or has stopped playing music
-        self.muted = False  # Indicates whether muted
-        self.playlist_current_playing_index = 0
-        self.radio_mode = False
-
-    def parse_mpd_currentsong(self, mpd_currentsong):
-        self.playing_item_set(mpd_currentsong)
-
-    def parse_mpd_status(self, mpd_status):
-        self.playlist_options_set(mpd_status)
-        self.player_control_set(mpd_status)
-        self.volume_set(mpd_status)
-
-    def __playing_item_set(self, mpd_currentsong):
-        if len(mpd_currentsong) > 0:
-            self.playing_item.now_playing_set(mpd_currentsong)
-            self.radio_mode = self.playing_item.playing_type == 'radio'
-
-    def __playlist_options_set(self, mpd_status):
-        if self.repeat != mpd_status['repeat'] == '1':
-            self.repeat = mpd_status['repeat'] == '1'
-        if self.random != mpd_status['random'] == '1':
-            self.random = mpd_status['random'] == '1'
-        if self.single != mpd_status['single'] == '1':
-            self.single = mpd_status['single'] == '1'
-        if self.consume != mpd_status['consume'] == '1':
-            self.consume = mpd_status['consume'] == '1'
-
-    def __player_control_set(self, mpd_status):
-        self.player_control = mpd_status['state']
-        if self.player_control != 'stop':
-            if self.playlist_current_playing_index != int(mpd_status['song']):  # Current playlist index
-                self.playlist_current_playing_index = int(mpd_status['song'])
-            self.now_playing.current_time_set(self.str_to_float(mpd_status['elapsed']))
-        else:
-            if self.playlist_current_playing_index != -1:
-                self.playlist_current_playing_index = -1
-
-    def __volume_set(self, mpd_status):
-        self.volume = int(mpd_status['volume'])
-        self.muted = self.volume == 0
-
-    def playlist_current_count(self):
-        """
-        :return: The number of items in the current playlist
-        """
-        return len(self.playlist_current)
-
-    def playlist_current_get(self, mpd_playlistinfo):
-        if not self.playback_state.radio_mode:
-            self.playback_state.playlist_current = []
-            playlist_info = []
-            track_no = 0
-            playlist_info = self.mpd_playlistinfo
-            for i in playlist_info:
-                track_no += 1
-                if 'title' in i:
-                    self.playback_state.playlist_current.append(str(track_no) + '. ' + i['title'])
-                else:
-                    self.playlist_current.append(
-                        str(track_no) + '. ' + os.path.splitext(os.path.basename(i['file']))[0])
-        return self.playlist_current
-
-    def str_to_float(self, s):
-        try:
-            return float(s)
-        except ValueError:
-            return float(0)
-
-
 class MPDController(object):
     """ Controls playback and volume
     """
 
     def __init__(self):
         self.mpd_client = mpd.MPDClient()
-        self.playback_state = MPDPlaybackState()
         self.host = 'localhost'
         self.port = 6600
         self.update_interval = 1000  # Interval between mpc status update calls (milliseconds)
+        self.volume = 0  # Playback volume
+        self.playlist_current = []  # Current playlist song title
+        self.repeat = False  #
+        self.random = False
+        self.single = False
+        self.consume = False
         self.updating_library = False
         self.__radio_mode = False
+        self.now_playing = MPDNowPlaying()
+        self.events = deque([])  # Queue of mpd events
         # Database search results
         self.searching_artist = ""  # Search path user goes through
         self.searching_album = ""
@@ -235,6 +163,11 @@ class MPDController(object):
         self.list_query_results = []
 
         self.__music_directory = ""
+        self.__now_playing = None  # Dictionary containing currently playing song info
+        self.__now_playing_changed = False
+        self.__player_control = ''  # Indicates whether mpd is playing, pausing or has stopped playing music
+        self.__muted = False  # Indicates whether muted
+        self.__playlist_current_playing_index = 0
         self.__last_update_time = 0   # For checking last update time (milliseconds)
         self.__status = None  # mps's current status output
 
@@ -260,8 +193,12 @@ class MPDController(object):
 
     def __starts_with_radio(self):
         was_playing = False  # Indicates whether mpd was playing on start
-        now_playing = MPDPlayingItem()
-        now_playing.parse_mpd_currentsong(self.mpd_client.currentsong())  # Get currenly plating info
+        now_playing = MPDNowPlaying()
+        try:
+            now_playing.now_playing_set(self.mpd_client.currentsong())  # Get currenly plating info
+        except mpd.ConnectionError:
+            self.mpd_client.connect(self.host, self.port)
+            now_playing.now_playing_set(self.mpd_client.currentsong())
         if self.player_control_get() == 'play':
             was_playing = True
         if now_playing.playing_type == 'radio':
@@ -293,11 +230,23 @@ class MPDController(object):
 
             :return: Boolean indicating if the status was changed
         """
+        current_seconds = 0
+        current_total = 0
         try:
-            currentsong = self.mpd_client.currentsong()
+            now_playing = self.mpd_client.currentsong()
         except Exception:
             return False
-        self.playback_state.playing_item_set(currentsong)
+
+        if self.__now_playing != now_playing and len(now_playing) > 0:  # Changed to a new song
+            self.now_playing.now_playing_set(now_playing)
+            if self.now_playing.playing_type == 'radio':
+                self.__radio_mode = True
+            else:
+                self.__radio_mode = False
+            self.__now_playing_changed = True
+            if self.__now_playing is None or self.__now_playing.track_file != now_playing.track_file:
+                self.events.append('playing_file')
+            self.events.append('playing_time_percentage')
 
         try:
             status = self.mpd_client.status()
@@ -306,8 +255,49 @@ class MPDController(object):
         if self.__status == status:
             return False
         self.__status = status
-        self.playback_state.parse_mpd_status(status)
+        self.playback_options_get(status)
+        if self.volume != int(status['volume']):  # Current volume
+            self.volume = int(status['volume'])
+            self.events.append(['volume', self.volume])
+            self.__muted = self.volume == 0
+        if self.__player_control != status['state']:
+            self.__player_control = status['state']
+            self.events.append('player_control')
+
+        if self.__player_control != 'stop':
+            if self.__playlist_current_playing_index != int(status['song']):  # Current playlist index
+                self.__playlist_current_playing_index = int(status['song'])
+                self.events.append('playing_index')
+            if self.now_playing.current_time_set(self.str_to_float(status['elapsed'])):
+                self.events.append('time_elapsed')
+        else:
+            if self.__playlist_current_playing_index != -1:
+                self.__playlist_current_playing_index = -1
+                self.events.append('playing_index')
+                if self.now_playing.current_time_set(0):
+                    self.events.append('time_elapsed')
+
         return True
+
+    def playback_options_get(self, status):
+        if self.repeat != status['repeat'] == '1':
+            self.repeat = status['repeat'] == '1'
+            self.events.append('repeat')
+        if self.random != status['random'] == '1':
+            self.random = status['random'] == '1'
+            self.events.append('random')
+        if self.single != status['single'] == '1':
+            self.single = status['single'] == '1'
+            self.events.append('single')
+        if self.consume != status['consume'] == '1':
+            self.consume = status['consume'] == '1'
+            self.events.append('consume')
+
+    def str_to_float(self, s):
+        try:
+            return float(s)
+        except ValueError:
+            return float(0)
 
     def status_get(self):
         """ Updates mpc data, returns True when status data is updated. Wait at
@@ -329,13 +319,16 @@ class MPDController(object):
         else:
             return False
 
+    def get_cover_art(self, dest_file_name="covert_art.jpg"):
+        return self.now_playing.cover_art_get()
+
     def player_control_set(self, play_status):
         """ Controls playback
 
             :param play_status: Playback action ['play', 'pause', 'stop', 'next', 'previous'].
         """
         if play_status == 'play':
-            if self.playback_state.player_control == 'pause':
+            if self.__player_control == 'pause':
                 self.mpd_client.pause(0)
             else:
                 self.mpd_client.play()
@@ -348,6 +341,11 @@ class MPDController(object):
         elif play_status == 'previous':
             self.mpd_client.previous()
 
+    def player_control_get(self):
+        """ :return: Current playback mode. """
+        self.status_get()
+        return self.__player_control
+
     def play_playlist_item(self, index):
         """ Starts playing in playlist on item.
 
@@ -355,7 +353,11 @@ class MPDController(object):
         """
         if self.__radio_mode:
             self.__radio_mode_set(False)
-        self.mpd_client.play(index - 1)
+        try:
+            self.mpd_client.play(index - 1)
+        except mpd.ConnectionError:
+            self.mpd_client.connect(self.host, self.port)
+            self.mpd_client.play(index - 1)
 
     def volume_set(self, percentage):
         """ Sets volume in absolute percentage.
@@ -363,70 +365,93 @@ class MPDController(object):
             :param percentage: Percentage at which volume should be set.
         """
         if percentage < 0 or percentage > 100: return
-        self.mpd_client.setvol(percentage)
+        try:
+            self.mpd_client.setvol(percentage)
+        except mpd.ConnectionError:
+            self.mpd_client.connect(self.host, self.port)
+            self.mpd_client.setvol(percentage)
+        self.volume = percentage
 
     def volume_set_relative(self, percentage):
         """ Sets volume relatively to current volume.
 
             :param percentage: Percentage point volume increase.
         """
-        if self.playback_state.volume + percentage < 0:
-            self.playback_state.volume = 0
-        elif self.playback_state.volume + percentage > 100:
-            self.playback_state.volume = 100
+        if self.volume + percentage < 0:
+            self.volume = 0
+        elif self.volume + percentage > 100:
+            self.volume = 100
         else:
-            self.playback_state.volume += percentage
-        self.mpd_client.setvol(self.playback_state.volume)
+            self.volume += percentage
+        self.mpd_client.setvol(self.volume)
 
     def volume_mute_switch(self):
         """ Switches volume muting on or off. """
-        if self.playback_state.muted:
-            self.mpd_client.setvol(self.playback_state.volume)
-            self.playback_state.muted = False
+        if self.__muted:
+            self.mpd_client.setvol(self.volume)
+            self.__muted = False
         else:
             self.mpd_client.setvol(0)
-            self.playback_state.muted = True
+            self.__muted = True
+
+    def volume_mute_get(self):
+        return self.__muted
 
     def random_switch(self):
         """ Switches random playing on or off. """
-        self.playback_state.random = not self.playback_state.random
-        if self.playback_state.random:
+        self.random = not self.random
+        if self.random:
             self.mpd_client.random(1)
         else:
             self.mpd_client.random(0)
 
     def repeat_switch(self):
         """ Switches repeat playing on or off. """
-        self.playback_state.repeat = not self.playback_state.repeat
-        if self.playback_state.repeat:
+        self.repeat = not self.repeat
+        if self.repeat:
             self.mpd_client.repeat(1)
         else:
             self.mpd_client.repeat(0)
 
     def single_switch(self):
-        self.playback_state.single = not self.playback_state.single
-        if self.playback_state.single:
+        self.single = not self.single
+        if self.consume:
             self.mpd_client.single(1)
         else:
             self.mpd_client.single(0)
 
     def consume_switch(self):
         """ Switches playlist consuming on or off. """
-        self.playback_state.consume = not self.playback_state.consume
-        if self.playback_state.consume:
+        self.consume = not self.consume
+        if self.consume:
             self.mpd_client.consume(1)
         else:
             self.mpd_client.consume(0)
+
+    def playlist_current_get(self):
+        if not self.__radio_mode:
+            self.playlist_current = []
+            playlist_info = []
+            track_no = 0
+            playlist_info = self.mpd_client.playlistinfo()
+            for i in playlist_info:
+                track_no += 1
+                if 'title' in i:
+                    self.playlist_current.append(str(track_no) + '. ' + i['title'])
+                else:
+                    self.playlist_current.append(
+                        str(track_no) + '. ' + os.path.splitext(os.path.basename(i['file']))[0])
+        return self.playlist_current
 
     def playlist_current_playing_index_get(self):
         """
         :return: The track number playing on the current playlist.
         """
-        if self.playback_state.radio_mode:
+        if self.__radio_mode:
             return -1
         else:
             self.status_get()
-            return self.playback_state.playlist_current_playing_index
+            return self.__playlist_current_playing_index
 
     def playlist_current_playing_index_set(self, index):
         """ Starts playing item _index_ of the current playlist.
@@ -434,18 +459,24 @@ class MPDController(object):
         :param index: The track number to be played
         :return: The current playing index
         """
-        if self.playback_state.radio_mode:
+        if self.__radio_mode:
             self.__radio_mode_set(False)
-        if index > 0 and index <= self.playback_state.playlist_current_count():
+        if index > 0 and index <= self.playlist_current_count():
             self.mpd_client.playid(index)
-            self.playback_state.playlist_current_playing_index = index
-        return self.playback_state.playlist_current_playing_index
+            self.__playlist_current_playing_index = index
+        return self.__playlist_current_playing_index
+
+    def playlist_current_count(self):
+        """
+        :return: The number of items in the current playlist
+        """
+        return len(self.playlist_current)
 
     def playlist_current_clear(self):
         """ Removes everything from the current playlist """
         self.mpd_client.clear()
         if not self.__radio_mode:
-            self.playback_state.playlist_current = []
+            self.playlist_current = []
 
     def library_update(self):
         """ Updates the mpd library """
