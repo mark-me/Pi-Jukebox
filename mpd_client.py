@@ -418,8 +418,6 @@ class MPDController(object):
         else:
             self.mpd_client.consume(0)
 
-    def
-
     def playlist_current_playing_index_get(self):
         """
         :return: The track number playing on the current playlist.
