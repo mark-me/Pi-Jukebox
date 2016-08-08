@@ -18,7 +18,8 @@ from screen_directory import *
 from screen_radio import *
 from screen_settings import *
 
-class PiJukeboxScreens(Screens):
+
+class PiJukeboxScreens(ScreenControl):
     """ Manages Pi Jukebox's main screens.
             - Player screen
             - Library screen
@@ -26,16 +27,22 @@ class PiJukeboxScreens(Screens):
         updates on screen(s)
     """
     def __init__(self):
-        Screens.__init__(self)
-        self.screen_list.append(ScreenPlaying(SCREEN))  # Screen with now playing and cover art
-        self.screen_list.append(ScreenPlaylist(SCREEN))  # Create player with playlist screen
-        self.screen_list.append(ScreenLibrary(SCREEN))  # Create library browsing screen
-        self.screen_list.append(ScreenDirectory(SCREEN))  # Create directory browsing screen
-        self.screen_list.append(ScreenRadio(SCREEN))  # Create radio station managing screen
+        ScreenControl.__init__(self)
+        self.add_screen(ScreenPlaying(SCREEN), self.loop_hook)  # Screen with now playing and cover art
+        self.add_screen(ScreenPlaylist(SCREEN), self.loop_hook)  # Create player with playlist screen
+        self.add_screen(ScreenLibrary(SCREEN), self.loop_hook)  # Create library browsing screen
+        self.add_screen(ScreenDirectory(SCREEN), self.loop_hook)  # Create directory browsing screen
+        self.add_screen(ScreenRadio(SCREEN), self.loop_hook)  # Create radio station managing screen
 
     def mpd_updates(self):
         """ Updates a current screen if it shows mpd relevant content. """
         self.screen_list[self.current_index].update()
+
+    def loop_hook(self):
+        return mpd.status_get()
+
+    def update(self):
+        pass
 
 
 def apply_settings():
@@ -68,18 +75,6 @@ def main():
     mpd.status_get()  # Get mpd status
     screens = PiJukeboxScreens()  # Screens
     screens.show()  # Display the screen
-
-    while 1:
-        # Check whether mpd's status changed
-        pygame.time.wait(PYGAME_EVENT_DELAY)
-        if mpd.status_get():
-            screens.mpd_updates()  # If so update relevant screens
-
-        for event in pygame.event.get():  # Do for all events in pygame's event queue
-            screens.process_mouse_event(event)  # Handle mouse related events
-            if event.type == KEYDOWN and event.key == K_ESCAPE:
-                mpd.disconnect()
-                sys.exit()
 
     time.sleep(0.2)
     pygame.display.update()

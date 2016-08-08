@@ -35,10 +35,11 @@ class Widget(object):
         :param width: The width of the widget's rectangle.
         :param height: The height of the widget's rectangle.
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
+
+    def __init__(self, tag_name, surface, x, y, width, height):
         self.tag_name = tag_name
         self.visible = True
-        self.screen = screen_rect
+        self.surface = surface
         self.x_pos = x
         self.y_pos = y
         self.width = width
@@ -77,13 +78,14 @@ class Rectangle(Widget):
         :param width: The width of the rectangle's rectangle.
         :param height: The height of the rectangle's rectangle.
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.background_color = FIFTIES_CHARCOAL
 
     def draw(self):
         """ Draws the label. """
-        self.screen.fill(self.background_color, self.rect)  # Background
+        self.surface.fill(self.background_color, self.rect)  # Background
         pygame.display.update(self.rect)
 
 
@@ -97,8 +99,9 @@ class Slider(Rectangle):
         :param width: The width of the slider's rectangle.
         :param height: The height of the slider's rectangle.
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
-        Rectangle.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height):
+        Rectangle.__init__(self, tag_name, surface, x, y, width, height)
         self.progress_color = FIFTIES_GREEN
         self.progress_percentage = 0
         self.progress_rect = Rect(x + 1, y + 1, 1, height - 2)
@@ -107,10 +110,10 @@ class Slider(Rectangle):
     def draw(self, percentage=None):
         if percentage is not None:
             self.progress_percentage_set(percentage)
-        self.screen.fill(self.background_color, self.rect)  # Background
+        self.surface.fill(self.background_color, self.rect)  # Background
         pygame.display.update(self.rect)
         if self.progress_percentage > 0:
-            self.screen.fill(self.progress_color, self.progress_rect)  # Progress bar
+            self.surface.fill(self.progress_color, self.progress_rect)  # Progress bar
             pygame.display.update(self.progress_rect)
 
     def progress_percentage_set(self, percentage):
@@ -148,8 +151,9 @@ class Slider2(Widget):
         :param width: The width of the slider's rectangle.
         :param height: The height of the slider's rectangle.
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.bottom_color = FIFTIES_CHARCOAL
         self.bottom_rect = (x, y + height, width, 1)
         self.progress_color = FIFTIES_ORANGE
@@ -160,10 +164,10 @@ class Slider2(Widget):
     def draw(self, percentage=None):
         if percentage is not None:
             self.progress_percentage_set(percentage)
-        self.screen.fill(self.background_color, self.rect)  # Background
-        self.screen.fill(self.bottom_color, self.bottom_rect)
+        self.surface.fill(self.background_color, self.rect)  # Background
+        self.surface.fill(self.bottom_color, self.bottom_rect)
         if self.progress_percentage > 0:
-            self.screen.fill(self.progress_color, self.progress_rect)  # Progress bar
+            self.surface.fill(self.progress_color, self.progress_rect)  # Progress bar
         pygame.display.update(self.rect)
 
     def progress_percentage_set(self, percentage):
@@ -202,8 +206,8 @@ class Picture(Widget):
         :param height: The height of the picture's rectangle.
     """
 
-    def __init__(self, tag_name, screen_rect, x, y, width, height, image_file=""):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+    def __init__(self, tag_name, surface, x, y, width, height, image_file=""):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.__image_file = image_file
         self.__image = pygame.image.load(image_file).convert()
         self.__image = pygame.transform.scale(self.__image, (self.width, self.height))
@@ -238,8 +242,9 @@ class LabelText(Widget):
         :param height: The height of the label's rectangle.
         :param text: The text to be displayed in the label, default= ""
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height, text=""):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.caption = text
         self.alignment_horizontal = HOR_LEFT
         self.alignment_vertical = VERT_MID
@@ -287,7 +292,7 @@ class LabelText(Widget):
         SCREEN.blit(background, (self.x_pos, self.y_pos))
         # Draw outline
         if self.outline_show:
-            pygame.draw.rect(self.screen, self.outline_color, self.rect,1)
+            pygame.draw.rect(self.surface, self.outline_color, self.rect, 1)
         # Determining caption width and height
         i = 1
         while self.font.size(self.caption[:i])[0] < self.rect.width and i < len(
@@ -311,7 +316,7 @@ class LabelText(Widget):
             y = self.rect.bottom - self.indent_vertical - caption_height
         # Draw Caption
         image = FONT.render(self.caption[:i], True, self.font_color)
-        self.screen.blit(image, (x, y))
+        self.surface.blit(image, (x, y))
         pygame.display.update(self.rect)
 
         return self.caption[i:]
@@ -328,8 +333,9 @@ class Memo(Widget):
         :param height: The height of the memo field's rectangle.
         :param text: The text to be displayed in the memo, default= ""
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height, text=""):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.__caption = text.decode('utf-8')
         self.__caption_lines = []
         self.alignment_horizontal = HOR_LEFT
@@ -348,7 +354,7 @@ class Memo(Widget):
         SCREEN.blit(background, (self.x_pos, self.y_pos))
         # Draw outline
         if self.outline_show:
-            pygame.draw.rect(self.screen, self.outline_color, self.rect, 1)
+            pygame.draw.rect(self.surface, self.outline_color, self.rect, 1)
         # Draw text lines
         self.__wrap_caption()
         line_height = self.font.size("jP")[1]
@@ -356,7 +362,7 @@ class Memo(Widget):
         line_no = 0
         for line in self.__caption_lines:
             image = FONT.render(line, True, self.font_color)
-            self.screen.blit(image, (self.x_pos, self.y_pos + (line_no * line_height)))
+            self.surface.blit(image, (self.x_pos, self.y_pos + (line_no * line_height)))
             line_no += 1
             if line_no > max_lines:
                 break
@@ -415,10 +421,11 @@ class ButtonIcon(Widget):
         :ivar caption: The button's caption,
         :ivar image_file: The button's icon image file name,
     """
-    def __init__(self, tag_name, screen_rect, image, x, y):
+
+    def __init__(self, tag_name, surface, image, x, y):
         self.image_file = image
         self.__icon = pygame.image.load(self.image_file)
-        Widget.__init__(self, tag_name, screen_rect, x, y, self.__icon.get_width(), self.__icon.get_height())
+        Widget.__init__(self, tag_name, surface, x, y, self.__icon.get_width(), self.__icon.get_height())
         self.caption = ""
 
     def draw(self, icon_file=None):
@@ -426,8 +433,8 @@ class ButtonIcon(Widget):
         if icon_file is not None:
             self.image_file = icon_file
             self.__icon = pygame.image.load(self.image_file)
-        rect = self.screen.blit(self.__icon, (self.x_pos, self.y_pos))
-        pygame.display.update(rect)
+        self.rect = self.surface.blit(self.__icon, (self.x_pos, self.y_pos))
+        pygame.display.update(self.rect)
 
     def icon_file_set(self, icon_file):
         self.image_file = icon_file
@@ -460,8 +467,9 @@ class ButtonText(LabelText):
         :ivar alignment_horizontal: The button's text horizontal alignment, default = :py:const:HOR_MID.
         :ivar alignment_vertical: The button's text vertical alignment, default = :py:const:VERT_MID,
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height, text=""):
-        LabelText.__init__(self, tag_name, screen_rect, x, y, width, height, text)
+
+    def __init__(self, tag_name, surface, x, y, width, height, text=""):
+        LabelText.__init__(self, tag_name, surface, x, y, width, height, text)
         self.transparent_set(True)
         self.button_rect = (x + 1, y + 1, width - 2, height - 2)
         self.button_color = FIFTIES_YELLOW
@@ -474,7 +482,7 @@ class ButtonText(LabelText):
         self.alignment_horizontal = HOR_MID
 
     def draw(self, text=None):
-        self.screen.fill(self.button_color, self.button_rect)  # Background
+        self.surface.fill(self.button_color, self.button_rect)  # Background
         super(ButtonText,self).draw()
         pygame.display.update(self.rect)
 
@@ -487,12 +495,13 @@ class Switch(Widget):
         :param x: The horizontal position of the button,
         :param y: The vertical position of the button,
     """
-    def __init__(self, tag_name, screen_rect, x, y):
+
+    def __init__(self, tag_name, surface, x, y):
         self.__icon_on = pygame.image.load(ICO_SWITCH_ON)
         self.__icon_off = pygame.image.load(ICO_SWITCH_OFF)
         self.width = self.__icon_on.get_width()
         self.height = self.__icon_on.get_height()
-        Widget.__init__(self, tag_name, screen_rect, x, y, self.width, self.height)
+        Widget.__init__(self, tag_name, surface, x, y, self.width, self.height)
         self.__is_on = False
 
     def set_on(self, boolean):
@@ -511,16 +520,16 @@ class Switch(Widget):
         return self.__is_on
 
     def on_click(self, x, y):
-        self.screen.fill(self.background_color, self.rect)
+        self.surface.fill(self.background_color, self.rect)
         self.__is_on = not self.__is_on
         self.draw()
         return self.tag_name
 
     def draw(self):
         if self.__is_on:
-            rect = self.screen.blit(self.__icon_on, (self.x_pos, self.y_pos))
+            rect = self.surface.blit(self.__icon_on, (self.x_pos, self.y_pos))
         else:
-            rect = self.screen.blit(self.__icon_off, (self.x_pos, self.y_pos))
+            rect = self.surface.blit(self.__icon_off, (self.x_pos, self.y_pos))
         pygame.display.update(rect)
 
 
@@ -550,8 +559,9 @@ class ItemList(Widget):
         :ivar item_selected_color: The font color of a selected item, default = :py:const:BLUE.
         :ivar item_selected_background_color: The selected list item background color, default = :py:const:WHITE.
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.list = []
         self.outline_visible = True
 
@@ -579,9 +589,9 @@ class ItemList(Widget):
 
     def draw(self):
         """ Draws the item list on screen. """
-        self.screen.fill(self.background_color, self.rect)
+        self.surface.fill(self.background_color, self.rect)
         if self.outline_visible:
-            pygame.draw.rect(self.screen, self.outline_color, self.rect, 1)
+            pygame.draw.rect(self.surface, self.outline_color, self.rect, 1)
         pygame.display.update(self.rect)
         self.draw_items()
         self.draw_page_indicator()
@@ -601,7 +611,7 @@ class ItemList(Widget):
             #SCREEN.blit(indicator, (indicator_x, indicator_y))
             indicator = Rect(indicator_x, indicator_y, indicator_width, indicator_height)
             #            indicator.set_alpha(128)
-            pygame.draw.rect(self.screen, FIFTIES_ORANGE, indicator)
+            pygame.draw.rect(self.surface, FIFTIES_ORANGE, indicator)
 
     def draw_items(self):
         """ Draws the list items. """
@@ -616,7 +626,7 @@ class ItemList(Widget):
             item_x_pos = self.x_pos + self.item_indent                                  # x position of item
             item_width = self.width - 2 * self.item_indent - 10  # Maximum item width
             item_y_pos = self.y_pos + self.item_indent + (self.item_height * item_nr)   # y position of item
-            list_item = LabelText('lbl_item_' + str(item_nr), self.screen, item_x_pos, item_y_pos, item_width,
+            list_item = LabelText('lbl_item_' + str(item_nr), self.surface, item_x_pos, item_y_pos, item_width,
                                   self.item_height, item_text)  # Create label
             list_item.font_color = self.font_color
             list_item.outline_visible = self.item_outline_visible
@@ -706,8 +716,9 @@ class WidgetContainer(Widget):
         :ivar components: Dictionary holding the screen's widgets with a tag_name as key and the widget as value
         :ivar color: The screen's background color, default = :py:const:BLACK
     """
-    def __init__(self, tag_name, screen_rect, x, y, width, height):
-        Widget.__init__(self, tag_name, screen_rect, x, y, width, height)
+
+    def __init__(self, tag_name, surface, x, y, width, height):
+        Widget.__init__(self, tag_name, surface, x, y, width, height)
         self.components = {}  # Interface dictionary
 
     def add_component(self, widget):
@@ -719,7 +730,7 @@ class WidgetContainer(Widget):
 
     def draw(self):
         """ Displays the screen. """
-        self.screen.fill(self.background_color, self.rect)  # Background
+        self.surface.fill(self.background_color, self.rect)  # Background
         for key, value in self.components.items():
             if value.visible:
                 value.draw()

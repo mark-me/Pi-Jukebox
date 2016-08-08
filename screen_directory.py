@@ -26,8 +26,8 @@ class LetterBrowser(ItemList):
         :param screen_rect: The screen rect where the library browser is drawn on.
     """
 
-    def __init__(self, screen_rect):
-        ItemList.__init__(self, 'list_letters', screen_rect, 268, 40, 52, 195)
+    def __init__(self, surface):
+        ItemList.__init__(self, 'list_letters', surface, 268, 40, 52, 195)
         self.item_outline_visible = True
         self.outline_visible = False
         self.font_color = FIFTIES_GREEN
@@ -44,8 +44,8 @@ class DirectoryBrowser(ItemList):
         :param screen_rect: The screen rect where the directory browser is drawn on.
     """
 
-    def __init__(self, screen_rect):
-        ItemList.__init__(self, 'list_directory', screen_rect, 55, 42, 210, 194)
+    def __init__(self, surface):
+        ItemList.__init__(self, 'list_directory', surface, 55, 42, 210, 194)
         self.outline_visible = False
         self.item_outline_visible = True
         self.font_color = FIFTIES_YELLOW
@@ -110,13 +110,13 @@ class ScreenDirectory(Screen):
         Screen.__init__(self, screen_rect)
         self.first_time_showing = True
         # Screen navigation buttons
-        self.add_component(ScreenNavigation('screen_nav', self.screen, 'btn_directory'))
+        self.add_component(ScreenNavigation('screen_nav', self.surface, 'btn_directory'))
         # Directory buttons
-        self.add_component(ButtonIcon('btn_root', self.screen, ICO_FOLDER_ROOT, 55, 5))
-        self.add_component(ButtonIcon('btn_up', self.screen, ICO_FOLDER_UP, 107, 5))
+        self.add_component(ButtonIcon('btn_root', self.surface, ICO_FOLDER_ROOT, 55, 5))
+        self.add_component(ButtonIcon('btn_up', self.surface, ICO_FOLDER_UP, 107, 5))
         # Lists
-        self.add_component(DirectoryBrowser(self.screen))
-        self.add_component(LetterBrowser(self.screen))
+        self.add_component(DirectoryBrowser(self.surface))
+        self.add_component(LetterBrowser(self.surface))
 
     def show(self):
         self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
@@ -124,7 +124,7 @@ class ScreenDirectory(Screen):
             self.components['list_directory'].show_directory()
             self.letter_list_update()
             self.first_time_showing = False
-        super(ScreenDirectory, self).show()
+        return super(ScreenDirectory, self).show()
 
     def update(self):
         self.components['screen_nav'].radio_mode_set(mpd.radio_mode_get())
@@ -143,17 +143,22 @@ class ScreenDirectory(Screen):
         """ Handles click event. """
         tag_name = super(ScreenDirectory, self).on_click(x, y)
         if tag_name == 'btn_player':
-            return 0
+            self.return_object = 0
+            self.close()
         elif tag_name == 'btn_playlist':
-            return 1
+            self.return_object = 1
+            self.close()
         elif tag_name == 'btn_library':
-            return 2
+            self.return_object = 2
+            self.close()
         elif tag_name == 'btn_directory':
-            return 3
+            self.return_object = 3
+            self.close()
         elif tag_name == 'btn_radio':
-            return 4
+            self.return_object = 4
+            self.close()
         elif tag_name == 'btn_settings':
-            setting_screen = ScreenSettings(self.screen)
+            setting_screen = ScreenSettings(self)
             setting_screen.show()
             self.show()
         elif tag_name == 'list_letters':
@@ -168,8 +173,8 @@ class ScreenDirectory(Screen):
     def list_item_action(self):
         """ Displays screen for follow-up actions when an item was selected from the library. """
         selected = self.components['list_directory'].item_selected_get()
-        select_screen = ScreenSelected(self.screen, self.components['list_directory'].directory_current, selected[0],
-                                       selected[1])
+        cur_dir = self.components['list_directory'].directory_current
+        select_screen = ScreenSelected(self, cur_dir, selected[0], selected[1])
         select_screen.show()
         if isinstance(select_screen.return_object, list):
             self.components['list_directory'].show_directory(select_screen.selected_name)
@@ -186,8 +191,8 @@ class ScreenSelected(ScreenModal):
         :param selected_item: The name of the selected directory item.
     """
 
-    def __init__(self, screen_rect, directory, selected_type, selected_item):
-        ScreenModal.__init__(self, screen_rect, selected_item)
+    def __init__(self, screen, directory, selected_type, selected_item):
+        ScreenModal.__init__(self, screen, selected_item)
         self.directory_current = directory
         self.selected_type = selected_type
         self.selected_name = selected_item
@@ -202,25 +207,26 @@ class ScreenSelected(ScreenModal):
         button_top = 30
         if self.selected_type == 'directory':
             label = "Browse directory " + self.selected_name
-            self.add_component(ButtonText('btn_browse', self.screen, button_left, button_top, button_width, 32, label))
+            self.add_component(ButtonText('btn_browse', self.surface, button_left, button_top, button_width, 32, label))
             button_top += 42
         label = "Add to playlist"
-        self.add_component(ButtonText('btn_add', self.screen, button_left, button_top, button_width, 32, label))
+        self.add_component(ButtonText('btn_add', self.surface, button_left, button_top, button_width, 32, label))
         self.components['btn_add'].button_color = FIFTIES_TEAL
         button_top += 42
         label = "Add to playlist and play"
-        self.add_component(ButtonText('btn_add_play', self.screen, button_left, button_top, button_width, 32, label))
+        self.add_component(ButtonText('btn_add_play', self.surface, button_left, button_top, button_width, 32, label))
         self.components['btn_add_play'].button_color = FIFTIES_TEAL
         button_top += 42
         label = "Replace playlist and play"
-        self.add_component(ButtonText('btn_replace', self.screen, button_left, button_top, button_width, 32, label))
+        self.add_component(ButtonText('btn_replace', self.surface, button_left, button_top, button_width, 32, label))
         self.components['btn_replace'].button_color = FIFTIES_TEAL
         button_top += 42
         label = "Cancel"
-        self.add_component(ButtonText('btn_cancel', self.screen, button_left, button_top, button_width, 32, label))
+        self.add_component(ButtonText('btn_cancel', self.surface, button_left, button_top, button_width, 32, label))
 
-    def action(self, tag_name):
+    def on_click(self, x, y):
         """ Action that should be performed on a click. """
+        tag_name = super(ScreenModal, self).on_click(x, y)
         play = False
         clear_playlist = False
 
