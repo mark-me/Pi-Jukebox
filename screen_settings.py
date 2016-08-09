@@ -75,15 +75,17 @@ class ScreenSettingsQuit(ScreenModal):
         self.window_y = 25
         self.window_width -= 2 * self.window_x
         self.window_height -= 2 * self.window_y
+        button_left = self.window_x + 10
+        button_width = self.window_width - 20
         self.outline_shown = True
         self.add_component(
-            ButtonText('btn_quit', self.surface, self.window_x + 10, self.window_y + 30, 160, 32, "Quit"))
+            ButtonText('btn_quit', self.surface, button_left, self.window_y + 30, button_width, 32, "Quit"))
         self.add_component(
-            ButtonText('btn_shutdown', self.surface, self.window_x + 10, self.window_y + 70, 160, 32, "Shutdown Pi"))
+            ButtonText('btn_shutdown', self.surface, button_left, self.window_y + 70, button_width, 32, "Shutdown Pi"))
         self.add_component(
-            ButtonText('btn_reboot', self.surface, self.window_x + 10, self.window_y + 110, 160, 32, "Reboot Pi"))
+            ButtonText('btn_reboot', self.surface, button_left, self.window_y + 110, button_width, 32, "Reboot Pi"))
         self.add_component(
-            ButtonText('btn_cancel', self.surface, self.window_x + 10, self.window_y + 150, 160, 32, "Cancel"))
+            ButtonText('btn_cancel', self.surface, button_left, self.window_y + 150, button_width, 32, "Cancel"))
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)

@@ -24,7 +24,7 @@ if RUN_ON_RASPBERRY_PI:
 # Display settings
 pygame.init() 	# Pygame initialization
 #: The display dimensions, change this if you have a bigger touch screen.
-DISPLAY_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 320, 240
+DISPLAY_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 800, 480  # 320, 240 #800, 480
 PYGAME_EVENT_DELAY = 25
 
 if RUN_ON_RASPBERRY_PI:  # If started on Raspberry Pi
@@ -40,7 +40,6 @@ RESOURCES = os.path.dirname(__file__) + '/resources/'
 
 #: Standard font type
 FONT = pygame.font.Font(RESOURCES + 'DroidSans.ttf', 14)
-
 
 """ Color definitions """
 BLUE = 0, 148, 255

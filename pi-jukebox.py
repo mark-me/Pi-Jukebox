@@ -17,6 +17,7 @@ from screen_library import *
 from screen_directory import *
 from screen_radio import *
 from screen_settings import *
+from screen_blank import *
 
 
 class PiJukeboxScreens(ScreenControl):
@@ -28,6 +29,7 @@ class PiJukeboxScreens(ScreenControl):
     """
     def __init__(self):
         ScreenControl.__init__(self)
+
         self.add_screen(ScreenPlaying(SCREEN), self.loop_hook)  # Screen with now playing and cover art
         self.add_screen(ScreenPlaylist(SCREEN), self.loop_hook)  # Create player with playlist screen
         self.add_screen(ScreenLibrary(SCREEN), self.loop_hook)  # Create library browsing screen

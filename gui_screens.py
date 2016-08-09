@@ -33,6 +33,8 @@ ICO_INFO = RESOURCES + 'icon_info.png'
 ICO_WARNING = RESOURCES + 'icon_warning.png'
 ICO_ERROR = RESOURCES + 'icon_warning.png'
 
+#: Time-out period before screen goes blank
+BLANK_PERIOD = 5000
 
 class GestureDetector(object):
     """ Class for detecint mouse gestures
@@ -163,7 +165,7 @@ class Screen(object):
         self.components = {}  # Interface dictionary
         self.color = BLACK
         self.gesture_detect = GestureDetector()
-        self.return_object = None
+
 
     def add_component(self, widget):
         """ Adds components to component list, thus ensuring a component is found on a mouse event.
@@ -195,9 +197,21 @@ class Screen(object):
         self.loop_active = False
 
     def loop(self):
+        """ Loops for events """
+        timer = pygame.time.get_ticks
+        timeout = BLANK_PERIOD  # milliseconds
+        deadline = timer() + timeout
         while self.loop_active:
+            now = timer()
+            # Blackout
+            if pygame.event.peek():
+                deadline = now + timeout
+            elif now > deadline:
+                self.surface.fill(BLACK)
+                pygame.display.flip()
+
             pygame.time.wait(PYGAME_EVENT_DELAY)
-            if self.loop_hook():
+            if self.loop_hook() and now <= deadline:
                 self.update()
             for event in pygame.event.get():  # Do for all events in pygame's event queue
                 ret_value = self.process_mouse_event(event)  # Handle mouse related events

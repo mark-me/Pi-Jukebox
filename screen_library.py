@@ -27,7 +27,7 @@ class LetterBrowser(ItemList):
     """
 
     def __init__(self, surface):
-        ItemList.__init__(self, 'list_letters', surface, 268, 40, 52, 195)
+        ItemList.__init__(self, 'list_letters', surface, SCREEN_WIDTH - 52, 40, 52, SCREEN_HEIGHT - 45)
         self.item_outline_visible = True
         self.outline_visible = False
         self.font_color = FIFTIES_GREEN
@@ -42,7 +42,7 @@ class LibraryBrowser(ItemList):
     """
 
     def __init__(self, surface):
-        ItemList.__init__(self, 'list_library', surface, 55, 42, 210, 194)
+        ItemList.__init__(self, 'list_library', surface, 55, 42, SCREEN_WIDTH - 110, SCREEN_HEIGHT - 46)
         self.outline_visible = False
         self.item_outline_visible = True
         self.font_color = FIFTIES_YELLOW

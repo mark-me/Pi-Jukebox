@@ -28,7 +28,7 @@ class RadioBrowser(ItemList):
     """
 
     def __init__(self, surface):
-        ItemList.__init__(self, 'list_stations', surface, 55, 42, 210, 194)
+        ItemList.__init__(self, 'list_stations', surface, 55, 42, SCREEN_WIDTH - 110, SCREEN_HEIGHT - 46)
         self.outline_visible = False
         self.item_outline_visible = True
         self.font_color = FIFTIES_YELLOW
@@ -69,7 +69,7 @@ class RadioBrowser(ItemList):
 class ScreenRadio(Screen):
     """ The screen where the user can browse and add radio stattion and add those to playlists.
 
-        :param screen_rect: The display's rect where the library browser is drawn on.
+        :param screen_rect: The display's rect where the radio station browser is drawn on.
     """
     def __init__(self, screen_rect):
         Screen.__init__(self, screen_rect)
