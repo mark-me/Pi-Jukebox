@@ -173,7 +173,7 @@ class ScreenSettingsMPD(ScreenModal):
         ScreenModal.__init__(self, screen_rect, "MPD settings")
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
-        label = "Change host: " + config_file.setting_get('MPD Settings', 'Host')
+        label = "Change host: " + config_file.setting_get('MPD Settings', 'host')
         self.add_component(ButtonText('btn_host', self.surface, button_left, 30, button_width, 32, label))
         label = "Change port: " + str(config_file.setting_get('MPD Settings', 'port'))
         self.add_component(ButtonText('btn_port', self.surface, button_left, 72, button_width, 32, label))
@@ -220,7 +220,7 @@ class ScreenSettingsMPD(ScreenModal):
         config_file.setting_set(section, key, new_value)
 
     def update(self):
-        label = "Change host: " + config_file.setting_get('MPD Settings', 'Host')
+        label = "Change host: " + config_file.setting_get('MPD Settings', 'host')
         self.components['btn_host'].draw(label)
         label = "Change port: " + str(config_file.setting_get('MPD Settings', 'port'))
         self.components['btn_port'].draw(label)

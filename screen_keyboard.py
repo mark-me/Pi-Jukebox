@@ -32,7 +32,7 @@ class KeyboardBase(ScreenModal):
         ScreenModal.__init__(self, screen, caption)
         self.text = text
         # Edit box
-        edit_box = LabelText('lbl_edit_box', self.surface, 5, 30, 310, 25, text)
+        edit_box = LabelText('lbl_edit_box', self.surface, 5, 30, SCREEN_WIDTH - 10, 25, text)
         edit_box.background_color = WHITE
         edit_box.font_color = BLACK
         edit_box.set_alignment(HOR_LEFT, VERT_MID, 5)
