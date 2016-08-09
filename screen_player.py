@@ -38,9 +38,9 @@ class ScreenPlaying(Screen):
         # self.add_component(Picture('pic_cover_art', self.surface, 79, 40, 162, 162, mpd.get_cover_art()))
         self.draw_cover_art()
         # Player specific labels
-        self.add_component(LabelText('lbl_track_artist', self.surface, 54, 3, 215, 18))
+        self.add_component(LabelText('lbl_track_artist', self.surface, 54, 3, SCREEN_WIDTH - 110, 18))
         self.components['lbl_track_artist'].set_alignment(HOR_MID, VERT_MID)
-        self.add_component(LabelText('lbl_track_album', self.surface, 54, 19, 215, 18))
+        self.add_component(LabelText('lbl_track_album', self.surface, 54, 19, SCREEN_WIDTH - 110, 18))
         self.components['lbl_track_album'].set_alignment(HOR_MID, VERT_MID)
         self.add_component(LabelText('lbl_track_title', self.surface, 55, SCREEN_HEIGHT - 27, SCREEN_WIDTH - 108, 18))
         self.components['lbl_track_title'].set_alignment(HOR_MID, VERT_MID)
@@ -288,7 +288,7 @@ class Playlist(ItemList):
     """
 
     def __init__(self, surface):
-        ItemList.__init__(self, 'list_playing', surface, 52, 46, 216, 189)
+        ItemList.__init__(self, 'list_playing', surface, 52, 46, SCREEN_WIDTH - 104, SCREEN_HEIGHT - 51)
         self.item_height = 27
         self.item_active_color = FIFTIES_ORANGE
         self.outline_color = FIFTIES_CHARCOAL

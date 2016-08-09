@@ -204,17 +204,19 @@ class Screen(object):
         while self.loop_active:
             now = timer()
             # Blackout
-            if pygame.event.peek():
-                deadline = now + timeout
-            elif now > deadline:
-                self.surface.fill(BLACK)
-                pygame.display.flip()
+            # if now > deadline:
+            #    self.surface.fill(BLACK)
+            #    pygame.display.flip()
 
             pygame.time.wait(PYGAME_EVENT_DELAY)
-            if self.loop_hook() and now <= deadline:
+            if self.loop_hook():  # and now <= deadline:
                 self.update()
             for event in pygame.event.get():  # Do for all events in pygame's event queue
                 ret_value = self.process_mouse_event(event)  # Handle mouse related events
+                #    if event.type == MOUSEBUTTONDOWN:
+                #        deadline = now + timeout
+                #        self.show()
+
                 if event.type == KEYDOWN and event.key == K_ESCAPE:
                     sys.exit()
 
