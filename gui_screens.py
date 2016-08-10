@@ -34,7 +34,7 @@ ICO_WARNING = RESOURCES + 'icon_warning.png'
 ICO_ERROR = RESOURCES + 'icon_warning.png'
 
 #: Time-out period before screen goes blank
-BLANK_PERIOD = 5000
+BLANK_PERIOD = 300000
 
 class GestureDetector(object):
     """ Class for detecint mouse gestures
@@ -165,6 +165,8 @@ class Screen(object):
         self.components = {}  # Interface dictionary
         self.color = BLACK
         self.gesture_detect = GestureDetector()
+        self.timer = pygame.time.get_ticks
+        self.blank_screen_time = self.timer() + BLANK_PERIOD
 
 
     def add_component(self, widget):
@@ -198,25 +200,16 @@ class Screen(object):
 
     def loop(self):
         """ Loops for events """
-        timer = pygame.time.get_ticks
-        timeout = BLANK_PERIOD  # milliseconds
-        deadline = timer() + timeout
         while self.loop_active:
-            now = timer()
             # Blackout
-            # if now > deadline:
-            #    self.surface.fill(BLACK)
-            #    pygame.display.flip()
+            if self.timer() > self.blank_screen_time:
+                self.blank_screen()
 
             pygame.time.wait(PYGAME_EVENT_DELAY)
             if self.loop_hook():  # and now <= deadline:
                 self.update()
             for event in pygame.event.get():  # Do for all events in pygame's event queue
                 ret_value = self.process_mouse_event(event)  # Handle mouse related events
-                #    if event.type == MOUSEBUTTONDOWN:
-                #        deadline = now + timeout
-                #        self.show()
-
                 if event.type == KEYDOWN and event.key == K_ESCAPE:
                     sys.exit()
 
@@ -275,6 +268,26 @@ class Screen(object):
                     if swipe_type == GESTURE_SWIPE_DOWN:
                         component.show_prev_items()
 
+    def blank_screen(self):
+        # Drawing blank
+        window_rect = Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        pygame.draw.rect(self.surface, BLACK, window_rect)
+        pygame.display.flip()
+        touched = 0
+        # Wait until tapped
+        while touched == 0:
+            for event in pygame.event.get():  # Do for all events in pygame's event queue
+                ret_value = self.process_mouse_event(event)  # Handle mouse related events
+                if event.type == MOUSEBUTTONDOWN:
+                    touched = 1
+        # Restart timer
+        self.blank_screen_time = self.timer() + BLANK_PERIOD
+        # Restore screen
+        self.surface.fill(self.color)
+        for key, value in self.components.items():
+            if value.visible:
+                value.draw()
+        pygame.display.flip()
 
 class ScreenModal(Screen):
     """ Screen with its own event capture loop.

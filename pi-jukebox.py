@@ -17,7 +17,6 @@ from screen_library import *
 from screen_directory import *
 from screen_radio import *
 from screen_settings import *
-from screen_blank import *
 
 
 class PiJukeboxScreens(ScreenControl):
