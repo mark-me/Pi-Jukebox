@@ -50,7 +50,7 @@ ICO_WARNING = RESOURCES + 'icon_warning.png'
 ICO_ERROR = RESOURCES + 'icon_warning.png'
 
 #: Time-out period before screen goes blank
-BLANK_PERIOD = 300000
+BLANK_PERIOD = 5000  # 300000
 
 class GestureDetector(object):
     """ Class for detecint mouse gestures
@@ -216,6 +216,8 @@ class Screen(object):
 
     def loop(self):
         """ Loops for events """
+        # Restart blank screen timer
+        self.blank_screen_time = self.timer() + BLANK_PERIOD
         while self.loop_active:
             # Blackout
             if self.timer() > self.blank_screen_time:
@@ -293,10 +295,9 @@ class Screen(object):
         # Wait until tapped
         while touched == 0:
             for event in pygame.event.get():  # Do for all events in pygame's event queue
-                ret_value = self.process_mouse_event(event)  # Handle mouse related events
                 if event.type == MOUSEBUTTONDOWN:
                     touched = 1
-        # Restart timer
+        # Restart blank screen timer
         self.blank_screen_time = self.timer() + BLANK_PERIOD
         # Restore screen
         self.surface.fill(self.color)

@@ -189,13 +189,16 @@ class ScreenSettingsMPD(ScreenModal):
         ScreenModal.__init__(self, screen_rect, "MPD settings")
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
-        label = "Change host: " + config_file.setting_get('MPD Settings', 'host')
+        self.host_new = config_file.setting_get('MPD Settings', 'host')
+        self.port_new = config_file.setting_get('MPD Settings', 'port')
+        self.music_dir = config_file.setting_get('MPD Settings', 'music directory')
+        label = "Change host: " + self.host_new
         self.add_component(ButtonText('btn_host', self.surface, button_left, 30, button_width, 32, label))
-        label = "Change port: " + str(config_file.setting_get('MPD Settings', 'port'))
+        label = "Change port: " + str(self.port_new)
         self.add_component(ButtonText('btn_port', self.surface, button_left, 72, button_width, 32, label))
         self.add_component(
             ButtonText('btn_music_dir', self.surface, button_left, 114, button_width, 32, "Change music directory"))
-        label = "Back"
+        label = "Check and save"
         self.add_component(ButtonText('btn_back', self.surface, button_left, 198, button_width, 32, label))
 
     def on_click(self, x, y):
@@ -207,15 +210,15 @@ class ScreenSettingsMPD(ScreenModal):
             return
         elif tag_name == 'btn_host':
             setting_label = "Set mpd host"
-            self.keyboard_setting(setting_label, 'MPD Settings', 'Host')
+            self.keyboard_setting(setting_label, 'MPD Settings', 'host')
             mpd.disconnect()
-            mpd.host = config_file.setting_get('MPD Settings', 'Host')
+            mpd.host = config_file.setting_get('MPD Settings', 'host')
             mpd.connect()
         elif tag_name == 'btn_port':
             setting_label = "Set mpd server port"
             self.keyboard_setting(setting_label, 'MPD Settings', 'port')
             mpd.disconnect()
-            mpd.host = int(config_file.setting_get('MPD Settings', 'port'))
+            mpd.port = int(config_file.setting_get('MPD Settings', 'port'))
             mpd.connect()
         elif tag_name == 'btn_music_dir':
             setting_label = "Set music directory"
@@ -233,13 +236,31 @@ class ScreenSettingsMPD(ScreenModal):
             keyboard.text = setting_value
         keyboard.title_color = FIFTIES_ORANGE
         new_value = keyboard.show()  # Get entered search text
+        self.per_setting_check(key, new_value)
         config_file.setting_set(section, key, new_value)
 
     def update(self):
-        label = "Change host: " + config_file.setting_get('MPD Settings', 'host')
+        host = config_file.setting_get('MPD Settings', 'host')
+        label = "Change host: " + self.host_new
         self.components['btn_host'].draw(label)
-        label = "Change port: " + str(config_file.setting_get('MPD Settings', 'port'))
+        label = "Change port: " + str(self.port_new)
         self.components['btn_port'].draw(label)
+
+    def per_setting_check(self, setting_type, test_value):
+        if setting_type == 'host' or setting_type == 'port':
+            mpd.disconnect()
+            mpd.host = test_value
+            if not mpd.connect():
+                error_text = "Couldn't connect to the mpd server " + mpd.host + " on port " + str(mpd.port) + "!"
+                msg_show = ScreenMessage(self.surface, "Wrong host or port!", error_text, 'warning')
+                msg_show.show()
+                mpd.host = config_file.setting_get('MPD Settings', 'host')
+                mpd.port = int(config_file.setting_get('MPD Settings', 'port'))
+                mpd.connect()
+                self.show()
+                return False
+            else:
+                return True
 
 
 class ScreenSystemInfo(ScreenModal):
