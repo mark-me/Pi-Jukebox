@@ -49,8 +49,8 @@ ICO_INFO = RESOURCES + 'icon_info.png'
 ICO_WARNING = RESOURCES + 'icon_warning.png'
 ICO_ERROR = RESOURCES + 'icon_warning.png'
 
-#: Time-out period before screen goes blank
-BLANK_PERIOD = 5000  # 300000
+#: Time-out period before screen goes blank (milliseconds)
+BLANK_PERIOD = 300000
 
 class GestureDetector(object):
     """ Class for detecint mouse gestures
@@ -248,7 +248,6 @@ class Screen(object):
             self.on_swipe(x, y, gesture)
 
     def loop_hook(self):
-        print("Virtual hook function")
         pass
 
     def on_click(self, x, y):

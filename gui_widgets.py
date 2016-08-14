@@ -500,6 +500,8 @@ class ButtonText(LabelText):
 
     def draw(self, text=None):
         self.surface.fill(self.button_color, self.button_rect)  # Background
+        if text is not None:
+            self.caption = text
         super(ButtonText,self).draw()
         pygame.display.update(self.rect)
 

@@ -107,7 +107,7 @@ class ScreenSettingsQuit(ScreenModal):
         tag_name = super(ScreenModal, self).on_click(x, y)
         if tag_name == 'btn_quit':
             mpd.disconnect()
-            print ("Bye!")
+            print ("Thanks for using pi-jukebox!\nBye!")
             sys.exit()
         elif tag_name == 'btn_shutdown':
             if RUN_ON_RASPBERRY_PI:
@@ -146,7 +146,6 @@ class ScreenSettingsPlayback(ScreenModal):
         self.add_component(
             ButtonText('btn_update', self.surface, 10, 150, self.window_width - 20, 32, "Update library"))
         self.add_component(ButtonText('btn_return', self.surface, 10, 192, self.window_width - 20, 32, "Back"))
-
         self.__initialize()
 
     def __initialize(self):
@@ -186,82 +185,101 @@ class ScreenSettingsMPD(ScreenModal):
         :param screen_rect: The display's rectangle where the screen is drawn on.
     """
     def __init__(self, screen_rect):
+        self.host_new = config_file.setting_get('MPD Settings', 'host')
+        self.port_new = config_file.setting_get('MPD Settings', 'port')
+        self.dir_new = config_file.setting_get('MPD Settings', 'music directory')
+
         ScreenModal.__init__(self, screen_rect, "MPD settings")
         button_left = self.window_x + 10
         button_width = self.window_width - 2 * button_left
-        self.host_new = config_file.setting_get('MPD Settings', 'host')
-        self.port_new = config_file.setting_get('MPD Settings', 'port')
-        self.music_dir = config_file.setting_get('MPD Settings', 'music directory')
         label = "Change host: " + self.host_new
         self.add_component(ButtonText('btn_host', self.surface, button_left, 30, button_width, 32, label))
         label = "Change port: " + str(self.port_new)
         self.add_component(ButtonText('btn_port', self.surface, button_left, 72, button_width, 32, label))
         self.add_component(
             ButtonText('btn_music_dir', self.surface, button_left, 114, button_width, 32, "Change music directory"))
+        label = "Cancel"
+        self.add_component(ButtonText('btn_cancel', self.surface, button_left, 198, button_width / 2 - 5, 32, label))
         label = "Check and save"
-        self.add_component(ButtonText('btn_back', self.surface, button_left, 198, button_width, 32, label))
+        self.add_component(
+            ButtonText('btn_save', self.surface, button_width / 2 + 15, 198, button_width / 2 - 5, 32, label))
 
     def on_click(self, x, y):
         tag_name = super(ScreenModal, self).on_click(x, y)
         setting_label = ""
         setting_value = None
-        if tag_name == 'btn_back':
+        if tag_name == 'btn_save':
+            if self.save_settings():
+                self.close()
+                return
+        elif tag_name == 'btn_cancel':
             self.close()
             return
         elif tag_name == 'btn_host':
             setting_label = "Set mpd host"
-            self.keyboard_setting(setting_label, 'MPD Settings', 'host')
-            mpd.disconnect()
-            mpd.host = config_file.setting_get('MPD Settings', 'host')
-            mpd.connect()
+            self.host_new = self.keyboard_setting(setting_label, self.host_new)
+            self.per_setting_check('host')
         elif tag_name == 'btn_port':
             setting_label = "Set mpd server port"
-            self.keyboard_setting(setting_label, 'MPD Settings', 'port')
-            mpd.disconnect()
-            mpd.port = int(config_file.setting_get('MPD Settings', 'port'))
-            mpd.connect()
+            self.port_new = self.keyboard_setting(setting_label, self.port_new)
+            self.per_setting_check('port')
         elif tag_name == 'btn_music_dir':
             setting_label = "Set music directory"
-            self.keyboard_setting(setting_label, 'MPD Settings', 'music directory')
-            mpd.music_directory = config_file.setting_get('MPD Settings', 'music directory')
+            self.dir_new = self.keyboard_setting(setting_label, 'MPD Settings', 'music directory')
+            self.per_setting_check('music directory')
         self.update()
         self.show()
 
-    def keyboard_setting(self, caption, section, key, value=""):
-        setting_value = config_file.setting_get(section, key)
+    def keyboard_setting(self, caption, value=""):
         keyboard = Keyboard(self, caption)
-        if setting_value is None:
-            keyboard.text = value
-        else:
-            keyboard.text = setting_value
+        keyboard.text = value
         keyboard.title_color = FIFTIES_ORANGE
         new_value = keyboard.show()  # Get entered search text
-        self.per_setting_check(key, new_value)
-        config_file.setting_set(section, key, new_value)
+        return new_value
 
     def update(self):
-        host = config_file.setting_get('MPD Settings', 'host')
         label = "Change host: " + self.host_new
         self.components['btn_host'].draw(label)
         label = "Change port: " + str(self.port_new)
         self.components['btn_port'].draw(label)
 
-    def per_setting_check(self, setting_type, test_value):
+    def per_setting_check(self, setting_type):
         if setting_type == 'host' or setting_type == 'port':
             mpd.disconnect()
-            mpd.host = test_value
+            host_old = mpd.host
+            port_old = mpd.port
+            mpd.host = self.host_new
+            mpd.port = self.port_new
             if not mpd.connect():
-                error_text = "Couldn't connect to the mpd server " + mpd.host + " on port " + str(mpd.port) + "!"
+                error_text = "Couldn't connect to the mpd server " + mpd.host + " on port " + str(mpd.port) + "!" \
+                                                                                                              "Is the MPD server running? Try the command 'sudo service mpd start' on the CLI."
                 msg_show = ScreenMessage(self.surface, "Wrong host or port!", error_text, 'warning')
                 msg_show.show()
-                mpd.host = config_file.setting_get('MPD Settings', 'host')
-                mpd.port = int(config_file.setting_get('MPD Settings', 'port'))
+                mpd.host = host_old
+                mpd.port = port_old
                 mpd.connect()
-                self.show()
+                return False
+            else:
+                mpd.host = host_old
+                mpd.port = port_old
+                return True
+        if setting_type == 'music directory':
+            if not os.path.isdir(self.dir_new):
+                error_text = "The music directory you specified " + self.dir_new + " does not exist!"
+                msg_show = ScreenMessage(self.surface, "Invalid directory", error_text, 'error')
+                msg_show.show()
                 return False
             else:
                 return True
 
+    def save_settings(self):
+        if self.per_setting_check('host') and self.per_setting_check('music directory'):
+            config_file.setting_set('MPD Settings', 'host', self.host_new)
+            config_file.setting_set('MPD Settings', 'port', self.port_new)
+            config_file.setting_set('MPD Settings', 'music directory', self.dir_new)
+            mpd.host = self.host_new
+            mpd.port = self.port_new
+            mpd.music_directory = self.dir_new
 
 class ScreenSystemInfo(ScreenModal):
     """ Screen for settings playback options
