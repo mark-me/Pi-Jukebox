@@ -162,7 +162,7 @@ Hopefully you didn't get an error message. See if the NAS content is available o
 
 .. code-block:: bash
 
-   ls -l /mnt/nas_drive
+   ls -s /mnt/nas_drive
 
 Does the output look familiar? Then everything should be fine
 
